@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dployr</title>
+    <meta name="description"
+        content="Deploy and manage your applications with ease. Open-source, self-hosted platform for developers.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Instrument Sans', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        background: 'oklch(var(--background) / <alpha-value>)',
+                        foreground: 'oklch(var(--foreground) / <alpha-value>)',
+                        primary: 'oklch(var(--primary) / <alpha-value>)',
+                        secondary: 'oklch(var(--secondary) / <alpha-value>)',
+                        muted: 'oklch(var(--muted) / <alpha-value>)',
+                        accent: 'oklch(var(--accent) / <alpha-value>)',
+                        border: 'oklch(var(--border) / <alpha-value>)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --background: 1 0 0;
+            --foreground: 0.147 0.004 49.25;
+            --primary: 0.216 0.006 56.043;
+            --secondary: 0.97 0.001 106.424;
+            --muted: 0.553 0.013 58.071;
+            --accent: 0.97 0.001 106.424;
+            --border: 0.923 0.003 48.717;
+        }
+
+        .dark {
+            --background: 0.147 0.004 49.25;
+            --foreground: 0.985 0.001 106.423;
+            --primary: 0.923 0.003 48.717;
+            --secondary: 0.268 0.007 34.298;
+            --muted: 0.709 0.01 56.259;
+            --accent: 0.268 0.007 34.298;
+            --border: 1 0 0 / 10%;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-foreground font-sans antialiased min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-primary text-white shadow-lg relative">
+        <div class="max-w-7xl mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <a class="cursor-pointer" href="/">
+                    <div class="flex gap-1.5 align-middle items-center ">
+                        <div
+                            class="flex h-full aspect-square size-4 items-center justify-center rounded-md dark:bg-accent-foreground bg-muted-foreground text-sidebar-primary-foreground">
+
+                            <svg class="size-7 fill-current text-white dark:text-black" viewBox="0 0 1307.56 1886.52"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M430.07 941.85H429l435.75-435.74a50.63 50.63 0 0 0 14.81-35.77V287.8a50.63 50.63 0 0 0-14.81-35.8L627.63 14.92c-31.87-31.87-86.35-9.3-86.35 35.76v306.74a50.58 50.58 0 0 1-14.82 35.77L14.82 904.83a50.59 50.59 0 0 0 0 71.55l264.48 264.34a50.59 50.59 0 0 0 71.53 0l153.27-153.3a50.59 50.59 0 0 0 0-71.54Zm447.42 2.82h1.07l-435.74 435.75a50.55 50.55 0 0 0-14.82 35.76v182.54a50.58 50.58 0 0 0 14.82 35.77l237.11 237.12c31.87 31.86 86.35 9.29 86.35-35.77V1529.1a50.59 50.59 0 0 1 14.82-35.77l511.65-511.64a50.6 50.6 0 0 0 0-71.55l-264.49-264.33a50.57 50.57 0 0 0-71.52 0l-153.28 153.3a50.58 50.58 0 0 0 0 71.53Z"
+                                    data-name="Layer 1" />
+                            </svg>
+                        </div>
+                        <div class="h-full grid flex-1 text-left text-lg">
+                            <span style="font-family: Quicksand, sans-serif;"
+                                class="mb-0.5 truncate leading-tight font-semibold">
+                                dployr
+                            </span>
+                        </div>
+
+                    </div>
+                </a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#install" class="hover:opacity-80 transition-opacity font-medium">Install</a>
+                    <a href="https://github.com/dployr-io/dployr" target="_blank" rel="noopener"
+                        class="hover:opacity-80 transition-opacity font-medium">GitHub</a>
+                    <a href="https://discord.gg/dployr" target="_blank" rel="noopener"
+                        class="hover:opacity-80 transition-opacity font-medium">Discord</a>
+
+                </div>
+
+              
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10">
+            <div class="px-6 py-4 flex flex-col gap-4">
+                <a href="#install" class="hover:opacity-80 transition-opacity font-medium">Install</a>
+                <a href="https://github.com/dployr-io/dployr" target="_blank" rel="noopener"
+                    class="hover:opacity-80 transition-opacity font-medium">GitHub</a>
+                <a href="https://discord.gg/dployr" target="_blank" rel="noopener"
+                    class="hover:opacity-80 transition-opacity font-medium">Discord</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-1 flex items-center justify-center px-6 py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Hello dployr!
+            </h1>
+            <p class="text-xl md:text-2xl mb-12 opacity-90 font-medium">
+                Your app, your server, your rules.
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center mb-16">
+                <a href="#install"
+                    class="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:opacity-90 transition-opacity">
+                    Get Started
+                </a>
+                <a href="https://github.com/dployr-io/dployr" target="_blank" rel="noopener"
+                    class="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors">
+                    View on GitHub
+                </a>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 border-t border-border">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <nav class="flex gap-3 text-sm">
+                <a href="https://status.dployr.dev" class="hover:underline">
+                    Status
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://dployr.dev/changelog" class="hover:underline">
+                    Changelog
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://dployr.dev/terms" class="hover:underline">
+                    Terms of Use
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://dployr.dev/privacy" class="hover:underline">
+                    Privacy Policy
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://docs.dployr.dev" class="hover:underline">
+                    Docs
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://dployr.dev/support" class="hover:underline">
+                    Support
+                </a>
+                <span class="text-border">•</span>
+                <a href="https://x.com/@dployr" target="_blank" rel="noopener"
+                    class="hover:text-primary transition-colors">X</a>
+                <span class="text-border">•</span>
+                <a href="https://discord.gg/dployr" target="_blank" rel="noopener"
+                    class="hover:text-primary transition-colors">Discord</a>
+            </nav>
+            <span class="text-sm opacity-75">Dployr © 2025</span>
+
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+
+</html>

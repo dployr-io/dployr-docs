@@ -1,0 +1,13 @@
+{
+  "name": "dployr-home",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.53.2",
+    "vite": "^5.0.0"
+  }
+}
