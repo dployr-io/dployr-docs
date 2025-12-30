@@ -148,6 +148,6 @@ dployr supports multiple runtimes through vfox:
 
 ## Next Steps
 
-- [Deploy an application](/docs/deployment)
-- [Configure the daemon](/docs/configuration)
-- [Explore CLI commands](/docs/cli)
+- [Deploy an application](./deployment)
+- [Explore CLI commands](./cli)
+- [View API reference](./api)

@@ -3,9 +3,82 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "dployr",
-  description: "Your app, your server, your rules!",
+  description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
+  lang: 'en-US',
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }]
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['link', { rel: 'canonical', href: 'https://docs.dployr.io' }],
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
+    ['meta', { name: 'theme-color', content: '#000000' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
+    
+    // Open Graph / Facebook
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: 'https://docs.dployr.io' }],
+    ['meta', { property: 'og:title', content: 'dployr - Self-Hosted Deployment Platform' }],
+    ['meta', { property: 'og:description', content: 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.' }],
+    ['meta', { property: 'og:image', content: 'https://docs.dployr.io/logo.svg' }],
+    ['meta', { property: 'og:site_name', content: 'dployr Documentation' }],
+    ['meta', { property: 'og:locale', content: 'en_US' }],
+    
+    // Twitter
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:url', content: 'https://docs.dployr.io' }],
+    ['meta', { name: 'twitter:title', content: 'dployr - Self-Hosted Deployment Platform' }],
+    ['meta', { name: 'twitter:description', content: 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure.' }],
+    ['meta', { name: 'twitter:image', content: 'https://docs.dployr.io/logo.svg' }],
+    ['meta', { name: 'twitter:creator', content: '@dployr' }],
+    ['meta', { name: 'twitter:site', content: '@dployr' }],
+    
+    // Additional SEO
+    ['meta', { name: 'keywords', content: 'deployment, self-hosted, control plane, infrastructure, DevOps, platform, open source' }],
+    ['meta', { name: 'author', content: 'Dployr' }],
+    ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
+    ['meta', { name: 'googlebot', content: 'index, follow' }],
+    ['meta', { name: 'bingbot', content: 'index, follow' }],
+    
+    // Structured Data (JSON-LD)
+    ['script', { type: 'application/ld+json' }, JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': 'dployr',
+      'description': 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure',
+      'url': 'https://docs.dployr.io',
+      'logo': 'https://docs.dployr.io/logo.svg',
+      'sameAs': [
+        'https://github.com/dployr-io/dployr',
+        'https://x.com/@dployr',
+        'https://discord.gg/VZVMYuXH'
+      ],
+      'potentialAction': {
+        '@type': 'SearchAction',
+        'target': {
+          '@type': 'EntryPoint',
+          'urlTemplate': 'https://docs.dployr.io/search?q={search_term_string}'
+        }
+      }
+    })],
+    
+    // Organization Schema
+    ['script', { type: 'application/ld+json' }, JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      'name': 'Dployr',
+      'url': 'https://dployr.io',
+      'logo': 'https://docs.dployr.io/logo.svg',
+      'description': 'Self-hosted deployment platform',
+      'sameAs': [
+        'https://github.com/dployr-io/dployr',
+        'https://x.com/@dployr',
+        'https://discord.gg/VZVMYuXH'
+      ],
+      'contactPoint': {
+        '@type': 'ContactPoint',
+        'contactType': 'Customer Support',
+        'email': 'support@dployr.io'
+      }
+    })]
   ],
   themeConfig: {
     logo: '/logo.svg',

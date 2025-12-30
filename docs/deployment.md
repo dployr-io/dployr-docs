@@ -205,6 +205,6 @@ dployr metrics <deployment-name>
 
 ## Next Steps
 
-- [Configure proxy routing](/docs/configuration)
-- [Explore supported runtimes](/docs/runtimes)
-- [Learn about CLI commands](/docs/cli)
+- [Configure proxy routing](./configuration)
+- [Explore supported runtimes](./runtimes)
+- [Learn about CLI commands](./cli)

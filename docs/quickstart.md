@@ -63,6 +63,6 @@ dployr deploy \
 
 ## Next Steps
 
-- [Learn about core concepts](/docs/concepts)
-- [Explore CLI commands](/docs/cli)
-- [Configure your deployment](/docs/configuration)
+- [Learn about core concepts](./concepts)
+- [Explore CLI commands](./cli)
+- [Configure your deployment](./configuration)

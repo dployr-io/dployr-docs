@@ -242,6 +242,6 @@ dployr deploy \
 
 ## Next Steps
 
-- [Learn about deployment](/docs/deployment)
-- [Configure proxy routing](/docs/configuration)
-- [View API reference](/docs/api)
+- [Learn about deployment](./deployment)
+- [Explore supported runtimes](./runtimes)
+- [View API reference](./api)

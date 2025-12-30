@@ -198,6 +198,6 @@ dployr deploy \
 
 ## Next Steps
 
-- [Deploy your application](/docs/deployment)
-- [Configure environment variables](/docs/cli#environment-variables)
-- [Learn about concepts](/docs/concepts)
+- [Deploy your application](./deployment)
+- [Configure environment variables](./cli#environment-variables)
+- [Learn about concepts](./concepts)

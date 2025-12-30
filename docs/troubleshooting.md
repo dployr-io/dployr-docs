@@ -329,7 +329,7 @@ If you're still experiencing issues:
 
 1. Check the [GitHub Issues](https://github.com/dployr-io/dployr/issues)
 2. Join the [Discord community](https://discord.gg/VZVMYuXH)
-3. Review the [documentation](/docs/quickstart)
+3. Review the [documentation](./quickstart)
 4. Enable debug logging:
 
 ```yaml
@@ -339,6 +339,6 @@ logging:
 
 ## Next Steps
 
-- [Review configuration](/docs/configuration)
-- [Learn about concepts](/docs/concepts)
-- [Explore CLI commands](/docs/cli)
+- [Review configuration](./configuration)
+- [Learn about concepts](./concepts)
+- [Explore CLI commands](./cli)

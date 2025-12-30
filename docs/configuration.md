@@ -262,6 +262,6 @@ database:
 
 ## Next Steps
 
-- [Deploy an application](/docs/deployment)
-- [Explore CLI commands](/docs/cli)
-- [Troubleshoot issues](/docs/troubleshooting)
+- [Deploy an application](./deployment)
+- [Explore CLI commands](./cli)
+- [Troubleshoot issues](./troubleshooting)
