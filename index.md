@@ -2,7 +2,6 @@
 layout: home
 
 hero:
-  name: "dployr"
   text: "Your app, your server, your rules!"
   tagline: Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure
   actions:
