@@ -1,81 +1,100 @@
 /**
- * Customize default theme styling by overriding CSS variables:
- * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
- */
+ * Modern theme with Instrument Sans font and OKLCH colors
+ * -------------------------------------------------------------------------- */
+
+/* Import Instrument Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
 
 /**
- * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
- *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create an accent, such as when having inline code block inside
- *   custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attached to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
+ * Font Family
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-font-family-base: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+/**
+ * Colors - OKLCH Color Space
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-default-1: var(--vp-c-gray-1);
-  --vp-c-default-2: var(--vp-c-gray-2);
-  --vp-c-default-3: var(--vp-c-gray-3);
-  --vp-c-default-soft: var(--vp-c-gray-soft);
+  /* Background and foreground */
+  --vp-c-bg: oklch(1 0 0);
+  --vp-c-bg-soft: oklch(0.97 0.001 106.424);
+  --vp-c-bg-mute: oklch(0.97 0.001 106.424);
+  --vp-c-text-1: oklch(0.147 0.004 49.25);
+  --vp-c-text-2: oklch(0.553 0.013 58.071);
+  --vp-c-text-3: oklch(0.709 0.01 56.259);
 
-  /* Vercel-like black theme */
-  --vp-c-brand-1: #000000;
-  --vp-c-brand-2: #1a1a1a;
-  --vp-c-brand-3: #000000;
-  --vp-c-brand-soft: rgba(0, 0, 0, 0.1);
+  /* Brand colors */
+  --vp-c-brand-1: oklch(0.216 0.006 56.043);
+  --vp-c-brand-2: oklch(0.268 0.007 34.298);
+  --vp-c-brand-3: oklch(0.216 0.006 56.043);
+  --vp-c-brand-soft: oklch(0.97 0.001 106.424);
+
+  /* Border and divider */
+  --vp-c-border: oklch(0.923 0.003 48.717);
+  --vp-c-divider: oklch(0.923 0.003 48.717);
+  --vp-c-gutter: oklch(0.97 0.001 106.424);
+
+  /* Component colors */
+  --vp-c-default-1: oklch(0.553 0.013 58.071);
+  --vp-c-default-2: oklch(0.709 0.01 56.259);
+  --vp-c-default-3: oklch(0.923 0.003 48.717);
+  --vp-c-default-soft: oklch(0.97 0.001 106.424);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
   --vp-c-tip-3: var(--vp-c-brand-3);
   --vp-c-tip-soft: var(--vp-c-brand-soft);
 
-  --vp-c-warning-1: var(--vp-c-yellow-1);
-  --vp-c-warning-2: var(--vp-c-yellow-2);
-  --vp-c-warning-3: var(--vp-c-yellow-3);
-  --vp-c-warning-soft: var(--vp-c-yellow-soft);
+  --vp-c-warning-1: oklch(0.828 0.189 84.429);
+  --vp-c-warning-2: oklch(0.769 0.188 70.08);
+  --vp-c-warning-3: oklch(0.828 0.189 84.429);
+  --vp-c-warning-soft: oklch(0.97 0.001 106.424);
 
-  --vp-c-danger-1: var(--vp-c-red-1);
-  --vp-c-danger-2: var(--vp-c-red-2);
-  --vp-c-danger-3: var(--vp-c-red-3);
-  --vp-c-danger-soft: var(--vp-c-red-soft);
+  --vp-c-danger-1: oklch(0.577 0.18 27.325);
+  --vp-c-danger-2: oklch(0.627 0.20 25.331);
+  --vp-c-danger-3: oklch(0.577 0.18 27.325);
+  --vp-c-danger-soft: oklch(0.97 0.001 106.424);
+
+  /* Radius */
+  --vp-border-radius: 0.625rem;
 }
 
 .dark {
-  --vp-c-brand-1: #ffffff;
-  --vp-c-brand-2: #e6e6e6;
-  --vp-c-brand-3: #ffffff;
-  --vp-c-brand-soft: rgba(255, 255, 255, 0.1);
+  /* Background and foreground */
+  --vp-c-bg: oklch(0.147 0.004 49.25);
+  --vp-c-bg-soft: oklch(0.216 0.006 56.043);
+  --vp-c-bg-mute: oklch(0.268 0.007 34.298);
+  --vp-c-text-1: oklch(0.985 0.001 106.423);
+  --vp-c-text-2: oklch(0.709 0.01 56.259);
+  --vp-c-text-3: oklch(0.553 0.013 58.071);
+
+  /* Brand colors */
+  --vp-c-brand-1: oklch(0.923 0.003 48.717);
+  --vp-c-brand-2: oklch(0.985 0.001 106.423);
+  --vp-c-brand-3: oklch(0.923 0.003 48.717);
+  --vp-c-brand-soft: oklch(0.268 0.007 34.298);
+
+  /* Border and divider */
+  --vp-c-border: oklch(1 0 0 / 10%);
+  --vp-c-divider: oklch(1 0 0 / 10%);
+  --vp-c-gutter: oklch(0.268 0.007 34.298);
+
+  /* Component colors */
+  --vp-c-default-1: oklch(0.709 0.01 56.259);
+  --vp-c-default-2: oklch(0.553 0.013 58.071);
+  --vp-c-default-3: oklch(0.268 0.007 34.298);
+  --vp-c-default-soft: oklch(0.268 0.007 34.298);
+
+  --vp-c-warning-1: oklch(0.769 0.188 70.08);
+  --vp-c-warning-2: oklch(0.828 0.189 84.429);
+  --vp-c-warning-3: oklch(0.769 0.188 70.08);
+
+  --vp-c-danger-1: oklch(0.627 0.20 25.331);
+  --vp-c-danger-2: oklch(0.577 0.18 27.325);
+  --vp-c-danger-3: oklch(0.627 0.20 25.331);
 }
 
 /**
@@ -84,14 +103,37 @@
 
 :root {
   --vp-button-brand-border: transparent;
-  --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-text: oklch(0.985 0.001 106.423);
+  --vp-button-brand-bg: oklch(0.216 0.006 56.043);
   --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-text: oklch(0.985 0.001 106.423);
+  --vp-button-brand-hover-bg: oklch(0.268 0.007 34.298);
   --vp-button-brand-active-border: transparent;
-  --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+  --vp-button-brand-active-text: oklch(0.985 0.001 106.423);
+  --vp-button-brand-active-bg: oklch(0.216 0.006 56.043);
+  
+  --vp-button-alt-border: oklch(0.923 0.003 48.717);
+  --vp-button-alt-text: oklch(0.147 0.004 49.25);
+  --vp-button-alt-bg: oklch(0.97 0.001 106.424);
+  --vp-button-alt-hover-border: oklch(0.709 0.01 56.259);
+  --vp-button-alt-hover-text: oklch(0.147 0.004 49.25);
+  --vp-button-alt-hover-bg: oklch(0.923 0.003 48.717);
+}
+
+.dark {
+  --vp-button-brand-text: oklch(0.216 0.006 56.043);
+  --vp-button-brand-bg: oklch(0.923 0.003 48.717);
+  --vp-button-brand-hover-text: oklch(0.216 0.006 56.043);
+  --vp-button-brand-hover-bg: oklch(0.985 0.001 106.423);
+  --vp-button-brand-active-text: oklch(0.147 0.004 49.25);
+  --vp-button-brand-active-bg: oklch(0.985 0.001 106.423);
+  
+  --vp-button-alt-border: oklch(1 0 0 / 10%);
+  --vp-button-alt-text: oklch(0.985 0.001 106.423);
+  --vp-button-alt-bg: oklch(0.268 0.007 34.298);
+  --vp-button-alt-hover-border: oklch(0.553 0.013 58.071);
+  --vp-button-alt-hover-text: oklch(0.985 0.001 106.423);
+  --vp-button-alt-hover-bg: oklch(0.216 0.006 56.043);
 }
 
 /**
@@ -100,28 +142,32 @@
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
+  --vp-home-hero-name-background: linear-gradient(
     120deg,
-    #000000 30%,
-    #333333
+    oklch(0.216 0.006 56.043) 30%,
+    oklch(0.553 0.013 58.071)
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #000000 50%,
-    #1a1a1a 50%
+    oklch(0.216 0.006 56.043) 50%,
+    oklch(0.268 0.007 34.298) 50%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --vp-home-hero-name-background: -webkit-linear-gradient(
-      120deg,
-      #ffffff 30%,
-      #cccccc
-    );
-  }
+.dark {
+  --vp-home-hero-name-background: linear-gradient(
+    120deg,
+    oklch(0.985 0.001 106.423) 30%,
+    oklch(0.709 0.01 56.259)
+  );
+  
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    oklch(0.268 0.007 34.298) 50%,
+    oklch(0.216 0.006 56.043) 50%
+  );
 }
 
 @media (min-width: 640px) {

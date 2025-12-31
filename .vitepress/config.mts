@@ -49,7 +49,7 @@ export default defineConfig({
       'sameAs': [
         'https://github.com/dployr-io/dployr',
         'https://x.com/@dployr',
-        'https://discord.gg/VZVMYuXH'
+        'https://discord.gg/RdJdctub'
       ],
       'potentialAction': {
         '@type': 'SearchAction',
@@ -71,7 +71,7 @@ export default defineConfig({
       'sameAs': [
         'https://github.com/dployr-io/dployr',
         'https://x.com/@dployr',
-        'https://discord.gg/VZVMYuXH'
+        'https://discord.gg/RdJdctub'
       ],
       'contactPoint': {
         '@type': 'ContactPoint',
@@ -87,7 +87,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/quickstart' },
       { text: 'GitHub', link: 'https://github.com/dployr-io/dployr' },
-      { text: 'Discord', link: 'https://discord.gg/VZVMYuXH' }
+      { text: 'Discord', link: 'https://discord.gg/RdJdctub' }
     ],
 
     sidebar: [
@@ -127,7 +127,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/dployr-io/dployr' },
-      { icon: 'discord', link: 'https://discord.gg/VZVMYuXH' },
+      { icon: 'discord', link: 'https://discord.gg/RdJdctub' },
       { icon: 'x', link: 'https://x.com/@dployr' }
     ],
 
