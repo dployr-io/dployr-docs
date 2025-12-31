@@ -10,7 +10,7 @@ All API requests require authentication using a bearer token.
 ### Get Access Token
 
 ```bash
-POST /api/v1/auth/login
+POST /v1/auth/login
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Authorization: Bearer eyJhbGc...
 ### Create Deployment
 
 ```bash
-POST /api/v1/deployments
+POST /v1/deployments
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -62,21 +62,21 @@ Authorization: Bearer <token>
 ### List Deployments
 
 ```bash
-GET /api/v1/deployments
+GET /v1/deployments
 Authorization: Bearer <token>
 ```
 
 ### Get Deployment
 
 ```bash
-GET /api/v1/deployments/:id
+GET /v1/deployments/:id
 Authorization: Bearer <token>
 ```
 
 ### Update Deployment
 
 ```bash
-PUT /api/v1/deployments/:id
+PUT /v1/deployments/:id
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -91,7 +91,7 @@ Authorization: Bearer <token>
 ### Delete Deployment
 
 ```bash
-DELETE /api/v1/deployments/:id
+DELETE /v1/deployments/:id
 Authorization: Bearer <token>
 ```
 
@@ -100,42 +100,42 @@ Authorization: Bearer <token>
 ### List Services
 
 ```bash
-GET /api/v1/services
+GET /v1/services
 Authorization: Bearer <token>
 ```
 
 ### Get Service Status
 
 ```bash
-GET /api/v1/services/:id/status
+GET /v1/services/:id/status
 Authorization: Bearer <token>
 ```
 
 ### Start Service
 
 ```bash
-POST /api/v1/services/:id/start
+POST /v1/services/:id/start
 Authorization: Bearer <token>
 ```
 
 ### Stop Service
 
 ```bash
-POST /api/v1/services/:id/stop
+POST /v1/services/:id/stop
 Authorization: Bearer <token>
 ```
 
 ### Restart Service
 
 ```bash
-POST /api/v1/services/:id/restart
+POST /v1/services/:id/restart
 Authorization: Bearer <token>
 ```
 
 ### Get Service Logs
 
 ```bash
-GET /api/v1/services/:id/logs?tail=100&follow=true
+GET /v1/services/:id/logs?tail=100&follow=true
 Authorization: Bearer <token>
 ```
 
@@ -144,21 +144,21 @@ Authorization: Bearer <token>
 ### List Instances
 
 ```bash
-GET /api/v1/instances
+GET /v1/instances
 Authorization: Bearer <token>
 ```
 
 ### Get Instance
 
 ```bash
-GET /api/v1/instances/:id
+GET /v1/instances/:id
 Authorization: Bearer <token>
 ```
 
 ### Get Instance Metrics
 
 ```bash
-GET /api/v1/instances/:id/metrics
+GET /v1/instances/:id/metrics
 Authorization: Bearer <token>
 ```
 
@@ -167,14 +167,14 @@ Authorization: Bearer <token>
 ### List Routes
 
 ```bash
-GET /api/v1/proxy/routes
+GET /v1/proxy/routes
 Authorization: Bearer <token>
 ```
 
 ### Create Route
 
 ```bash
-POST /api/v1/proxy/routes
+POST /v1/proxy/routes
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -188,7 +188,7 @@ Authorization: Bearer <token>
 ### Delete Route
 
 ```bash
-DELETE /api/v1/proxy/routes/:id
+DELETE /v1/proxy/routes/:id
 Authorization: Bearer <token>
 ```
 
@@ -197,14 +197,14 @@ Authorization: Bearer <token>
 ### List Projects
 
 ```bash
-GET /api/v1/projects
+GET /v1/projects
 Authorization: Bearer <token>
 ```
 
 ### Create Project
 
 ```bash
-POST /api/v1/projects
+POST /v1/projects
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -217,7 +217,7 @@ Authorization: Bearer <token>
 ### Delete Project
 
 ```bash
-DELETE /api/v1/projects/:id
+DELETE /v1/projects/:id
 Authorization: Bearer <token>
 ```
 
@@ -226,14 +226,14 @@ Authorization: Bearer <token>
 ### List Variables
 
 ```bash
-GET /api/v1/services/:id/env
+GET /v1/services/:id/env
 Authorization: Bearer <token>
 ```
 
 ### Set Variable
 
 ```bash
-POST /api/v1/services/:id/env
+POST /v1/services/:id/env
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -246,7 +246,7 @@ Authorization: Bearer <token>
 ### Delete Variable
 
 ```bash
-DELETE /api/v1/services/:id/env/:key
+DELETE /v1/services/:id/env/:key
 Authorization: Bearer <token>
 ```
 
@@ -255,7 +255,7 @@ Authorization: Bearer <token>
 ### Create Webhook
 
 ```bash
-POST /api/v1/webhooks
+POST /v1/webhooks
 Content-Type: application/json
 Authorization: Bearer <token>
 
@@ -269,7 +269,7 @@ Authorization: Bearer <token>
 ### List Webhooks
 
 ```bash
-GET /api/v1/webhooks
+GET /v1/webhooks
 Authorization: Bearer <token>
 ```
 

@@ -7,7 +7,8 @@ export default defineConfig({
   lang: 'en-US',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['link', { rel: 'canonical', href: 'https://docs.dployr.io' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'dployr Blog RSS', href: '/blog/rss.xml' }],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }],
     ['meta', { name: 'theme-color', content: '#000000' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
@@ -81,11 +82,17 @@ export default defineConfig({
     })]
   ],
   themeConfig: {
-    logo: '/logo.svg',
+    logo: {
+      light: '/logo.svg',
+      dark: '/logo-alternate.svg'
+    },
     
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/quickstart' },
+      { text: 'Blog', link: '/blog/' },
+      { text: 'Changelog', link: '/changelog' },
+      { text: 'Status', link: 'https://dployr.instatus.com/' },
       { text: 'GitHub', link: 'https://github.com/dployr-io/dployr' },
       { text: 'Discord', link: 'https://discord.gg/RdJdctub' }
     ],
@@ -116,6 +123,13 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Resources',
+        items: [
+          { text: 'Blog', link: '/blog/' },
+          { text: 'Changelog', link: '/changelog' }
+        ]
+      },
+      {
         text: 'Legal',
         items: [
           { text: 'Privacy Policy', link: '/legal/privacy-policy' },
@@ -133,7 +147,7 @@ export default defineConfig({
 
     footer: {
       message: 'Open source under Apache 2.0 License',
-      copyright: 'Copyright © 2025 Dployr | <a href="/legal/privacy-policy">Privacy</a> • <a href="/legal/terms-of-service">Terms</a> • <a href="/legal/data-processing-addendum">DPA</a>'
+      copyright: 'Copyright © 2025 Dployr | <a href="/legal/privacy-policy">Privacy</a> • <a href="/legal/terms-of-service">Terms</a> • <a href="/legal/data-processing-addendum">DPA</a> • <a href="https://dployr.instatus.com/">Status</a>'
     },
 
     search: {
