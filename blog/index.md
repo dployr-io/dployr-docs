@@ -15,10 +15,6 @@ const formatDate = (dateString) => {
 }
 </script>
 
-::: tip Create a New Post
-Run `npm run new:blog` to create a new blog post with proper frontmatter and SEO metadata.
-:::
-
 ## Latest Posts
 
 <div v-if="posts && posts.length > 0" class="posts-grid">
