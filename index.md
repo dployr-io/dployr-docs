@@ -3,7 +3,7 @@ layout: home
 
 hero:
   text: "Your app, your server, your rules!"
-  tagline: Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure
+  tagline: Globally distributed control plane and lightweight agents for your infrastructure
   actions:
     - theme: brand
       text: Get Started

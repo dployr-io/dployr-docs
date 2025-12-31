@@ -1,6 +1,7 @@
 # API Reference
 
 The dployr API provides programmatic access to all platform functionality.
+For a more in-depth overview of the API, see the [API documentation](https://api-docs.dployr.io).
 
 ## Authentication
 
