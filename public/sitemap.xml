@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Home page -->
   <url>
-    <loc>https://docs.dployr.io/</loc>
+    <loc>https://dployr.io/</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,19 +10,19 @@
 
   <!-- Getting Started -->
   <url>
-    <loc>https://docs.dployr.io/docs/quickstart</loc>
+    <loc>https://dployr.io/docs/quickstart</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/installation</loc>
+    <loc>https://dployr.io/docs/installation</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/concepts</loc>
+    <loc>https://dployr.io/docs/concepts</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -30,19 +30,19 @@
 
   <!-- Usage -->
   <url>
-    <loc>https://docs.dployr.io/docs/cli</loc>
+    <loc>https://dployr.io/docs/cli</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/deployment</loc>
+    <loc>https://dployr.io/docs/deployment</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/runtimes</loc>
+    <loc>https://dployr.io/docs/runtimes</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -50,19 +50,19 @@
 
   <!-- Reference -->
   <url>
-    <loc>https://docs.dployr.io/docs/api</loc>
+    <loc>https://dployr.io/docs/api</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/configuration</loc>
+    <loc>https://dployr.io/docs/configuration</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/docs/troubleshooting</loc>
+    <loc>https://dployr.io/docs/troubleshooting</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -70,19 +70,19 @@
 
   <!-- Legal -->
   <url>
-    <loc>https://docs.dployr.io/legal/privacy-policy</loc>
+    <loc>https://dployr.io/legal/privacy-policy</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/legal/terms-of-service</loc>
+    <loc>https://dployr.io/legal/terms-of-service</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://docs.dployr.io/legal/data-processing-addendum</loc>
+    <loc>https://dployr.io/legal/data-processing-addendum</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
