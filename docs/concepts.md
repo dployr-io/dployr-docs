@@ -4,42 +4,36 @@ Understanding the core concepts of dployr.
 
 ## Architecture
 
-dployr consists of four main components:
+![Architecture diagram](../public/architecture.png)
+Dployr consists of four main components:
 
-### dployr-base
+### Dployr Base
 Globally distributed control plane that provides:
 - RESTful API with RBAC
 - Scheduling and orchestration
 - Data storage and persistence
 - Full audit logging
 
-### dployrd
+### Dployrd
 Lightweight daemon that runs on your instances:
 - Connects to base over mTLS websocket
 - Executes deployment tasks
 - Reports status and health metrics
 - Manages local services
 
-### dployr-cli
+### Dployr CLI
 Command-line interface for managing deployments:
 - RBAC-aware authentication
 - Full API access
 - Scriptable operations
 - Works from anywhere
 
-### dployr-app
+### Dployr App
 Web dashboard built on the same API:
 - Visual project management
 - Deployment monitoring
 - Environment configuration
 - Real-time logs and metrics
-
-## CLI vs Daemon
-
-- **CLI**: Issues commands to the control plane
-- **Daemon**: Executes commands and syncs with base
-- The CLI and dashboard use the same API
-- Anything you do in the UI can be scripted with the CLI
 
 ## Synchronization
 
@@ -64,7 +58,7 @@ The daemon maintains a long-lived WebSocket connection with mTLS:
 ## Persistence
 
 ### SQLite Database
-dployr uses SQLite for local persistence:
+Dployr uses [SQLite](https://sqlite.org/) for local persistence:
 - Instance metadata
 - Authentication tokens
 - Deployment configurations
@@ -102,23 +96,17 @@ Services are long-running processes managed by dployr:
 - Port management
 - Environment variables
 
-## Proxy & Routing
+## Proxy 
 
-### Caddy Integration
+Dployr uses [Caddy](https://caddyserver.com/) as a reverse proxy to route traffic to services:
 - Automatic HTTPS with Let's Encrypt
 - Reverse proxy configuration
 - Load balancing
 - Custom domain support
 
-### Traffic Routing
-- Route traffic to services by domain or path
-- Automatic SSL/TLS termination
-- WebSocket support
-- HTTP/2 and HTTP/3
-
 ## Runtimes
 
-dployr supports multiple runtimes through vfox:
+Dployr supports multiple runtimes through [vfox](https://vfox.dev/):
 - **Node.js**: Multiple versions via vfox
 - **Python**: Multiple versions via vfox
 - **Go**: Multiple versions via vfox
