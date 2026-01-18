@@ -328,7 +328,7 @@ Get-EventLog -LogName Application -Source dployrd -Newest 50
 If you're still experiencing issues:
 
 1. Check the [GitHub Issues](https://github.com/dployr-io/dployr/issues)
-2. Join the [Discord community](https://discord.gg/RdJdctub)
+2. Join the [Discord community](https://discord.gg/tY8ZbjvrSZ)
 3. Review the [documentation](./quickstart)
 4. Enable debug logging:
 

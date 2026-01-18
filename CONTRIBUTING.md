@@ -154,7 +154,7 @@ Before submitting:
 
 ## Questions?
 
-- Join our [Discord](https://discord.gg/RdJdctub)
+- Join our [Discord](https://discord.gg/tY8ZbjvrSZ)
 - Open an [issue](https://github.com/dployr-io/dployr/issues)
 - Check existing [documentation](https://docs.dployr.io)
 

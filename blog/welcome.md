@@ -34,7 +34,7 @@ Apache 2.0 licensed with full transparency and community-driven development. Con
 
 Ready to deploy your first application? Check out our [quickstart guide](/docs/quickstart) to get up and running in minutes.
 
-Join our community on [Discord](https://discord.gg/RdJdctub) or follow us on [GitHub](https://github.com/dployr-io/dployr) for updates and discussions.
+Join our community on [Discord](https://discord.gg/tY8ZbjvrSZ) or follow us on [GitHub](https://github.com/dployr-io/dployr) for updates and discussions.
 
 ---
 
