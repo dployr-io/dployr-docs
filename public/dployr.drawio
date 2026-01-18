@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0" version="29.3.2">
   <diagram name="Page-1" id="u_GnCd-EYlM5SmKUwT1L">
-    <mxGraphModel dx="1506" dy="819" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3011" dy="1637" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -125,10 +125,10 @@
             <mxPoint x="765" y="360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ejx-WFHqZQf7Ml2t_UdB-38" parent="ejx-WFHqZQf7Ml2t_UdB-61" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/49_hand_drawn_icons-2162/earth-765.png" value="&lt;div&gt;&lt;font face=&quot;Comic Sans MS&quot; style=&quot;color: rgb(51, 51, 51);&quot;&gt;Dployr Base&lt;/font&gt;&lt;/div&gt;&lt;font face=&quot;Comic Sans MS&quot; style=&quot;color: rgb(51, 51, 51);&quot;&gt;Globally Distributed&lt;/font&gt;&lt;div&gt;&lt;font color=&quot;#333333&quot; face=&quot;Comic Sans MS&quot;&gt;Control Plane&lt;/font&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="ejx-WFHqZQf7Ml2t_UdB-38" parent="ejx-WFHqZQf7Ml2t_UdB-61" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/49_hand_drawn_icons-2162/earth-765.png" value="&lt;div&gt;&lt;font face=&quot;Comic Sans MS&quot; style=&quot;color: rgb(51, 51, 51);&quot;&gt;Dployr Base&lt;/font&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="98" width="98" x="460" y="226" as="geometry" />
         </mxCell>
-        <mxCell id="ejx-WFHqZQf7Ml2t_UdB-57" parent="ejx-WFHqZQf7Ml2t_UdB-61" style="pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.sites.website_public;" value="Dployr Web" vertex="1">
+        <mxCell id="ejx-WFHqZQf7Ml2t_UdB-57" parent="ejx-WFHqZQf7Ml2t_UdB-61" style="pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.sites.website_public;" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;Dployr Web&lt;/font&gt;" vertex="1">
           <mxGeometry height="80" width="96.66" x="765.99" y="130" as="geometry" />
         </mxCell>
         <mxCell id="ejx-WFHqZQf7Ml2t_UdB-58" parent="ejx-WFHqZQf7Ml2t_UdB-61" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Icocentre_Free_Icons-2084/f-command_256-973.svg" value="&lt;font face=&quot;Comic Sans MS&quot;&gt;Dployr CLI&lt;/font&gt;" vertex="1">
