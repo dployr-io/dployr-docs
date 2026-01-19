@@ -8,7 +8,7 @@
 curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
 ```
 
-For first-time installation with a bootstrap token:
+For first-time installation with a bootstrap token.:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh \
@@ -29,6 +29,8 @@ For first-time installation with a bootstrap token:
 ```powershell
 .\install.ps1 -Token $env:DPLOYR_INSTALL_TOKEN
 ```
+
+To obtain a new bootstrap token, create a new instance in the dployr web dashboard at https://app.dployr.io/clusters/[cluster-id]/instances/?new=true.
 
 ## Manual Installation
 
