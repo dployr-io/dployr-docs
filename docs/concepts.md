@@ -18,6 +18,7 @@ When you make a deployment, open a console, stream logs, or perform any other ac
 ## Architecture
 
 ![Architecture diagram](../public/architecture.png)
+*Dployr maintains a persistent mTLS WebSocket connection between the agent and the base.*
 
 ## Core components
 
