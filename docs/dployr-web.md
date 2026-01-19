@@ -2,8 +2,6 @@
 
 The Web UI is available at [app.dployr.io](https://app.dployr.io/) (source: [dployr](https://github.com/dployr-io/dployr)). It talks to **Base**, which routes actions to the right VM through `dployrd`.
 
-This page is a quick tour of what you can do from the Web UI and how each feature maps to the system.
-
 ## Deploy
 
 Deployments can be configured with a form builder, or defined programmatically as blueprints.
