@@ -9,6 +9,9 @@ hero:
       text: Get Started
       link: https://app.dployr.io
     - theme: alt
+      text: Why dployr?
+      link: /docs/concepts
+    - theme: alt
       text: View on GitHub
       link: https://github.com/dployr-io/dployr
 
