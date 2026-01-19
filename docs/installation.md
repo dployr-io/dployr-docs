@@ -34,8 +34,6 @@ For first-time installation with a bootstrap token:
 
 1. Download the latest release from [GitHub Releases](https://github.com/dployr-io/dployr/releases)
 2. Extract the binary to your PATH
-3. Configure the daemon (see [Configuration](./configuration))
-4. Start the daemon
 
 ## Package Managers
 
@@ -127,6 +125,6 @@ Service managers may require admin/root privileges for installation and startup.
 
 ## Next Steps
 
-- [Configure dployr](./configuration)
-- [Deploy your first app](./quickstart)
+- [Follow the quickstart](./quickstart)
 - [Learn about concepts](./concepts)
+- [Troubleshooting](./troubleshooting)

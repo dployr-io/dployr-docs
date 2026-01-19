@@ -103,22 +103,21 @@ export default defineConfig({
         items: [
           { text: 'Quickstart', link: '/docs/quickstart' },
           { text: 'Installation', link: '/docs/installation' },
-          { text: 'Concepts', link: '/docs/concepts' }
+          { text: 'Concepts', link: '/docs/concepts' },
+          { text: 'Blueprints', link: '/docs/blueprints' }
         ]
       },
       {
         text: 'Usage',
         items: [
           { text: 'CLI Commands', link: '/docs/cli' },
-          { text: 'Deployment', link: '/docs/deployment' },
-          { text: 'Runtimes', link: '/docs/runtimes' }
+          { text: 'Dployr Web', link: '/docs/dployr-web' }
         ]
       },
       {
         text: 'Reference',
         items: [
           { text: 'API', link: '/docs/api' },
-          { text: 'Configuration', link: '/docs/configuration' },
           { text: 'Troubleshooting', link: '/docs/troubleshooting' }
         ]
       },

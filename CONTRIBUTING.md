@@ -1,6 +1,6 @@
 # Contributing to dployr Documentation
 
-Thank you for your interest in contributing to dployr documentation! This guide will help you get started.
+If you notice any thing missing, typo or general improvement and you want to help, this guide will help you get started.
 
 ## Documentation Structure
 

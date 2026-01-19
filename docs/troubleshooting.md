@@ -8,7 +8,7 @@ Common issues and solutions for dployr.
 
 **Problem**: Daemon fails to start with "no bootstrap token" error.
 
-**Solution**: Set the bootstrap token in the configuration file or rerun the installer:
+**Suggestion**: Remove the existing installation and rerun the installer:
 
 ```bash
 # Linux/macOS
@@ -23,7 +23,7 @@ curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh \
 
 **Problem**: Installation fails with permission errors.
 
-**Solution**: Run the installer with administrator/root privileges:
+**Suggestion**: Run the installer with administrator/root privileges:
 
 ```bash
 # Linux/macOS
@@ -39,7 +39,7 @@ sudo curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install
 
 **Problem**: Daemon logs show 401 or 403 errors when connecting to base.
 
-**Solution**: The daemon will automatically clear the access token and reacquire it. If the issue persists:
+**Suggestion**: The daemon will automatically clear the access token and reacquire it. If the issue persists:
 
 1. Check that your bootstrap token is valid
 2. Verify the base URL is correct
@@ -54,7 +54,7 @@ curl -v https://base.dployr.io/health
 
 **Problem**: Connection fails with certificate validation errors.
 
-**Solution**: Ensure the certificate paths are correct:
+**Suggestion**: Ensure the certificate paths are correct:
 
 ```yaml
 # /etc/dployr/config.yaml
@@ -76,7 +76,7 @@ openssl x509 -in /etc/dployr/certs/client.crt -text -noout
 
 **Problem**: Deployment fails during the build step.
 
-**Solution**: Check the build logs:
+**Suggestion**: Check the build logs:
 
 ```bash
 dployr logs <deployment-name>
@@ -92,7 +92,7 @@ Common causes:
 
 **Problem**: Deployment fails with "runtime version not found" error.
 
-**Solution**: Ensure vfox is installed and the runtime version is available:
+**Suggestion**: Ensure [vfox](https://vfox.dev/) is installed and the runtime version is available:
 
 ```bash
 # Check vfox installation
@@ -109,7 +109,7 @@ vfox install nodejs@20
 
 **Problem**: Service fails to start with "port already in use" error.
 
-**Solution**: Check which process is using the port:
+**Suggestion**: Check which process is using the port:
 
 ```bash
 # Linux/macOS
@@ -127,7 +127,7 @@ Kill the conflicting process or use a different port.
 
 **Problem**: Service fails to start or crashes immediately.
 
-**Solution**: Check service logs:
+**Suggestion**: Check service logs:
 
 ```bash
 dployr logs <service-name> --tail 100
@@ -143,7 +143,7 @@ Common causes:
 
 **Problem**: Service starts but keeps restarting.
 
-**Solution**: Check health check configuration and application logs:
+**Suggestion**: Check health check configuration and application logs:
 
 ```bash
 # View logs
@@ -169,7 +169,7 @@ health_check:
 
 **Problem**: Custom domain doesn't resolve to your service.
 
-**Solution**: Verify DNS records:
+**Suggestion**: Verify DNS records:
 
 ```bash
 # Check DNS
@@ -177,13 +177,14 @@ dig example.com
 nslookup example.com
 ```
 
-Ensure DNS points to your server's IP address.
+Ensure DNS A record resolves to your server's IP address.
+Ensure you have configured the TXT record to verify domain ownership.
 
 ### SSL certificate errors
 
 **Problem**: HTTPS doesn't work or shows certificate errors.
 
-**Solution**: Check Caddy logs:
+**Suggestion**: Check Caddy logs:
 
 ```bash
 # Linux/macOS
@@ -202,7 +203,7 @@ Ensure:
 
 **Problem**: Proxy returns 502 error.
 
-**Solution**: Verify the service is running:
+**Suggestion**: Verify the service is running:
 
 ```bash
 dployr service status <service-name>
@@ -218,35 +219,11 @@ netstat -tlnp | grep <port>
 netstat -ano | findstr <port>
 ```
 
-## Performance Issues
-
-### High memory usage
-
-**Problem**: Daemon or services consuming too much memory.
-
-**Solution**: Set resource limits:
-
-```yaml
-resources:
-  memory: 512M
-```
-
-Monitor memory usage:
-
-```bash
-# Linux
-free -h
-top
-
-# Windows
-Get-Process dployrd | Select-Object WorkingSet
-```
-
 ### Slow deployments
 
 **Problem**: Deployments take too long.
 
-**Solution**: 
+**Suggestion**: 
 - Use build caching
 - Optimize build commands
 - Check network speed for git clones
@@ -258,7 +235,7 @@ Get-Process dployrd | Select-Object WorkingSet
 
 **Problem**: Operations fail with "database locked" error.
 
-**Solution**: Ensure only one daemon instance is running:
+**Suggestion**: Ensure only one daemon instance is running:
 
 ```bash
 # Linux/macOS
@@ -285,7 +262,7 @@ Restart-Service dployrd
 
 **Problem**: Database errors or corruption.
 
-**Solution**: Restore from backup:
+**Suggestion**: Restore from backup:
 
 ```bash
 # Stop daemon
@@ -330,15 +307,14 @@ If you're still experiencing issues:
 1. Check the [GitHub Issues](https://github.com/dployr-io/dployr/issues)
 2. Join the [Discord community](https://discord.gg/tY8ZbjvrSZ)
 3. Review the [documentation](./quickstart)
-4. Enable debug logging:
+4. View the logs in the web interface or using the CLI command:
 
-```yaml
-logging:
-  level: debug
+```bash
+dployr logs <service-name>
 ```
 
 ## Next Steps
 
-- [Review configuration](./configuration)
+- [Installation](./installation)
 - [Learn about concepts](./concepts)
 - [Explore CLI commands](./cli)

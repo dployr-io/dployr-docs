@@ -64,5 +64,5 @@ dployr deploy \
 ## Next Steps
 
 - [Learn about core concepts](./concepts)
+- [Use Dployr Web](./dployr-web)
 - [Explore CLI commands](./cli)
-- [Configure your deployment](./configuration)

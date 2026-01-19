@@ -242,6 +242,6 @@ dployr deploy \
 
 ## Next Steps
 
-- [Learn about deployment](./deployment)
-- [Explore supported runtimes](./runtimes)
+- [Learn about core concepts](./concepts)
+- [Write a blueprint](./blueprints)
 - [View API reference](./api)

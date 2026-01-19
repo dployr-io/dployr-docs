@@ -1,141 +1,119 @@
 # Concepts
 
-Understanding the core concepts of dployr.
+## Introduction
+
+If you have a couple of VMs to look after (a cheap VPS, a home lab, a Raspberry Pi), you probably know the drill: remote copy files over, SSH in, restart a process, tail logs, then do it again on the next VM.
+
+The other thing you usually want is predictability: the same deploy steps every time, with the same runtime version, without relying on “whatever happens to be installed” on a box.
+
+Docker can solve some of that, but it can also be overkill for simple projects. Not every project needs a container - sometimes you just want to run a simple Node.js, PHP, Java, or Python app directly on the VM. For those cases, Dployr gives you a programmable deployment workflow (blueprints) for VMs. Docker amongst other runtimes e.g Node.js, PHP, Java, Python etc. is supported, but it is treated as one runtime option, not a requirement.
+
+The model is:
+- **Base** is the globally distributed control plane.
+- Each **VM** runs [`dployrd`](https://github.com/dployr-io/dployr) (a lightweight daemon) that establishes an outbound connection to **Base**.
+- [Web](https://app.dployr.io/) and the **CLI** talk to **Base**, which relays the requests to the appropriate **VM**.
+
+When you make a deployment, open a console, stream logs, or perform any other action, the request goes to the **Base**, then down to the right VM through the same long-lived WebSocket connection.
 
 ## Architecture
 
 ![Architecture diagram](../public/architecture.png)
-Dployr consists of four main components:
 
-### Dployr Base
-Globally distributed control plane that provides:
-- RESTful API with RBAC
-- Scheduling and orchestration
-- Data storage and persistence
-- Full audit logging
+## Core components
 
-### Dployrd
-Lightweight daemon that runs on your instances:
-- Connects to base over mTLS websocket
-- Executes deployment tasks
-- Reports status and health metrics
-- Manages local services
+### Base
 
-### Dployr CLI
-Command-line interface for managing deployments:
-- RBAC-aware authentication
-- Full API access
-- Scriptable operations
-- Works from anywhere
+**Base** is the globally distributed control plane. Web and the CLI talk to **Base**, and **Base** routes those requests to the right VM through `dployrd`.
 
-### Dployr App
-Web dashboard built on the same API:
-- Visual project management
-- Deployment monitoring
-- Environment configuration
-- Real-time logs and metrics
+- It exposes the [API](https://api-docs.dployr.io/) used by Web and the CLI.
+- It handles authentication and authorization (RBAC) and records actions.
+- It schedules work and keeps state for projects, VMs, deployments, and services.
 
-## Synchronization
+You can use the hosted base (run by dployr), or self-host the base yourself using [dployr-base](https://github.com/dployr-io/dployr-base). Either way, each VM only needs an outbound connection to **Base**.
 
-The daemon maintains a long-lived WebSocket connection with mTLS:
-- Daemon generates a client certificate
-- Certificate is published to base for authentication
-- Connection is persistent and auto-reconnects
-- Commands are pushed from base to daemon in real-time
+### Agent (`dployrd`)
 
-## Authentication & Tokens
+[`dployrd`](https://github.com/dployr-io/dployr) is a lightweight daemon that runs on your VM.
 
-### Bootstrap Token
-- Long-lived token stored in the database
-- Used for initial daemon registration
-- Exchanged for short-lived access tokens
+- It maintains a long-lived, outbound WebSocket connection to **Base** (mTLS).
+- It receives requests from **Base** (deploy, restart, run commands) and executes them locally.
+- It streams logs and status back to **Base**.
 
-### Access Token
-- Short-lived token for API authentication
-- Automatically refreshed by the daemon
-- Cleared and reacquired on authentication errors
+### Web
 
-## Persistence
+The Web UI is available at [app.dployr.io](https://app.dployr.io/) (source: [dployr](https://github.com/dployr-io/dployr)). It talks to **Base**.
 
-### SQLite Database
-Dployr uses [SQLite](https://sqlite.org/) for local persistence:
-- Instance metadata
-- Authentication tokens
-- Deployment configurations
-- Service definitions
-- Task execution results
+### CLI
 
-### Logging
-Structured JSON logging:
-- Stdout for real-time monitoring
-- `/var/log/dployrd/app.log` for remote debugging
-- Configurable log levels
-- Full audit trail
+The CLI follows the same pattern as Web - it talks to **Base**. 
+
+## Synchronization (how base and VMs talk)
+
+Dployr is designed so your VMs do not need to accept inbound traffic from the internet.
+
+- Each `dployrd` agent generates a client certificate.
+- The base uses that certificate to authenticate the agent (mTLS).
+- The agent keeps a persistent connection and reconnects automatically.
+- Work is pushed over that connection in real time.
+
+That same connection is also what makes the “debug from one place” features possible:
+
+- **Console**: interactive shell sessions are tunneled from Web to the VM through the base and `dployrd`.
+- **Logs**: logs are streamed over WebSocket rather than scraped or polled.
+
+## Authentication and tokens
+
+### Bootstrap token
+
+Used once when registering a new agent.
+
+### Access token
+
+Short-lived token used for API calls. The agent refreshes it automatically every 5 minutes.
+
+## Logging
+
+[`dployrd`](https://github.com/dployr-io/dployr) writes structured JSON logs to `/var/log/dployrd/app.log` for debugging.
 
 ## Deployments
 
-### Source Types
-- **Remote**: Git repositories (GitHub, GitLab, etc.)
-- **Local**: Local directories
-- **Docker**: Container images
+Deployments describe what to run on a VM and how to run it.
 
-### Deployment Process
-1. Source code is fetched
-2. Build commands are executed
-3. Runtime environment is configured
-4. Service is started with run command
-5. Health checks verify deployment
-6. Traffic is routed to the service
+You can create deployments in two ways:
+
+- A guided form (good for getting started)
+- A blueprint (good for repeatable, reviewable, version-controlled setups). See [Blueprints](/docs/blueprints).
 
 ## Services
 
-Services are long-running processes managed by dployr:
-- Automatic restart on failure
-- Health monitoring
-- Log aggregation
-- Port management
+Services are long-running processes managed by dployr.
+
+- Restart on failure
 - Environment variables
+- Port management
+- Log collection
 
-## Proxy 
+## Proxy
 
-Dployr uses [Caddy](https://caddyserver.com/) as a reverse proxy to route traffic to services:
-- Automatic HTTPS with Let's Encrypt
-- Reverse proxy configuration
-- Load balancing
-- Custom domain support
+Dployr uses [Caddy](https://caddyserver.com/) as a reverse proxy in front of services.
 
 ## Runtimes
 
-Dployr supports multiple runtimes through [vfox](https://vfox.dev/):
-- **Node.js**: Multiple versions via vfox
-- **Python**: Multiple versions via vfox
-- **Go**: Multiple versions via vfox
-- **PHP**: Multiple versions via vfox
-- **Ruby**: Multiple versions via vfox
-- **.NET**: Multiple versions via vfox
-- **Java**: Multiple versions via vfox
-- **Docker**: Container-based deployments
-- **Static**: Static file serving
+Dployr manages language runtimes using [vfox](https://vfox.dev/), enabling consistent installation and switching across VMs. Supported runtimes include Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker, and Static.
 
-## Security
+## Security model
 
 ### mTLS
-- Mutual TLS authentication between daemon and base
-- Client certificates for daemon authentication
-- Encrypted communication
+
+All agent-to-base traffic is encrypted and mutually authenticated.
 
 ### RBAC
-- Role-based access control
-- Fine-grained permissions
-- Audit logging for all actions
 
-### Isolation
-- Process isolation per service
-- User-level permissions
-- Network isolation options
+Permissions are scoped by role, and actions are recorded. This is what makes audit-friendly workflows possible in teams.
 
 ## Next Steps
 
-- [Deploy an application](./deployment)
+- [Dployr Web](/docs/dployr-web)
+- [Write a blueprint](/docs/blueprints)
 - [Explore CLI commands](./cli)
 - [View API reference](./api)

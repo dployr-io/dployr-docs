@@ -2,39 +2,44 @@
 title: "Welcome to dployr"
 date: 2025-12-31
 author: Emmanuel Madehin
-excerpt: "Introducing dployr - a self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure."
+excerpt: "A deployment platform with a globally distributed base and lightweight agents on your VMs—so you can ship apps without the usual PaaS lock-in."
 tags: ["announcement", "getting-started"]
 image: ""
 ---
 
 # Welcome to dployr
 
-We're excited to introduce dployr, a self-hosted deployment platform designed to give you complete control over your infrastructure while maintaining the simplicity of modern PaaS solutions.
+![dployr architecture](../public/architecture.png)
+
+I’m launching **dployr**: a deployment platform for people who want the convenience of a PaaS, but still want real control over where things run.
 
 ## What is dployr?
 
-dployr is a self-hosted platform with a globally distributed control plane ("base") and lightweight agents that run on your infrastructure. It combines the best of both worlds:
+At a high level, dployr has two parts:
 
-- **Self-hosted control**: Run dployr on your own infrastructure with full control over your deployments, data, and configurations
-- **Globally distributed**: Control plane with mTLS-secured agents running on your instances, connecting from anywhere
-- **Multi-runtime support**: Deploy Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker containers, and static sites
+- A control plane (the “base”). Use our hosted, globally distributed base (free), or self-host your own base.
+- Lightweight agents on your VMs that make an outbound, mTLS-secured connection to the base
+
+Because the agents dial out to the base, you don’t need to open inbound ports to your VMs. Point them at our hosted base, or at your own base if you prefer.
+
+Dployr supports multiple runtimes out of the box: Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker containers, and static sites.
 
 ## Key Features
 
 ### Simple Management
-Manage deployments through an intuitive web dashboard or powerful RBAC-aware CLI. No complex configurations or steep learning curves.
+Deploy through the web dashboard or the CLI. If you’re working with a team, RBAC is built in so access can be scoped properly.
 
 ### Automatic HTTPS
-Built-in Caddy integration for automatic SSL/TLS certificate management. Deploy with confidence knowing your applications are secure by default.
+HTTPS is handled for you via Caddy integration, so you’re not stuck hand-rolling certificates for every new service.
 
 ### Open Source
-Apache 2.0 licensed with full transparency and community-driven development. Contribute, customize, and extend as needed.
+dployr is open source (Apache 2.0). If you want to dig into the code, change how something works, or contribute fixes, you can.
 
 ## Getting Started
 
-Ready to deploy your first application? Check out our [quickstart guide](/docs/quickstart) to get up and running in minutes.
+If you want to try it, start with the [quickstart guide](/docs/quickstart).
 
-Join our community on [Discord](https://discord.gg/tY8ZbjvrSZ) or follow us on [GitHub](https://github.com/dployr-io/dployr) for updates and discussions.
+If you run into issues or want to share feedback, join us on [Discord](https://discord.gg/tY8ZbjvrSZ). You can also follow development on [GitHub](https://github.com/dployr-io/dployr).
 
 ---
 

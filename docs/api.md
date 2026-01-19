@@ -314,6 +314,6 @@ All errors follow this format:
 
 ## Next Steps
 
+- [Learn about core concepts](./concepts)
 - [Use the CLI](./cli)
-- [Deploy an application](./deployment)
-- [Configure services](./configuration)
+- [Write a blueprint](./blueprints)
