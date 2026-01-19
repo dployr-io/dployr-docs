@@ -201,3 +201,15 @@
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
+/**
+ * Component: Medium Zoom
+ * -------------------------------------------------------------------------- */
+
+.medium-zoom-overlay {
+  z-index: 9999 !important;
+}
+
+.medium-zoom-image--opened {
+  z-index: 10000 !important;
+}
+
