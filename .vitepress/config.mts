@@ -6,6 +6,9 @@ export default defineConfig({
   description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
   lang: 'en-US',
   head: [
+    // Google Analytics
+    ['script', { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-STQJCSLE5K' }],
+    ['script', {}, `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-STQJCSLE5K');`],
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'dployr Blog RSS', href: '/blog/rss.xml' }],
