@@ -1,10 +1,18 @@
 import { defineConfig } from 'vitepress'
 
-// https://vitepress.dev/reference/site-config
+// [vitepress.dev](https://vitepress.dev/reference/site-config)
 export default defineConfig({
   title: "dployr",
   description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
   lang: 'en-US',
+
+  vite: {
+    server: {
+      host: '0.0.0.0',
+      allowedHosts: ['.ngrok-free.dev']
+    }
+  },
+
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
@@ -14,65 +22,60 @@ export default defineConfig({
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }],
     
-    // Open Graph / Facebook
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:url', content: 'https://dployr.io' }],
+    ['meta', { property: 'og:url', content: '[dployr.io](https://dployr.io)' }],
     ['meta', { property: 'og:title', content: 'dployr - Self-Hosted Deployment Platform' }],
     ['meta', { property: 'og:description', content: 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.' }],
-    ['meta', { property: 'og:image', content: 'https://dployr.io/logo.svg' }],
+    ['meta', { property: 'og:image', content: '[dployr.io](https://dployr.io/logo.svg)' }],
     ['meta', { property: 'og:site_name', content: 'dployr Documentation' }],
     ['meta', { property: 'og:locale', content: 'en_US' }],
     
-    // Twitter
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:url', content: 'https://dployr.io' }],
+    ['meta', { name: 'twitter:url', content: '[dployr.io](https://dployr.io)' }],
     ['meta', { name: 'twitter:title', content: 'dployr - Self-Hosted Deployment Platform' }],
     ['meta', { name: 'twitter:description', content: 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure.' }],
-    ['meta', { name: 'twitter:image', content: 'https://dployr.io/logo.svg' }],
+    ['meta', { name: 'twitter:image', content: '[dployr.io](https://dployr.io/logo.svg)' }],
     ['meta', { name: 'twitter:creator', content: '@dployr' }],
     ['meta', { name: 'twitter:site', content: '@dployr' }],
     
-    // Additional SEO
     ['meta', { name: 'keywords', content: 'deployment, self-hosted, control plane, infrastructure, DevOps, platform, open source' }],
     ['meta', { name: 'author', content: 'Dployr' }],
     ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
     ['meta', { name: 'googlebot', content: 'index, follow' }],
     ['meta', { name: 'bingbot', content: 'index, follow' }],
     
-    // Structured Data (JSON-LD)
     ['script', { type: 'application/ld+json' }, JSON.stringify({
-      '@context': 'https://schema.org',
+      '@context': '[schema.org](https://schema.org)',
       '@type': 'WebSite',
       'name': 'dployr',
       'description': 'Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure',
-      'url': 'https://docs.dployr.io',
-      'logo': 'https://dployr.io/logo.svg',
+      'url': '[docs.dployr.io](https://docs.dployr.io)',
+      'logo': '[dployr.io](https://dployr.io/logo.svg)',
       'sameAs': [
-        'https://github.com/dployr-io/dployr',
-        'https://x.com/@dployr',
-        'https://discord.gg/tY8ZbjvrSZ'
+        '[github.com](https://github.com/dployr-io/dployr)',
+        '[x.com](https://x.com/@dployr)',
+        '[discord.gg](https://discord.gg/tY8ZbjvrSZ)'
       ],
       'potentialAction': {
         '@type': 'SearchAction',
         'target': {
           '@type': 'EntryPoint',
-          'urlTemplate': 'https://docs.dployr.io/search?q={search_term_string}'
+          'urlTemplate': '[docs.dployr.io](https://docs.dployr.io/search?q={search_term_string})'
         }
       }
     })],
     
-    // Organization Schema
     ['script', { type: 'application/ld+json' }, JSON.stringify({
-      '@context': 'https://schema.org',
+      '@context': '[schema.org](https://schema.org)',
       '@type': 'Organization',
       'name': 'Dployr',
-      'url': 'https://dployr.io',
-      'logo': 'https://dployr.io/logo.svg',
+      'url': '[dployr.io](https://dployr.io)',
+      'logo': '[dployr.io](https://dployr.io/logo.svg)',
       'description': 'Self-hosted deployment platform',
       'sameAs': [
-        'https://github.com/dployr-io/dployr',
-        'https://x.com/@dployr',
-        'https://discord.gg/tY8ZbjvrSZ'
+        '[github.com](https://github.com/dployr-io/dployr)',
+        '[x.com](https://x.com/@dployr)',
+        '[discord.gg](https://discord.gg/tY8ZbjvrSZ)'
       ],
       'contactPoint': {
         '@type': 'ContactPoint',
@@ -81,6 +84,7 @@ export default defineConfig({
       }
     })]
   ],
+
   themeConfig: {
     logo: {
       light: '/logo.svg',
@@ -92,9 +96,9 @@ export default defineConfig({
       { text: 'Docs', link: '/docs/quickstart' },
       { text: 'Blog', link: '/blog/' },
       { text: 'Changelog', link: '/changelog' },
-      { text: 'Status', link: 'https://dployr.instatus.com/' },
-      { text: 'GitHub', link: 'https://github.com/dployr-io/dployr' },
-      { text: 'Discord', link: 'https://discord.gg/tY8ZbjvrSZ' }
+      { text: 'Status', link: '[dployr.instatus.com](https://dployr.instatus.com/)' },
+      { text: 'GitHub', link: '[github.com](https://github.com/dployr-io/dployr)' },
+      { text: 'Discord', link: '[discord.gg](https://discord.gg/tY8ZbjvrSZ)' }
     ],
 
     sidebar: [
@@ -139,14 +143,14 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/dployr-io/dployr' },
-      { icon: 'discord', link: 'https://discord.gg/tY8ZbjvrSZ' },
-      { icon: 'x', link: 'https://x.com/@dployr' }
+      { icon: 'github', link: '[github.com](https://github.com/dployr-io/dployr)' },
+      { icon: 'discord', link: '[discord.gg](https://discord.gg/tY8ZbjvrSZ)' },
+      { icon: 'x', link: '[x.com](https://x.com/@dployr)' }
     ],
 
     footer: {
       message: 'Open source under Apache 2.0 License',
-      copyright: 'Copyright © 2025 Dployr | <a href="/legal/privacy-policy">Privacy</a> • <a href="/legal/terms-of-service">Terms</a> • <a href="/legal/data-processing-addendum">DPA</a> • <a href="https://dployr.instatus.com/">Status</a>'
+      copyright: 'Copyright © 2025 Dployr | <a href="/legal/privacy-policy">Privacy</a> • <a href="/legal/terms-of-service">Terms</a> • <a href="/legal/data-processing-addendum">DPA</a> • <a href="[dployr.instatus.com](https://dployr.instatus.com/)">Status</a>'
     },
 
     search: {

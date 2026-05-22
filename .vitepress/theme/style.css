@@ -1,100 +1,157 @@
 /**
- * Modern theme with Instrument Sans font and OKLCH colors
+ * Modern theme with Instrument Sans font and Custom Color Palette
+ * Enhanced with Premium Animations
  * -------------------------------------------------------------------------- */
 
-/* Import Instrument Sans font */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+/* ── Google Fonts fallbacks ──────────────────────────────────────────────────
+   Nunito Sans ≈ Proxima Nova  |  Geist Mono for terminal  |  Bricolage for docs
+   When you have a Proxima Nova / Avenir license, drop the woff2 files into
+   public/fonts/ and uncomment the @font-face blocks below.
+   ─────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;1,6..12,300;1,6..12,400&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+/*
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Light.woff2')    format('woff2');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Regular.woff2')  format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Semibold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova-Bold.woff2')     format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir-Light.woff2')         format('woff2');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir-Book.woff2')          format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir-Heavy.woff2')         format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+*/
 
 /**
  * Font Family
  * -------------------------------------------------------------------------- */
 :root {
-  --vp-font-family-base: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-base: 'Proxima Nova', 'Nunito Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --vp-font-family-mono: ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
 }
 
 /**
- * Colors - OKLCH Color Space
+ * Colors - Custom Palette (#2D27C7, #DFE0FC, Black, White)
  * -------------------------------------------------------------------------- */
 
 :root {
+  /* Custom color palette */
+  --color-primary: #2D27C7;
+  --color-primary-light: #4842d4;
+  --color-primary-lighter: #DFE0FC;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+
   /* Background and foreground */
-  --vp-c-bg: oklch(1 0 0);
-  --vp-c-bg-soft: oklch(0.97 0.001 106.424);
-  --vp-c-bg-mute: oklch(0.97 0.001 106.424);
-  --vp-c-text-1: oklch(0.147 0.004 49.25);
-  --vp-c-text-2: oklch(0.553 0.013 58.071);
-  --vp-c-text-3: oklch(0.709 0.01 56.259);
+  --vp-c-bg: var(--color-white);
+  --vp-c-bg-soft: var(--color-gray-50);
+  --vp-c-bg-mute: var(--color-gray-100);
+  --vp-c-text-1: var(--color-black);
+  --vp-c-text-2: var(--color-gray-700);
+  --vp-c-text-3: var(--color-gray-800);
 
   /* Brand colors */
-  --vp-c-brand-1: oklch(0.216 0.006 56.043);
-  --vp-c-brand-2: oklch(0.268 0.007 34.298);
-  --vp-c-brand-3: oklch(0.216 0.006 56.043);
-  --vp-c-brand-soft: oklch(0.97 0.001 106.424);
+  --vp-c-brand-1: var(--color-primary);
+  --vp-c-brand-2: var(--color-primary-light);
+  --vp-c-brand-3: var(--color-primary);
+  --vp-c-brand-soft: var(--color-primary-lighter);
 
   /* Border and divider */
-  --vp-c-border: oklch(0.923 0.003 48.717);
-  --vp-c-divider: oklch(0.923 0.003 48.717);
-  --vp-c-gutter: oklch(0.97 0.001 106.424);
+  --vp-c-border: var(--color-gray-200);
+  --vp-c-divider: var(--color-gray-200);
+  --vp-c-gutter: var(--color-gray-100);
 
   /* Component colors */
-  --vp-c-default-1: oklch(0.553 0.013 58.071);
-  --vp-c-default-2: oklch(0.709 0.01 56.259);
-  --vp-c-default-3: oklch(0.923 0.003 48.717);
-  --vp-c-default-soft: oklch(0.97 0.001 106.424);
+  --vp-c-default-1: var(--color-gray-700);
+  --vp-c-default-2: var(--color-gray-800);
+  --vp-c-default-3: var(--color-gray-200);
+  --vp-c-default-soft: var(--color-gray-100);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
   --vp-c-tip-3: var(--vp-c-brand-3);
   --vp-c-tip-soft: var(--vp-c-brand-soft);
 
-  --vp-c-warning-1: oklch(0.828 0.189 84.429);
-  --vp-c-warning-2: oklch(0.769 0.188 70.08);
-  --vp-c-warning-3: oklch(0.828 0.189 84.429);
-  --vp-c-warning-soft: oklch(0.97 0.001 106.424);
+  --vp-c-warning-1: #f59e0b;
+  --vp-c-warning-2: #d97706;
+  --vp-c-warning-3: #f59e0b;
+  --vp-c-warning-soft: #fef3c7;
 
-  --vp-c-danger-1: oklch(0.577 0.18 27.325);
-  --vp-c-danger-2: oklch(0.627 0.20 25.331);
-  --vp-c-danger-3: oklch(0.577 0.18 27.325);
-  --vp-c-danger-soft: oklch(0.97 0.001 106.424);
+  --vp-c-danger-1: #ef4444;
+  --vp-c-danger-2: #dc2626;
+  --vp-c-danger-3: #ef4444;
+  --vp-c-danger-soft: #fee2e2;
 
   /* Radius */
-  --vp-border-radius: 0.625rem;
+  --vp-border-radius: 0.75rem;
 }
 
 .dark {
   /* Background and foreground */
-  --vp-c-bg: oklch(0.147 0.004 49.25);
-  --vp-c-bg-soft: oklch(0.216 0.006 56.043);
-  --vp-c-bg-mute: oklch(0.268 0.007 34.298);
-  --vp-c-text-1: oklch(0.985 0.001 106.423);
-  --vp-c-text-2: oklch(0.709 0.01 56.259);
-  --vp-c-text-3: oklch(0.553 0.013 58.071);
+  --vp-c-bg: var(--color-black);
+  --vp-c-bg-soft: var(--color-gray-900);
+  --vp-c-bg-mute: var(--color-gray-800);
+  --vp-c-text-1: var(--color-white);
+  --vp-c-text-2: var(--color-gray-300);
+  --vp-c-text-3: var(--color-gray-200);
 
   /* Brand colors */
-  --vp-c-brand-1: oklch(0.923 0.003 48.717);
-  --vp-c-brand-2: oklch(0.985 0.001 106.423);
-  --vp-c-brand-3: oklch(0.923 0.003 48.717);
-  --vp-c-brand-soft: oklch(0.268 0.007 34.298);
+  --vp-c-brand-1: var(--color-primary-lighter);
+  --vp-c-brand-2: var(--color-white);
+  --vp-c-brand-3: var(--color-primary-lighter);
+  --vp-c-brand-soft: rgba(45, 39, 199, 0.2);
 
   /* Border and divider */
-  --vp-c-border: oklch(1 0 0 / 10%);
-  --vp-c-divider: oklch(1 0 0 / 10%);
-  --vp-c-gutter: oklch(0.268 0.007 34.298);
+  --vp-c-border: rgba(255, 255, 255, 0.1);
+  --vp-c-divider: rgba(255, 255, 255, 0.1);
+  --vp-c-gutter: var(--color-gray-800);
 
   /* Component colors */
-  --vp-c-default-1: oklch(0.709 0.01 56.259);
-  --vp-c-default-2: oklch(0.553 0.013 58.071);
-  --vp-c-default-3: oklch(0.268 0.007 34.298);
-  --vp-c-default-soft: oklch(0.268 0.007 34.298);
+  --vp-c-default-1: var(--color-gray-300);
+  --vp-c-default-2: var(--color-gray-200);
+  --vp-c-default-3: var(--color-gray-800);
+  --vp-c-default-soft: var(--color-gray-800);
 
-  --vp-c-warning-1: oklch(0.769 0.188 70.08);
-  --vp-c-warning-2: oklch(0.828 0.189 84.429);
-  --vp-c-warning-3: oklch(0.769 0.188 70.08);
+  --vp-c-warning-1: #fbbf24;
+  --vp-c-warning-2: #f59e0b;
+  --vp-c-warning-3: #fbbf24;
 
-  --vp-c-danger-1: oklch(0.627 0.20 25.331);
-  --vp-c-danger-2: oklch(0.577 0.18 27.325);
-  --vp-c-danger-3: oklch(0.627 0.20 25.331);
+  --vp-c-danger-1: #f87171;
+  --vp-c-danger-2: #ef4444;
+  --vp-c-danger-3: #f87171;
 }
 
 /**
@@ -103,38 +160,52 @@
 
 :root {
   --vp-button-brand-border: transparent;
-  --vp-button-brand-text: oklch(0.985 0.001 106.423);
-  --vp-button-brand-bg: oklch(0.216 0.006 56.043);
+  --vp-button-brand-text: var(--color-white);
+  --vp-button-brand-bg: var(--color-primary);
   --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: oklch(0.985 0.001 106.423);
-  --vp-button-brand-hover-bg: oklch(0.268 0.007 34.298);
+  --vp-button-brand-hover-text: var(--color-white);
+  --vp-button-brand-hover-bg: var(--color-primary-light);
   --vp-button-brand-active-border: transparent;
-  --vp-button-brand-active-text: oklch(0.985 0.001 106.423);
-  --vp-button-brand-active-bg: oklch(0.216 0.006 56.043);
+  --vp-button-brand-active-text: var(--color-white);
+  --vp-button-brand-active-bg: var(--color-primary);
   
-  --vp-button-alt-border: oklch(0.923 0.003 48.717);
-  --vp-button-alt-text: oklch(0.147 0.004 49.25);
-  --vp-button-alt-bg: oklch(0.97 0.001 106.424);
-  --vp-button-alt-hover-border: oklch(0.709 0.01 56.259);
-  --vp-button-alt-hover-text: oklch(0.147 0.004 49.25);
-  --vp-button-alt-hover-bg: oklch(0.923 0.003 48.717);
+  --vp-button-alt-border: var(--color-gray-200);
+  --vp-button-alt-text: var(--color-black);
+  --vp-button-alt-bg: var(--color-white);
+  --vp-button-alt-hover-border: var(--color-primary);
+  --vp-button-alt-hover-text: var(--color-primary);
+  --vp-button-alt-hover-bg: var(--color-primary-lighter);
 }
 
 .dark {
-  --vp-button-brand-text: oklch(0.216 0.006 56.043);
-  --vp-button-brand-bg: oklch(0.923 0.003 48.717);
-  --vp-button-brand-hover-text: oklch(0.216 0.006 56.043);
-  --vp-button-brand-hover-bg: oklch(0.985 0.001 106.423);
-  --vp-button-brand-active-text: oklch(0.147 0.004 49.25);
-  --vp-button-brand-active-bg: oklch(0.985 0.001 106.423);
+  --vp-button-brand-text: var(--color-primary);
+  --vp-button-brand-bg: var(--color-primary-lighter);
+  --vp-button-brand-hover-text: var(--color-primary);
+  --vp-button-brand-hover-bg: var(--color-white);
+  --vp-button-brand-active-text: var(--color-black);
+  --vp-button-brand-active-bg: var(--color-white);
   
-  --vp-button-alt-border: oklch(1 0 0 / 10%);
-  --vp-button-alt-text: oklch(0.985 0.001 106.423);
-  --vp-button-alt-bg: oklch(0.268 0.007 34.298);
-  --vp-button-alt-hover-border: oklch(0.553 0.013 58.071);
-  --vp-button-alt-hover-text: oklch(0.985 0.001 106.423);
-  --vp-button-alt-hover-bg: oklch(0.216 0.006 56.043);
+  --vp-button-alt-border: rgba(255, 255, 255, 0.1);
+  --vp-button-alt-text: var(--color-white);
+  --vp-button-alt-bg: var(--color-gray-800);
+  --vp-button-alt-hover-border: var(--color-primary-lighter);
+  --vp-button-alt-hover-text: var(--color-primary-lighter);
+  --vp-button-alt-hover-bg: var(--color-gray-900);
 }
+
+/**
+ * Landing page — hide all VitePress chrome when lp-home is active
+ * -------------------------------------------------------------------------- */
+body.lp-home .VPNav        { display: none !important; }
+body.lp-home .VPHome       { padding: 0 !important; margin: 0 !important; max-width: none !important; }
+body.lp-home .VPHomeHero   { display: none !important; }
+body.lp-home .VPHero       { display: none !important; }
+body.lp-home .VPHomeFeatures { display: none !important; }
+body.lp-home .VPFeatures   { display: none !important; }
+
+/* Docs pages — keep default hero hidden (no longer used) */
+.VPHero { display: none !important; }
+
 
 /**
  * Component: Home
@@ -144,14 +215,14 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(
     120deg,
-    oklch(0.216 0.006 56.043) 30%,
-    oklch(0.553 0.013 58.071)
+    var(--color-primary) 30%,
+    var(--color-primary-light)
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    oklch(0.216 0.006 56.043) 50%,
-    oklch(0.268 0.007 34.298) 50%
+    var(--color-primary) 50%,
+    var(--color-primary-lighter) 50%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -159,14 +230,14 @@
 .dark {
   --vp-home-hero-name-background: linear-gradient(
     120deg,
-    oklch(0.985 0.001 106.423) 30%,
-    oklch(0.709 0.01 56.259)
+    var(--color-primary-lighter) 30%,
+    var(--color-white)
   );
   
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    oklch(0.268 0.007 34.298) 50%,
-    oklch(0.216 0.006 56.043) 50%
+    var(--color-primary) 50%,
+    var(--color-primary-lighter) 50%
   );
 }
 
@@ -213,3 +284,859 @@
   z-index: 10000 !important;
 }
 
+/**
+ * ============================================================================
+ * PREMIUM ANIMATIONS & ENHANCEMENTS
+ * ============================================================================ */
+
+/* Global smooth transitions with premium easing */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * ============================================================================
+ * MODERN FLOATING PILL NAVBAR
+ * ============================================================================ */
+
+/* Base — transparent, fixed, full-width */
+.VPNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 2rem;
+  background: transparent;
+  border-bottom: none;
+  transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* VPNavBar — visual shell */
+.VPNavBar {
+  background: transparent !important;
+  border-bottom: none !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0;
+}
+
+.VPNavBar.has-sidebar {
+  border-bottom: none !important;
+}
+
+/* Hide the thin divider line */
+.VPNav .divider,
+.VPNavBar .divider {
+  display: none !important;
+}
+
+/* Content row height */
+.VPNavBar .content,
+.VPNav .content {
+  height: 72px;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Scrolled: floating pill ── */
+.VPNav.scrolled {
+  padding: 10px 2rem;
+}
+
+.VPNav.scrolled .VPNavBar {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(48px) saturate(200%) brightness(1.04);
+  -webkit-backdrop-filter: blur(48px) saturate(200%) brightness(1.04);
+  border-radius: 22px;
+  border: 1px solid rgba(220, 220, 240, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 rgba(45, 39, 199, 0.06) inset,
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 10px 30px rgba(45, 39, 199, 0.09),
+    0 24px 56px rgba(45, 39, 199, 0.05);
+  overflow: hidden;
+}
+
+.VPNav.scrolled .VPNavBar .content,
+.VPNav.scrolled .content {
+  height: 58px;
+}
+
+/* Dark scrolled pill */
+.dark .VPNav.scrolled .VPNavBar {
+  background: rgba(12, 12, 26, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 4px 6px rgba(0, 0, 0, 0.5),
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 24px 56px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Logo ── */
+.VPNav .VPNavBarTitle {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left center;
+}
+
+.VPNav.scrolled .VPNavBarTitle {
+  transform: scale(0.97);
+}
+
+.VPNav .VPNavBarTitle .title {
+  font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #0a0a14 30%, #2D27C7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: opacity 0.3s ease;
+}
+
+.dark .VPNav .VPNavBarTitle .title {
+  background: linear-gradient(135deg, #ffffff 30%, #a5a0f5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.VPNav .VPNavBarTitle:hover .title {
+  opacity: 0.75;
+}
+
+/* ── Nav menu links ── */
+.VPNav .VPLink {
+  position: relative;
+  padding: 6px 13px;
+  border-radius: 9px;
+  font-size: 0.855rem;
+  font-weight: 500;
+  color: #3f3f50;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease, background 0.2s ease;
+  text-decoration: none;
+}
+
+/* Suppress the global underline pseudo in navbar only */
+.VPNav .VPLink::before,
+.VPNav .VPLink::after {
+  display: none !important;
+}
+
+.VPNav .VPLink:hover {
+  color: #0a0a14;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.VPNav .VPLink.active {
+  color: var(--color-primary);
+  background: rgba(45, 39, 199, 0.08);
+  font-weight: 600;
+}
+
+/* Add a small brand dot below active link */
+.VPNav .VPLink.active::after {
+  content: '';
+  display: block !important;
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.dark .VPNav .VPLink {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dark .VPNav .VPLink:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.dark .VPNav .VPLink.active {
+  color: #a5a0f5;
+  background: rgba(165, 160, 245, 0.1);
+}
+
+.dark .VPNav .VPLink.active::after {
+  background: #a5a0f5;
+}
+
+/* ── CTA button in nav ── */
+.VPNav .VPButton {
+  font-size: 0.84rem;
+  font-weight: 650;
+  padding: 0.46rem 1.1rem;
+  border-radius: 10px;
+  letter-spacing: -0.02em;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPNav .VPButton.brand {
+  background: #0a0a14 !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.VPNav .VPButton.brand:hover {
+  background: #2D27C7 !important;
+  border-color: transparent !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(45, 39, 199, 0.4), 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.dark .VPNav .VPButton.brand {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #0a0a14 !important;
+  border-color: transparent !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.dark .VPNav .VPButton.brand:hover {
+  background: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.18);
+}
+
+/* Suppress the global VPButton ripple inside nav */
+.VPNav .VPButton::before,
+.VPNav .VPButton::after {
+  display: none !important;
+}
+
+/* ── Social icons ── */
+.VPNavBarExtra .VPSocialLink {
+  padding: 7px;
+  border-radius: 9px;
+  color: #6b6b80;
+  transition: all 0.2s ease;
+}
+
+.VPNavBarExtra .VPSocialLink:hover {
+  color: #0a0a14;
+  background: rgba(0, 0, 0, 0.06);
+  transform: scale(1.1);
+}
+
+.dark .VPNavBarExtra .VPSocialLink {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .VPNavBarExtra .VPSocialLink:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Theme toggle ── */
+.VPNav .VPSwitchAppearance {
+  padding: 7px;
+  border-radius: 9px;
+  color: #6b6b80;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPNav .VPSwitchAppearance:hover {
+  color: #0a0a14;
+  background: rgba(0, 0, 0, 0.06);
+  transform: rotate(18deg) scale(1.1);
+}
+
+.dark .VPNav .VPSwitchAppearance {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .VPNav .VPSwitchAppearance:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(18deg) scale(1.1);
+}
+
+/* ── Search ── */
+.VPNav .DocSearch-Button {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #6b6b80;
+  transition: all 0.2s ease;
+}
+
+.VPNav .DocSearch-Button:hover {
+  background: rgba(0, 0, 0, 0.07);
+  border-color: rgba(45, 39, 199, 0.2);
+  color: #0a0a14;
+  box-shadow: 0 2px 8px rgba(45, 39, 199, 0.1);
+}
+
+.dark .VPNav .DocSearch-Button {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .VPNav .DocSearch-Button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(165, 160, 245, 0.25);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Hamburger (mobile) ── */
+.VPNav .VPNavBarHamburger {
+  padding: 8px;
+  border-radius: 9px;
+  color: #3f3f50;
+  transition: all 0.2s ease;
+}
+
+.VPNav .VPNavBarHamburger:hover {
+  color: #0a0a14;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dark .VPNav .VPNavBarHamburger {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dark .VPNav .VPNavBarHamburger:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Smooth transition for all nav children ── */
+.VPNav .VPNavBarTitle,
+.VPNav .VPNavBarMenu,
+.VPNav .VPNavBarExtra {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * BUTTONS - Premium Hover Effects
+ * -------------------------------------------------------------------------- */
+.VPButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ripple Effect */
+.VPButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+              height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPButton:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+/* Lift and Shadow */
+.VPButton:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 12px 28px -8px rgba(45, 39, 199, 0.35),
+    0 6px 16px -4px rgba(45, 39, 199, 0.2);
+}
+
+.VPButton:active {
+  transform: translateY(-1px) scale(1);
+  transition: all 0.1s ease;
+}
+
+/* Brand Button Glow Effect */
+.VPButton.brand {
+  position: relative;
+}
+
+.VPButton.brand::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background-size: 200% 200%;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.VPButton.brand:hover::after {
+  opacity: 1;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/**
+ * FEATURE CARDS - Advanced Hover Effects
+ * -------------------------------------------------------------------------- */
+.VPFeature {
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--vp-c-border);
+  overflow: hidden;
+}
+
+/* Gradient Border on Hover */
+.VPFeature::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 50%,
+    var(--color-primary-lighter) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPFeature:hover::before {
+  opacity: 1;
+}
+
+/* Spotlight Effect */
+.VPFeature::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(45, 39, 199, 0.08) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.VPFeature:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.VPFeature:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 
+    0 20px 48px -12px rgba(45, 39, 199, 0.25),
+    0 12px 28px -8px rgba(45, 39, 199, 0.15),
+    0 0 0 1px rgba(45, 39, 199, 0.1);
+}
+
+/* Feature Icon Animation */
+.VPFeature .icon {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPFeature:hover .icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Feature Title Gradient */
+.VPFeature .title {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(
+    135deg,
+    var(--vp-c-text-1) 0%,
+    var(--vp-c-text-1) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.VPFeature:hover .title {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .VPFeature:hover .title {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-lighter) 0%,
+    var(--color-white) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/**
+ * HERO SECTION - Cinematic Entrance
+ * -------------------------------------------------------------------------- */
+.VPHero {
+  position: relative;
+  overflow: hidden;
+  contain: paint;
+}
+
+/* Animated Gradient Background */
+.VPHero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(45, 39, 199, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(223, 224, 252, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(45, 39, 199, 0.04) 0%, transparent 50%);
+  animation: heroGradientFlow 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroGradientFlow {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(5%, 5%) rotate(120deg) scale(1.1);
+  }
+  66% {
+    transform: translate(-5%, 5%) rotate(240deg) scale(1.05);
+  }
+}
+
+/* Hero Text Animations */
+.VPHero .name {
+  animation: heroTitleSlide 1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards;
+}
+
+.VPHero .text {
+  animation: heroTitleSlide 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s backwards;
+}
+
+.VPHero .tagline {
+  animation: heroTitleSlide 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s backwards;
+}
+
+.VPHero .actions {
+  animation: heroTitleSlide 1s cubic-bezier(0.4, 0, 0.2, 1) 0.7s backwards;
+}
+
+@keyframes heroTitleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Floating Animation for Hero Image */
+.VPHero .VPImage {
+  animation: heroFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+/**
+ * LINKS - Sophisticated Underline Animation
+ * -------------------------------------------------------------------------- */
+.VPLink {
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 50%,
+    var(--color-primary-lighter) 100%
+  );
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+
+.VPLink:hover::after {
+  width: 100%;
+}
+
+.VPLink:hover {
+  color: var(--color-primary);
+}
+
+.dark .VPLink:hover {
+  color: var(--color-primary-lighter);
+}
+
+/**
+ * FEATURE CARDS - Staggered Entrance
+ * -------------------------------------------------------------------------- */
+.VPFeatures .VPFeature {
+  animation: featureSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.VPFeatures .VPFeature:nth-child(1) { animation-delay: 0.1s; }
+.VPFeatures .VPFeature:nth-child(2) { animation-delay: 0.2s; }
+.VPFeatures .VPFeature:nth-child(3) { animation-delay: 0.3s; }
+.VPFeatures .VPFeature:nth-child(4) { animation-delay: 0.4s; }
+.VPFeatures .VPFeature:nth-child(5) { animation-delay: 0.5s; }
+.VPFeatures .VPFeature:nth-child(6) { animation-delay: 0.6s; }
+.VPFeatures .VPFeature:nth-child(7) { animation-delay: 0.7s; }
+.VPFeatures .VPFeature:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes featureSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/**
+ * SMOOTH PAGE TRANSITIONS
+ * -------------------------------------------------------------------------- */
+.VPDoc,
+.VPHome,
+.VPNavBar,
+.VPSidebar {
+  transition: 
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * IMAGE LOADING ANIMATION
+ * -------------------------------------------------------------------------- */
+img {
+  animation: imageReveal 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+/**
+ * GITHUB STAR BUTTON - Enhanced
+ * -------------------------------------------------------------------------- */
+a[href*="github.com"] {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+a[href*="github.com"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(45, 39, 199, 0.1) 0%,
+    rgba(223, 224, 252, 0.2) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: inherit;
+}
+
+a[href*="github.com"]:hover::before {
+  opacity: 1;
+}
+
+a[href*="github.com"]:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 32px -8px rgba(45, 39, 199, 0.35),
+    0 6px 16px -4px rgba(45, 39, 199, 0.2);
+}
+
+a[href*="github.com"] svg {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a[href*="github.com"]:hover svg {
+  transform: scale(1.15) rotate(-8deg);
+  filter: drop-shadow(0 4px 8px rgba(45, 39, 199, 0.3));
+}
+
+/**
+ * CUSTOM SCROLLBAR
+ * -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gray-100);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    var(--color-primary-light) 100%
+  );
+  border-radius: 6px;
+  border: 2px solid var(--color-gray-100);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-gray-900);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary-lighter) 0%,
+    var(--color-primary-light) 100%
+  );
+  border-color: var(--color-gray-900);
+}
+
+/**
+ * SMOOTH SCROLLING
+ * -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/**
+ * ACCESSIBILITY - Reduce Motion
+ * -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/**
+ * FOCUS STATES - Accessibility
+ * -------------------------------------------------------------------------- */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: outline-offset 0.2s ease;
+}
+
+.dark *:focus-visible {
+  outline-color: var(--color-primary-lighter);
+}
+
+/**
+ * LOADING STATES - Skeleton
+ * -------------------------------------------------------------------------- */
+.loading {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-100) 25%,
+    var(--color-gray-200) 50%,
+    var(--color-gray-100) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSkeleton 2s infinite;
+}
+
+@keyframes shimmerSkeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.dark .loading {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-800) 25%,
+    var(--color-gray-700) 50%,
+    var(--color-gray-800) 75%
+  );
+  background-size: 200% 100%;
+}
