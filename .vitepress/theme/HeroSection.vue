@@ -482,6 +482,15 @@ onUnmounted(() => {
   --hs-stat-val:    rgba(15, 17, 25, 0.82);
   --hs-stat-lbl:    rgba(0, 0, 0, 0.35);
   --hs-stat-sep:    rgba(0, 0, 0, 0.1);
+
+  /* terminal body — light mode */
+  --hs-tbody-bg:    #f1f5fb;
+  --hs-tcmd:        rgba(15, 17, 25, 0.92);
+  --hs-tinfo:       rgba(0, 0, 0, 0.35);
+  --hs-tok:         #059669;
+  --hs-tspin:       #2563eb;
+  --hs-tcursor:     rgba(15, 17, 25, 0.7);
+  --hs-prog-track:  rgba(0, 0, 0, 0.08);
 }
 :global(.dark) {
   --hs-t1:     #f1f5f9;
@@ -505,6 +514,15 @@ onUnmounted(() => {
   --hs-stat-val:    rgba(230, 240, 255, 0.82);
   --hs-stat-lbl:    rgba(255, 255, 255, 0.25);
   --hs-stat-sep:    rgba(255, 255, 255, 0.07);
+
+  /* terminal body — dark mode */
+  --hs-tbody-bg:    #0d1117;
+  --hs-tcmd:        rgba(230, 240, 255, 0.92);
+  --hs-tinfo:       rgba(255, 255, 255, 0.38);
+  --hs-tok:         rgba(52, 211, 153, 0.85);
+  --hs-tspin:       rgba(96, 165, 250, 0.85);
+  --hs-tcursor:     rgba(100, 160, 255, 0.8);
+  --hs-prog-track:  rgba(255, 255, 255, 0.07);
 }
 
 /* ─── Section layout ─────────────────────────────────────────────── */
@@ -745,15 +763,16 @@ onUnmounted(() => {
   font-size: 12.5px;
   line-height: 1.7;
   min-height: 148px;
-  background: #0d1117;
+  background: var(--hs-tbody-bg);
+  transition: background 0.3s ease;
 }
 
 /* Typed command */
-.dp-cmd-row { color: rgba(230,240,255,0.92); white-space: pre-wrap; word-break: break-all; }
+.dp-cmd-row { color: var(--hs-tcmd); white-space: pre-wrap; word-break: break-all; }
 .dp-blk-cursor {
   display: inline-block;
   width: 7px; height: 13px;
-  background: rgba(100,160,255,0.8);
+  background: var(--hs-tcursor);
   border-radius: 1px;
   vertical-align: text-bottom;
   margin-left: 1px;
@@ -762,10 +781,10 @@ onUnmounted(() => {
 
 /* Log lines */
 .dp-log-line { white-space: pre-wrap; word-break: break-word; }
-.dpl-info { color: rgba(255,255,255,0.38); }
-.dpl-ok   { color: rgba(52,211,153,0.85); }
+.dpl-info { color: var(--hs-tinfo); }
+.dpl-ok   { color: var(--hs-tok); }
 .dpl-spin {
-  color: rgba(96,165,250,0.85);
+  color: var(--hs-tspin);
   display: flex; align-items: center; gap: 6px;
 }
 .dpl-spin::before {
@@ -789,7 +808,7 @@ onUnmounted(() => {
 .dp-prog-track {
   position: relative;
   height: 3px; border-radius: 3px;
-  background: rgba(255,255,255,0.07);
+  background: var(--hs-prog-track);
   overflow: hidden;
 }
 .dp-prog-fill {
