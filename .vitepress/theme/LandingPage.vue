@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useData } from 'vitepress'
 import HeroSection from './HeroSection.vue'
 
-const { isDark } = useData()
+useData()
 
 // ── Nav ─────────────────────────────────────────────────────────
 const scrolled  = ref(false)
@@ -11,20 +11,8 @@ const menuOpen  = ref(false)
 const scrollY   = ref(0)
 
 // ── Pricing ─────────────────────────────────────────────────────
-const indiePrice = ref(0)
-const proPrice   = ref(0)
-let indieCounted = false, proCounted = false
-
-function animCount(to: number, set: (v: number) => void) {
-  let cur = 0
-  const steps = 28, dur = 700
-  const inc = to / steps
-  const t = setInterval(() => {
-    cur = Math.min(cur + inc, to)
-    set(Math.round(cur))
-    if (cur >= to) clearInterval(t)
-  }, dur / steps)
-}
+const indiePrice = ref(5)
+const proPrice   = ref(20)
 
 // ── Terminal ─────────────────────────────────────────────────────
 const termLines = ref<{ text: string; cls: string }[]>([])
@@ -56,9 +44,10 @@ function startTerminal() {
 
 // ── Theme ────────────────────────────────────────────────────────
 function toggleTheme() {
-  const btn = document.querySelector<HTMLElement>('.VPSwitchAppearance')
-  if (btn) { btn.click(); return }
-  document.documentElement.classList.toggle('dark')
+  const html = document.documentElement
+  const goingDark = !html.classList.contains('dark')
+  html.classList.toggle('dark', goingDark)
+  try { localStorage.setItem('vitepress-theme-appearance', goingDark ? 'dark' : 'light') } catch {}
 }
 
 // ── Pricing card tilt + spotlight ────────────────────────────────
@@ -92,19 +81,11 @@ function initReveal() {
       if (!e.isIntersecting) return
       const el = e.target as HTMLElement
       el.classList.add('in')
-      if (el.classList.contains('pc-indie') && !indieCounted) {
-        indieCounted = true; animCount(5, v => indiePrice.value = v)
-      }
-      if (el.classList.contains('pc-pro') && !proCounted) {
-        proCounted = true; animCount(20, v => proPrice.value = v)
-      }
       if (el.classList.contains('term-trigger')) startTerminal()
       observer.unobserve(el)
     })
   }, { threshold: 0.12 })
-  document.querySelectorAll(
-    '.reveal, .pc-indie, .pc-pro, .term-trigger, .word-row'
-  ).forEach(el => observer.observe(el))
+  document.querySelectorAll('.reveal, .term-trigger, .word-row').forEach(el => observer.observe(el))
 }
 
 function onScroll() {
@@ -123,7 +104,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-<div :class="['lp', { 'lp-dark': isDark }]">
+<div class="lp">
 
 <!-- ══════════════════════════════════════════════════════════════
      NAVBAR
@@ -159,9 +140,8 @@ onUnmounted(() => {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
       </a>
       <div class="lnav-div"></div>
-      <button class="lnav-theme" @click="toggleTheme" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
-        <svg v-if="isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <button class="lnav-theme" @click="toggleTheme" aria-label="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
       <div class="lnav-div"></div>
       <a href="https://app.dployr.io" class="lnav-cta">Deploy →</a>
@@ -346,7 +326,7 @@ onUnmounted(() => {
       <!-- Hobby -->
       <div class="price-card reveal" style="--sd:0s" @mousemove="pCardMove" @mouseleave="pCardLeave" @mouseenter="pCardEnter">
         <div class="price-spot"></div>
-        <div class="price-shimmer"></div>
+        <div class="price-shimmer-clip"><div class="price-shimmer"></div></div>
         <div class="price-plan">HOBBY <span class="price-badge">Current</span></div>
         <div class="price-val">Free</div>
         <div class="price-freq">forever</div>
@@ -365,7 +345,7 @@ onUnmounted(() => {
       <div class="price-card price-card--feat pc-indie reveal" style="--sd:0.13s" @mousemove="pCardMove" @mouseleave="pCardLeave" @mouseenter="pCardEnter">
         <div class="price-pop">Most popular</div>
         <div class="price-spot"></div>
-        <div class="price-shimmer"></div>
+        <div class="price-shimmer-clip"><div class="price-shimmer"></div></div>
         <div class="price-plan">INDIE</div>
         <div class="price-val">${{ indiePrice }}</div>
         <div class="price-freq">/month</div>
@@ -384,7 +364,7 @@ onUnmounted(() => {
       <!-- Pro -->
       <div class="price-card pc-pro reveal" style="--sd:0.26s" @mousemove="pCardMove" @mouseleave="pCardLeave" @mouseenter="pCardEnter">
         <div class="price-spot"></div>
-        <div class="price-shimmer"></div>
+        <div class="price-shimmer-clip"><div class="price-shimmer"></div></div>
         <div class="price-plan">PRO</div>
         <div class="price-val">${{ proPrice }}</div>
         <div class="price-freq">/month</div>
@@ -578,7 +558,7 @@ onUnmounted(() => {
   overflow-x: hidden;
 }
 
-.lp-dark {
+.dark .lp {
   --bg:    #080c14;
   --bg1:   #0d1120;
   --bg2:   #111827;
@@ -681,8 +661,7 @@ onUnmounted(() => {
   border-bottom: 1px solid var(--border);
   box-shadow: 0 1px 24px rgba(0,0,0,0.06);
 }
-.lp-dark .lnav--scrolled { --_bg: 8,12,20; }
-.lp-dark .lnav--scrolled { background: rgba(8,12,20,0.88); }
+.dark .lnav--scrolled { background: rgba(8,12,20,0.88); }
 
 .lnav-inner {
   max-width: 1200px; margin: 0 auto;
@@ -1058,23 +1037,32 @@ onUnmounted(() => {
   gap: 20px; margin-top: 48px; align-items: start;
 }
 .price-card {
-  position: relative; overflow: hidden;
+  position: relative;
   background: var(--card); border: 1px solid var(--border);
   border-radius: 16px; backdrop-filter: blur(12px);
   padding: 28px 24px; display: flex; flex-direction: column; gap: 6px;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  /* include opacity + transform so .reveal transition works on price cards */
+  transition: border-color 0.25s, box-shadow 0.25s,
+              opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+              transform 0.6s cubic-bezier(0.22,1,0.36,1);
   transition-delay: var(--sd, 0s);
   cursor: default;
+  overflow: visible; /* allow .price-pop badge to extend above the card */
 }
-/* Spotlight on hover */
+/* Spotlight on hover — border-radius clips the gradient to the card shape */
 .price-spot {
-  position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  position: absolute; inset: 0; pointer-events: none;
+  border-radius: 16px; overflow: hidden;
   background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(59,130,246,0.07), transparent 70%);
   opacity: 0; transition: opacity 0.3s;
 }
 .price-card:hover .price-spot { opacity: 1; }
 
-/* Shimmer on mouse enter */
+/* Shimmer on mouse enter — needs its own clip container since card is overflow:visible */
+.price-shimmer-clip {
+  position: absolute; inset: 0; border-radius: 16px;
+  overflow: hidden; pointer-events: none;
+}
 .price-shimmer {
   position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.055), transparent);
@@ -1121,7 +1109,7 @@ onUnmounted(() => {
 .price-div { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
 .price-feats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; flex: 1; }
 .price-feats li { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--t2); }
-.price-inherit { font-style: italic; color: var(--t4); font-size: 12.5px; }
+.price-inherit { font-style: italic; color: var(--t3); font-size: 12.5px; }
 .price-btn {
   display: block; text-align: center; margin-top: 20px;
   height: 44px; line-height: 44px;
@@ -1306,32 +1294,135 @@ onUnmounted(() => {
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-  .hero-flow { order: 2; }
-  .lnav-center { display: none; }
+
+/* ── 960px: nav collapses ─────────────────────────────────── */
+@media (max-width: 960px) {
+  .lnav-center    { display: none; }
   .lnav-hamburger { display: flex; }
 }
+
+/* ── 768px: tablet ────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hero { padding: 80px 0 60px; }
-  .hero-inner { padding: 0 24px; }
   .container { padding: 0 24px; }
-  .section { padding: 80px 0; }
-  .ft-grid { grid-template-columns: 1fr; }
-  .price-row { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr; }
+  .section   { padding: 80px 0; }
+
+  /* Steps: 2×2 grid */
   .steps { grid-template-columns: 1fr 1fr; }
-  .step { border-right: none; border-bottom: 1px solid var(--border); }
-  .step:nth-child(odd) { border-right: 1px solid var(--border); }
-  .step:nth-last-child(-n+2) { border-bottom: none; }
-}
-@media (max-width: 640px) {
-  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .step  { border-right: none; border-bottom: 1px solid var(--border); }
+  .step:nth-child(odd)      { border-right: 1px solid var(--border); }
+  .step:nth-last-child(-n+2){ border-bottom: none; }
+
+  /* Features: 2 columns */
+  .ft-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* Testimonials: 2 columns */
+  .testi-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Pricing: single column, centred */
+  .price-row {
+    grid-template-columns: 1fr;
+    max-width: 440px; margin-left: auto; margin-right: auto;
+  }
+
+  /* Footer: brand full-width + 2×2 links */
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
   .foot-brand { grid-column: 1 / -1; }
-  .steps { grid-template-columns: 1fr; }
-  .step { border-right: none; }
+}
+
+/* ── 640px: large phone ───────────────────────────────────── */
+@media (max-width: 640px) {
+  .container { padding: 0 20px; }
+  .section   { padding: 64px 0; }
+  .lnav-inner{ padding: 0 20px; }
+
+  /* Hide nav social icons + their dividers on small screens */
+  .lnav-icon { display: none; }
+  .lnav-div  { display: none; }
+
+  /* Section type */
+  .section-heading { font-size: clamp(26px, 7.5vw, 38px); }
+  .section-p { font-size: 15px; margin-bottom: 40px; }
+
+  /* Steps: 1 column */
+  .steps { grid-template-columns: 1fr; border-radius: 12px; }
+  .step  { border-right: none !important; border-bottom: 1px solid var(--border); padding: 24px 20px; }
   .step:last-child { border-bottom: none; }
-  .hero-h1 { font-size: clamp(38px, 11vw, 58px); }
-  .h1-line2 { white-space: normal; }
+
+  /* Features: 1 column */
+  .ft-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Testimonials: 1 column */
+  .testi-grid { grid-template-columns: 1fr; }
+
+  /* Trust logos: wrap tighter */
+  .trust-logos { gap: 20px; }
+
+  /* Terminal: tighter */
+  .term-body  { padding: 18px 20px; font-size: 12px; min-height: 200px; line-height: 1.75; }
+  .term-title { font-size: 11px; }
+
+  /* Pricing */
+  .price-row { max-width: 100%; }
+  .price-val { font-size: 42px; }
+
+  /* CTA block */
+  .cta-wrap { padding: 48px 24px; gap: 16px; border-radius: 16px; }
+  .cta-sub  { font-size: 15px; }
+  .cta-btns { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; }
+  .btn-lg   { justify-content: center; }
+
+  /* Footer: 2 cols */
+  .foot-grid  { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .foot-brand { grid-column: 1 / -1; }
+  .foot-bar   { flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .foot-social{ justify-content: center; }
+
+  /* Marquee heading */
+  .mq-sub { margin-bottom: 20px; }
+}
+
+/* ── 480px: small phone ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .section   { padding: 52px 0; }
+  .lnav-inner{ padding: 0 16px; }
+
+  /* Slightly smaller section headings */
+  .section-heading { font-size: clamp(24px, 7vw, 34px); letter-spacing: -0.02em; }
+
+  /* Feature cards: compact */
+  .ft-card { padding: 20px 18px; }
+
+  /* Pricing: compact */
+  .price-card { padding: 24px 18px; }
+  .price-val  { font-size: 38px; }
+
+  /* Terminal: compact */
+  .term-body  { padding: 14px 16px; font-size: 11.5px; min-height: 180px; }
+  .term-bar   { padding: 10px 14px; }
+
+  /* CTA */
+  .cta-wrap { padding: 40px 20px; }
+  .cta-h2   { font-size: clamp(26px, 8.5vw, 36px); }
+  .cta-btns { max-width: 100%; }
+
+  /* Footer: full single column */
+  .foot-grid { grid-template-columns: 1fr; gap: 28px; }
+  .foot-brand{ grid-column: auto; }
+
+  /* Steps icon size */
+  .step-icon { width: 38px; height: 38px; }
+
+  /* Marquee */
+  .mq-wrap  { padding: 28px 0; }
+}
+
+/* ── 360px: very small ────────────────────────────────────── */
+@media (max-width: 360px) {
+  .container  { padding: 0 14px; }
+  .lnav-inner { padding: 0 14px; }
+  .lnav-cta   { padding: 0 10px; font-size: 12.5px; }
+  .section    { padding: 44px 0; }
+  .term-body  { font-size: 11px; padding: 12px 14px; }
 }
 </style>
