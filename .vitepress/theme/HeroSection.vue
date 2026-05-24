@@ -116,10 +116,19 @@ function startDeploy() {
   }
 }
 
+// ─── Dark mode tracker (watches .dark on <html>) ─────────────────
+const isDark = ref(false)
+let _themeObs: MutationObserver | null = null
+
 // ─── Entrance ─────────────────────────────────────────────────────
 const entered = ref(false)
 
 onMounted(() => {
+  isDark.value = document.documentElement.classList.contains('dark')
+  _themeObs = new MutationObserver(() => {
+    isDark.value = document.documentElement.classList.contains('dark')
+  })
+  _themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   onResize()
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onResize, { passive: true })
@@ -135,6 +144,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', onResize)
   clearInterval(wordTimer)
   _clear()
+  _themeObs?.disconnect()
 })
 </script>
 
@@ -301,13 +311,13 @@ onUnmounted(() => {
                 <!-- Source node -->
                 <g>
                   <rect x="8" y="61" width="50" height="36" rx="8"
-                        fill="rgba(10,14,32,0.92)"
+                        :fill="isDark ? 'rgba(10,14,32,0.92)' : 'rgba(235,242,255,0.95)'"
                         stroke="rgba(59,130,246,0.45)" stroke-width="1"/>
                   <text x="33" y="76" text-anchor="middle"
                         fill="rgba(100,160,255,0.9)" font-size="9"
                         font-weight="700" font-family="ui-monospace,monospace">Push</text>
                   <text x="33" y="89" text-anchor="middle"
-                        fill="rgba(255,255,255,0.3)" font-size="7.5"
+                        :fill="isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.38)'" font-size="7.5"
                         font-family="ui-monospace,monospace">→ main</text>
                   <circle cx="33" cy="69" r="2.5" fill="#3B82F6">
                     <animate attributeName="opacity" values="0.4;1;0.4"
@@ -318,13 +328,13 @@ onUnmounted(() => {
                 <!-- Registry / Build node -->
                 <g>
                   <rect x="150" y="57" width="62" height="44" rx="8"
-                        fill="rgba(10,14,32,0.92)"
+                        :fill="isDark ? 'rgba(10,14,32,0.92)' : 'rgba(235,242,255,0.95)'"
                         stroke="rgba(139,92,246,0.55)" stroke-width="1"/>
                   <text x="181" y="74" text-anchor="middle"
                         fill="rgba(167,139,250,0.95)" font-size="9"
                         font-weight="700" font-family="ui-monospace,monospace">Build</text>
                   <text x="181" y="87" text-anchor="middle"
-                        fill="rgba(255,255,255,0.28)" font-size="7.5"
+                        :fill="isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.38)'" font-size="7.5"
                         font-family="ui-monospace,monospace">registry</text>
                   <circle cx="181" cy="67" r="2.5" fill="#8B5CF6">
                     <animate attributeName="opacity" values="0.4;1;0.4"
@@ -336,7 +346,7 @@ onUnmounted(() => {
                 <!-- Agent 1 -->
                 <g>
                   <rect x="278" y="10" width="92" height="36" rx="8"
-                        fill="rgba(10,14,32,0.92)"
+                        :fill="isDark ? 'rgba(10,14,32,0.92)' : 'rgba(235,242,255,0.95)'"
                         stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
                   <circle cx="291" cy="23" r="3" fill="#10B981">
                     <animate attributeName="opacity" values="0.5;1;0.5"
@@ -344,14 +354,14 @@ onUnmounted(() => {
                   </circle>
                   <text x="300" y="26" fill="rgba(52,211,153,0.9)" font-size="8.5"
                         font-weight="700" font-family="ui-monospace,monospace">us-east-1</text>
-                  <text x="291" y="39" fill="rgba(255,255,255,0.28)" font-size="7.5"
+                  <text x="291" y="39" :fill="isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.38)'" font-size="7.5"
                         font-family="ui-monospace,monospace">12ms · live</text>
                 </g>
 
                 <!-- Agent 2 -->
                 <g>
                   <rect x="278" y="61" width="92" height="36" rx="8"
-                        fill="rgba(10,14,32,0.92)"
+                        :fill="isDark ? 'rgba(10,14,32,0.92)' : 'rgba(235,242,255,0.95)'"
                         stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
                   <circle cx="291" cy="74" r="3" fill="#10B981">
                     <animate attributeName="opacity" values="0.5;1;0.5"
@@ -359,14 +369,14 @@ onUnmounted(() => {
                   </circle>
                   <text x="300" y="77" fill="rgba(52,211,153,0.9)" font-size="8.5"
                         font-weight="700" font-family="ui-monospace,monospace">eu-west-1</text>
-                  <text x="291" y="90" fill="rgba(255,255,255,0.28)" font-size="7.5"
+                  <text x="291" y="90" :fill="isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.38)'" font-size="7.5"
                         font-family="ui-monospace,monospace">24ms · live</text>
                 </g>
 
                 <!-- Agent 3 -->
                 <g>
                   <rect x="278" y="112" width="92" height="36" rx="8"
-                        fill="rgba(10,14,32,0.92)"
+                        :fill="isDark ? 'rgba(10,14,32,0.92)' : 'rgba(235,242,255,0.95)'"
                         stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
                   <circle cx="291" cy="125" r="3" fill="#10B981">
                     <animate attributeName="opacity" values="0.5;1;0.5"
@@ -374,7 +384,7 @@ onUnmounted(() => {
                   </circle>
                   <text x="300" y="128" fill="rgba(52,211,153,0.9)" font-size="8.5"
                         font-weight="700" font-family="ui-monospace,monospace">ap-south-1</text>
-                  <text x="291" y="141" fill="rgba(255,255,255,0.28)" font-size="7.5"
+                  <text x="291" y="141" :fill="isDark ? 'rgba(255,255,255,0.28)' : 'rgba(0,0,0,0.38)'" font-size="7.5"
                         font-family="ui-monospace,monospace">38ms · live</text>
                 </g>
 
@@ -456,6 +466,22 @@ onUnmounted(() => {
   --hs-t3:     #6b7280;
   --hs-bg:     #ffffff;
   --hs-border: rgba(0, 0, 0, 0.1);
+
+  /* deploy card — light mode */
+  --hs-card-bg:     rgba(255, 255, 255, 0.88);
+  --hs-card-border: rgba(0, 0, 0, 0.08);
+  --hs-card-top:    rgba(0, 0, 0, 0.1);
+  --hs-card-shadow: 0 0 0 1px rgba(0,0,0,0.03), 0 32px 64px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
+  --hs-tbar-bg:     rgba(0, 0, 0, 0.03);
+  --hs-tbar-border: rgba(0, 0, 0, 0.06);
+  --hs-tlbl:        rgba(0, 0, 0, 0.32);
+  --hs-net-bg:      rgba(248, 250, 252, 0.8);
+  --hs-net-border:  rgba(0, 0, 0, 0.06);
+  --hs-netlbl:      rgba(0, 0, 0, 0.3);
+  --hs-live-bg:     rgba(248, 250, 252, 0.6);
+  --hs-stat-val:    rgba(15, 17, 25, 0.82);
+  --hs-stat-lbl:    rgba(0, 0, 0, 0.35);
+  --hs-stat-sep:    rgba(0, 0, 0, 0.1);
 }
 :global(.dark) {
   --hs-t1:     #f1f5f9;
@@ -463,6 +489,22 @@ onUnmounted(() => {
   --hs-t3:     #64748b;
   --hs-bg:     #000000;
   --hs-border: rgba(255, 255, 255, 0.1);
+
+  /* deploy card — dark mode */
+  --hs-card-bg:     linear-gradient(145deg, rgba(8,12,28,0.97) 0%, rgba(10,8,22,0.97) 100%);
+  --hs-card-border: rgba(255, 255, 255, 0.075);
+  --hs-card-top:    rgba(255, 255, 255, 0.11);
+  --hs-card-shadow: 0 0 0 1px rgba(59,130,246,0.06), 0 0 60px rgba(59,130,246,0.07), 0 0 120px rgba(139,92,246,0.04), 0 32px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.055);
+  --hs-tbar-bg:     rgba(255, 255, 255, 0.025);
+  --hs-tbar-border: rgba(255, 255, 255, 0.055);
+  --hs-tlbl:        rgba(255, 255, 255, 0.28);
+  --hs-net-bg:      rgba(0, 0, 0, 0.15);
+  --hs-net-border:  rgba(255, 255, 255, 0.055);
+  --hs-netlbl:      rgba(255, 255, 255, 0.2);
+  --hs-live-bg:     rgba(0, 0, 0, 0.2);
+  --hs-stat-val:    rgba(230, 240, 255, 0.82);
+  --hs-stat-lbl:    rgba(255, 255, 255, 0.25);
+  --hs-stat-sep:    rgba(255, 255, 255, 0.07);
 }
 
 /* ─── Section layout ─────────────────────────────────────────────── */
@@ -662,24 +704,20 @@ onUnmounted(() => {
   position: relative;
   z-index: 1;
   border-radius: 16px;
-  background: linear-gradient(145deg, rgba(8,12,28,0.97) 0%, rgba(10,8,22,0.97) 100%);
-  border: 1px solid rgba(255,255,255,0.075);
-  border-top: 1px solid rgba(255,255,255,0.11);
-  box-shadow:
-    0 0 0 1px rgba(59,130,246,0.06),
-    0 0 60px rgba(59,130,246,0.07),
-    0 0 120px rgba(139,92,246,0.04),
-    0 32px 80px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.055);
+  background: var(--hs-card-bg);
+  border: 1px solid var(--hs-card-border);
+  border-top: 1px solid var(--hs-card-top);
+  box-shadow: var(--hs-card-shadow);
   overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ─── Terminal ───────────────────────────────────────────────────── */
 .dp-term-bar {
   display: flex; align-items: center; gap: 7px;
   padding: 11px 16px;
-  background: rgba(255,255,255,0.025);
-  border-bottom: 1px solid rgba(255,255,255,0.055);
+  background: var(--hs-tbar-bg);
+  border-bottom: 1px solid var(--hs-tbar-border);
 }
 .dp-wd {
   width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0;
@@ -690,7 +728,7 @@ onUnmounted(() => {
 .dp-term-lbl {
   flex: 1;
   font-size: 11.5px; font-weight: 500; letter-spacing: 0.03em;
-  color: rgba(255,255,255,0.28);
+  color: var(--hs-tlbl);
   font-family: 'ui-monospace', 'SFMono-Regular', monospace;
 }
 .dp-env {
@@ -707,7 +745,7 @@ onUnmounted(() => {
   font-size: 12.5px;
   line-height: 1.7;
   min-height: 148px;
-  background: rgba(0,0,0,0.22);
+  background: #0d1117;
 }
 
 /* Typed command */
@@ -777,14 +815,14 @@ onUnmounted(() => {
 
 /* ─── Network section ────────────────────────────────────────────── */
 .dp-net {
-  border-top: 1px solid rgba(255,255,255,0.055);
+  border-top: 1px solid var(--hs-net-border);
   padding: 12px 16px 10px;
-  background: rgba(0,0,0,0.15);
+  background: var(--hs-net-bg);
 }
 .dp-net-label {
   font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
+  color: var(--hs-netlbl);
   font-family: 'ui-monospace', 'SFMono-Regular', monospace;
   margin-bottom: 8px;
 }
@@ -798,8 +836,8 @@ onUnmounted(() => {
 .dp-live-bar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 11px 18px;
-  border-top: 1px solid rgba(255,255,255,0.055);
-  background: rgba(0,0,0,0.2);
+  border-top: 1px solid var(--hs-net-border);
+  background: var(--hs-live-bg);
 }
 .dp-live-pill {
   display: inline-flex; align-items: center; gap: 6px;
@@ -820,18 +858,18 @@ onUnmounted(() => {
 }
 .dp-stat-val {
   font-size: 13px; font-weight: 700;
-  color: rgba(230,240,255,0.82);
+  color: var(--hs-stat-val);
   font-family: 'ui-monospace', 'SFMono-Regular', monospace;
   font-variant-numeric: tabular-nums;
 }
 .dp-stat-lbl {
-  font-size: 10px; color: rgba(255,255,255,0.25);
+  font-size: 10px; color: var(--hs-stat-lbl);
   font-family: 'ui-monospace', 'SFMono-Regular', monospace;
   letter-spacing: 0.04em;
 }
 .dp-stat-sep {
   width: 1px; height: 24px;
-  background: rgba(255,255,255,0.07);
+  background: var(--hs-stat-sep);
 }
 
 /* ─── Vue transitions ────────────────────────────────────────────── */
