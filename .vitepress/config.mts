@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from "vitepress";
 
 // [vitepress.dev](https://vitepress.dev/reference/site-config)
 export default defineConfig({
@@ -87,10 +87,10 @@ export default defineConfig({
 
   themeConfig: {
     logo: {
-      light: '/logo.svg',
-      dark: '/logo-alternate.svg'
+      light: "/logo.svg",
+      dark: "/logo-alternate.svg",
     },
-    
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/quickstart' },
@@ -103,43 +103,43 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Getting Started',
+        text: "Getting Started",
         items: [
-          { text: 'Quickstart', link: '/docs/quickstart' },
-          { text: 'Installation', link: '/docs/installation' },
-          { text: 'Concepts', link: '/docs/concepts' },
-          { text: 'Blueprints', link: '/docs/blueprints' }
-        ]
+          { text: "Quickstart", link: "/docs/quickstart" },
+          { text: "Installation", link: "/docs/installation" },
+          { text: "Concepts", link: "/docs/concepts" },
+          { text: "Blueprints", link: "/docs/blueprints" },
+        ],
       },
       {
-        text: 'Usage',
+        text: "Usage",
         items: [
-          { text: 'CLI Commands', link: '/docs/cli' },
-          { text: 'Dployr Web', link: '/docs/dployr-web' }
-        ]
+          { text: "CLI Commands", link: "/docs/cli" },
+          { text: "Dployr Web", link: "/docs/dployr-web" },
+        ],
       },
       {
-        text: 'Reference',
+        text: "Reference",
         items: [
-          { text: 'API', link: '/docs/api' },
-          { text: 'Troubleshooting', link: '/docs/troubleshooting' }
-        ]
+          { text: "API", link: "/docs/api" },
+          { text: "Troubleshooting", link: "/docs/troubleshooting" },
+        ],
       },
       {
-        text: 'Resources',
+        text: "Resources",
         items: [
-          { text: 'Blog', link: '/blog/' },
-          { text: 'Changelog', link: '/changelog' }
-        ]
+          { text: "Blog", link: "/blog/" },
+          { text: "Changelog", link: "/changelog" },
+        ],
       },
       {
-        text: 'Legal',
+        text: "Legal",
         items: [
-          { text: 'Privacy Policy', link: '/legal/privacy-policy' },
-          { text: 'Terms of Service', link: '/legal/terms-of-service' },
-          { text: 'Data Processing Addendum', link: '/legal/data-processing-addendum' }
-        ]
-      }
+          { text: "Privacy Policy", link: "/legal/privacy-policy" },
+          { text: "Terms of Service", link: "/legal/terms-of-service" },
+          { text: "Data Processing Addendum", link: "/legal/data-processing-addendum" },
+        ],
+      },
     ],
 
     socialLinks: [
@@ -154,7 +154,7 @@ export default defineConfig({
     },
 
     search: {
-      provider: 'local'
-    }
-  }
-})
+      provider: "local",
+    },
+  },
+});
