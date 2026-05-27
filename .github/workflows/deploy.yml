@@ -30,9 +30,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       
-      - name: Generate changelog
-        run: pnpm run generate:changelog
-      
       - name: Build documentation
         run: pnpm run docs:build
       

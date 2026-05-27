@@ -1,5 +1,7 @@
 import { createContentLoader } from 'vitepress'
 
+export const data = []
+
 export default createContentLoader('blog/*.md', {
   includeSrc: false,
   render: false,
