@@ -1,6 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import PageShell from './PageShell.vue'
+
+const heroRef = ref<HTMLElement | null>(null)
+let rafId: number | null = null
+function onScroll() {
+  if (rafId) cancelAnimationFrame(rafId)
+  rafId = requestAnimationFrame(() => {
+    heroRef.value?.style.setProperty('--dot-y', `${window.scrollY * 0.25}px`)
+  })
+}
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onUnmounted(() => { window.removeEventListener('scroll', onScroll); if (rafId) cancelAnimationFrame(rafId) })
 
 const deployTab = ref<'cli' | 'actions' | 'dashboard'>('dashboard')
 
@@ -177,9 +188,9 @@ const faqs = [
 <template>
   <PageShell>
 
-    <section class="lp-hero">
+    <section class="lp-hero" ref="heroRef">
       <div class="lp-container">
-        <h1 class="lp-hero__h1">Your app has been on<br>localhost long enough.</h1>
+        <h1 class="lp-hero__h1">Your app has been on<br><span class="lp-underline">localhost<svg class="lp-underline__svg" viewBox="0 0 260 14" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 40 4, 80 14, 130 8 S 210 2, 258 9" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg></span> long enough.</h1>
         <p class="lp-hero__sub">
           Create an account and your server is ready. No SSH, no setup, nothing to
           configure. Push from the CLI, GitHub Actions, or the dashboard.
@@ -544,7 +555,39 @@ const faqs = [
   text-wrap: balance;
 }
 
-.lp-hero { padding-top: 7rem; padding-bottom: 5rem; text-align: center; }
+.lp-hero {
+  position: relative;
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+  text-align: center;
+}
+.lp-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--text) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 var(--dot-y, 0px);
+  -webkit-mask-image: radial-gradient(ellipse 65% 70% at 50% 35%, transparent 45%, black 72%);
+  mask-image: radial-gradient(ellipse 65% 70% at 50% 35%, transparent 45%, black 72%);
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: 0;
+}
+.lp-hero > .lp-container { position: relative; z-index: 1; }
+.lp-underline {
+  position: relative;
+  display: inline-block;
+}
+.lp-underline__svg {
+  position: absolute;
+  left: 0;
+  bottom: -0.18em;
+  width: 100%;
+  height: 0.3em;
+  color: var(--brand);
+  pointer-events: none;
+}
 .lp-hero__h1 {
   font-size: clamp(2.5rem, 6vw, 4.75rem);
   font-weight: 700;
@@ -562,13 +605,13 @@ const faqs = [
   text-wrap: pretty;
 }
 .lp-hero__actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-.lp-hero__fine    { font-size: 0.8125rem; color: var(--text-3); margin: 1rem 0 3rem; }
+.lp-hero__fine    { font-size: 0.8125rem; color: var(--text-3); margin: 1rem 0 3rem; text-wrap: balance; }
 .lp-hero__visual  {
   max-width: 960px;
   margin: 0 auto;
   border-radius: calc(var(--radius) * 2);
   overflow: hidden;
-  box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08), 0 32px 80px oklch(0 0 0 / 0.55);
+  box-shadow: 0 0 0 1px oklch(0 0 0 / 0.07), 0 24px 60px oklch(0 0 0 / 0.12);
 }
 .lp-hero__img { display: block; width: 100%; height: auto; border-radius: calc(var(--radius) * 2); }
 
@@ -612,8 +655,11 @@ const faqs = [
   border: 1px solid var(--border);
   border-bottom: none;
   border-radius: var(--radius) var(--radius) 0 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
+.lp-tabs__nav::-webkit-scrollbar { display: none; }
 .lp-tabs__btn {
   flex: 1;
   padding: 0.625rem 1rem;
@@ -625,6 +671,7 @@ const faqs = [
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
   transition: background 0.15s, color 0.15s;
 }
 .lp-tabs__btn:last-child { border-right: none; }
@@ -859,10 +906,12 @@ const faqs = [
 }
 @media (max-width: 768px) {
   .lp-hero, .lp-how, .lp-features, .lp-pricing, .lp-faq, .lp-cta { padding: 4rem 0; }
-  .lp-step { grid-template-columns: 48px 1fr; gap: 1rem; }
-  .lp-step__num { font-size: 2rem; }
+  .lp-step { display: block; }
+  .lp-step__num { font-size: 1rem; font-weight: 700; color: var(--text-3); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
   .lp-plans { grid-template-columns: 1fr; }
   .lp-pricing__controls { flex-wrap: wrap; gap: 0.875rem; }
+  .lp-ctable th, .lp-ctable td { white-space: normal; font-size: 0.8125rem; padding: 0.625rem 0.75rem; }
+  .lp-dialog { max-height: 90vh; }
 }
 @media (max-width: 520px) {
   .lp-features__grid { grid-template-columns: 1fr; }

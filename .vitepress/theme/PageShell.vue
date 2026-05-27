@@ -33,11 +33,20 @@
         <a href="https://app.dployr.io" class="lp-btn lp-btn--brand lp-nav__cta" target="_blank" rel="noopener">
           Get Started, it's free
         </a>
-        <button class="lp-nav__burger" aria-label="Open menu">
+        <button class="lp-nav__burger" :aria-label="menuOpen ? 'Close menu' : 'Open menu'" @click="menuOpen = !menuOpen">
           <span /><span /><span />
         </button>
       </div>
     </nav>
+
+    <div v-if="menuOpen" class="lp-nav__mobile" @click="menuOpen = false">
+      <a href="/docs/quickstart">Docs</a>
+      <a :href="pricingHref">Pricing</a>
+      <a href="/changelog">Changelog</a>
+      <a href="https://github.com/dployr-io/dployr" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://discord.gg/tY8ZbjvrSZ" target="_blank" rel="noopener">Discord</a>
+      <a href="https://app.dployr.io" class="lp-btn lp-btn--brand lp-btn--full" target="_blank" rel="noopener" style="margin-top:0.5rem">Get Started, it's free</a>
+    </div>
 
     <slot />
 
@@ -113,7 +122,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vitepress'
 import { useColorMode } from './useColorMode'
 import NewsletterForm from './NewsletterForm.vue'
@@ -121,6 +130,7 @@ import NewsletterForm from './NewsletterForm.vue'
 const { mode, toggle } = useColorMode()
 const route = useRoute()
 const pricingHref = computed(() => route.path === '/' ? '#pricing' : '/#pricing')
+const menuOpen = ref(false)
 </script>
 
 <style>
@@ -456,4 +466,36 @@ const pricingHref = computed(() => route.path === '/' ? '#pricing' : '/#pricing'
   .lp-footer__cols { grid-template-columns: 1fr 1fr; }
   .lp-footer__bottom { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
 }
+
+.lp-nav__mobile {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 1.5rem 1.5rem;
+  flex-direction: column;
+  gap: 0;
+}
+.lp-nav__mobile a:not(.lp-btn) {
+  display: block;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+}
+.lp-nav__mobile a:not(.lp-btn):hover { color: var(--text); }
+@media (max-width: 768px) {
+  .lp-nav__mobile { display: flex; }
+}
+
+.lp-nav__burger[aria-label="Close menu"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.lp-nav__burger[aria-label="Close menu"] span:nth-child(2) { opacity: 0; }
+.lp-nav__burger[aria-label="Close menu"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.lp-nav__burger span { transition: transform 0.2s, opacity 0.2s; }
 </style>
