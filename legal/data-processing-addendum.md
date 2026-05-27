@@ -1,3 +1,11 @@
+---
+layout: legal
+title: Data Processing Addendum
+lastUpdated: December 30, 2025
+lastUpdatedIso: "2025-12-30"
+description: How Dployr processes personal data on behalf of customers under GDPR and applicable law.
+---
+
 # Data Processing Addendum
 
 **Last Updated:** December 30, 2025
@@ -87,15 +95,16 @@ Dployr implements the following security measures:
 
 ## Sub-processors
 
-Dployr uses the following sub-processor:
+Dployr uses the following sub-processors:
 
+- **DigitalOcean LLC** (United States): Cloud compute infrastructure hosting all managed server instances, agent telemetry, logs, and platform services
 - **Cloudflare Inc.** (United States): DNS, traffic routing, DDoS protection, and access control
 
-Customer authorizes the use of this sub-processor. Dployr will notify customers of changes to sub-processors with 30 days notice. Customers may object to new sub-processors within 14 days of notification. If an objection cannot be resolved, the customer may terminate the affected services without penalty.
+Customer authorizes the use of these sub-processors. Dployr will notify customers of changes to sub-processors with 30 days notice. Customers may object to new sub-processors within 14 days of notification. If an objection cannot be resolved, the customer may terminate the affected services without penalty.
 
 ## International Transfers
 
-Personal data may be transferred outside the European Economic Area. Transfers to Cloudflare are covered by Cloudflare's own data processing addendum and standard contractual clauses. Dployr will ensure appropriate transfer mechanisms are in place for any sub-processor processing EU personal data.
+Personal data may be transferred outside the European Economic Area. Transfers to DigitalOcean and Cloudflare are covered by their respective data processing agreements and standard contractual clauses. Dployr will ensure appropriate transfer mechanisms are in place for any sub-processor processing EU personal data.
 
 ## Data Subject Requests
 

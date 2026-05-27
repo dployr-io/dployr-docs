@@ -1,6 +1,14 @@
+---
+layout: legal
+title: Terms of Service
+lastUpdated: May 26, 2026
+lastUpdatedIso: "2026-05-26"
+description: The terms governing your use of the Dployr platform and services.
+---
+
 # Terms of Service
 
-**Last Updated:** December 30, 2025
+**Last Updated:** May 26, 2026
 
 ## Introduction
 
@@ -8,9 +16,11 @@ These Terms of Service ("Terms") govern your use of the Dployr platform and rela
 
 ## Service Description
 
-Dployr provides a control plane for managing server deployments, instance orchestration, and traffic routing. Users connect their own server infrastructure to the platform via the dployrd agent.
+Dployr is a deployment platform that provisions and manages server infrastructure on behalf of customers. Each plan includes a managed server instance, provisioned and hosted by Dployr on DigitalOcean infrastructure, on which customers deploy and run their applications.
 
-**Dployr does not host customer applications directly.** Dployr facilitates management of customer-owned infrastructure.
+Pro plan customers can also connect servers they own and run themselves. Those servers are the customer's responsibility. Dployr provides management tooling only.
+
+The Dployr control plane (dashboard, API, deployment pipeline) is hosted and operated by Dployr.
 
 ## Account Registration
 
@@ -20,7 +30,7 @@ Dployr provides a control plane for managing server deployments, instance orches
 
 ## Subscription and Payment
 
-Certain features require a paid subscription. Payments are processed by Stripe. Subscription terms, including billing cycles and cancellation, are displayed at the time of purchase. Dployr reserves the right to modify pricing with 30 days notice.
+Certain features require a paid subscription. Payments are processed by Polar.sh. Subscription terms, including billing cycles and cancellation, are displayed at the time of purchase. Dployr reserves the right to modify pricing with 30 days notice.
 
 ## Acceptable Use
 
@@ -41,10 +51,12 @@ Dployr may suspend or terminate accounts violating these terms without prior not
 
 You are responsible for:
 
-- **Securing your server instances** and managing access credentials
+- **Securing your applications** and managing access credentials for services you deploy
 - **Ensuring your deployed applications comply with applicable laws**
 - **Your end users** and must maintain your own terms of service and privacy policies for services you deploy
-- **Maintaining backups** of your data and configurations
+- **Maintaining backups** of your application data and configurations
+
+If you are on the Pro plan and connect your own servers, you are responsible for the security and maintenance of those servers. Dployr does not administer them.
 
 ## Customer Data and Ownership
 
@@ -64,11 +76,11 @@ For customers processing personal data of EU residents through services deployed
 
 Dployr aims to provide reliable service but does not guarantee specific uptime percentages. Scheduled maintenance will be announced in advance where possible.
 
-**Instance availability depends on user infrastructure and is outside Dployr's control.**
+For managed server instances provisioned by Dployr, availability is subject to the underlying infrastructure provider (DigitalOcean). For servers connected by the customer on Pro plans, availability depends on the customer's own infrastructure and is outside Dployr's control.
 
 Dployr is not responsible for downtime caused by:
 
-- Third-party services
+- Third-party infrastructure providers
 - User misconfiguration
 - Circumstances beyond reasonable control
 
@@ -132,7 +144,7 @@ These terms, together with the Privacy Policy and any applicable DPA, constitute
 
 For legal inquiries and support, please contact us at:
 
-**Email:** [legal@dployr.io]
+**Email:** [hello@dployr.io]
 
 ---
 

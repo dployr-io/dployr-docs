@@ -1,46 +1,22 @@
 ---
-title: "Welcome to dployr"
+layout: blog-post
+title: Shipping dployr
 date: 2025-12-31
 author: Emmanuel Madehin
-excerpt: "A deployment platform with a globally distributed base and lightweight agents on your VMs—so you can ship apps without the usual PaaS lock-in."
-tags: ["announcement", "getting-started"]
-image: ""
+excerpt: "A deployment platform for people who want the convenience of managed hosting without giving up their own servers."
+tags: ["announcement"]
 ---
 
-# Welcome to dployr
+I started building dployr because the deployment options I kept reaching for didn't quite fit.
 
-![dployr architecture](../public/architecture.png)
+Managed PaaS platforms are convenient until they're not. You're on their infrastructure, their pricing, their schedule. Want custom specs, a specific region, or a runtime they don't support? You're either blocked or paying more for it.
 
-I’m launching **dployr**: a deployment platform for people who want the convenience of a PaaS, but still want real control over where things run.
+The self-hosted path has its own problems. It's not hard, but it takes time you'd rather spend on the actual product.
 
-## What is dployr?
+dployr sits between the two. There's a control plane we host for free, and lightweight agents that run on your servers. The agents dial out over mTLS, so your servers don't need any inbound ports open. Point them at our hosted control plane, or self-host your own.
 
-At a high level, dployr has two parts:
+The workflow is what you'd expect: CLI, dashboard, GitHub Actions, HTTPS, rollbacks, log streaming. The server stays yours.
 
-- A control plane (the “base”). Use our hosted, globally distributed base (free), or self-host your own base.
-- Lightweight agents on your VMs that make an outbound, mTLS-secured connection to the base
+Supported runtimes: Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker, and static sites. RBAC is built in. Runs on any VM.
 
-Because the agents dial out to the base, you don’t need to open inbound ports to your VMs. Point them at our hosted base, or at your own base if you prefer.
-
-Dployr supports multiple runtimes out of the box: Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker containers, and static sites.
-
-## Key Features
-
-### Simple Management
-Deploy through the web dashboard or the CLI. If you’re working with a team, RBAC is built in so access can be scoped properly.
-
-### Automatic HTTPS
-HTTPS is handled for you via Caddy integration, so you’re not stuck hand-rolling certificates for every new service.
-
-### Open Source
-dployr is open source (Apache 2.0). If you want to dig into the code, change how something works, or contribute fixes, you can.
-
-## Getting Started
-
-If you want to try it, start with the [quickstart guide](/docs/quickstart).
-
-If you run into issues or want to share feedback, join us on [Discord](https://discord.gg/tY8ZbjvrSZ). You can also follow development on [GitHub](https://github.com/dployr-io/dployr).
-
----
-
-*Published on December 31, 2025*
+We're early. Start with the [quickstart](/docs/quickstart) if you want to try it. If something breaks or you want to talk through a use case, [Discord](https://discord.gg/tY8ZbjvrSZ) is where we are. The code is on [GitHub](https://github.com/dployr-io/dployr) under Apache 2.0.

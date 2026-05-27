@@ -1,6 +1,14 @@
+---
+layout: legal
+title: Privacy Policy
+lastUpdated: May 26, 2026
+lastUpdatedIso: "2026-05-26"
+description: How Dployr collects, uses, and protects your data.
+---
+
 # Privacy Policy
 
-**Last Updated:** December 30, 2025
+**Last Updated:** May 26, 2026
 
 ## Introduction
 
@@ -10,7 +18,7 @@ This policy applies to the Dployr platform, website, and related services. **Thi
 
 ## Data Controller
 
-Dployr is the data controller for user account data. For data processed on behalf of customers (traffic routed through the proxy), Dployr acts as a data processor and customers are the data controllers.
+Dployr is the data controller for user account data. For personal data processed on behalf of customers through services they deploy on the platform, Dployr acts as a data processor and customers are the data controllers.
 
 ## Data We Collect
 
@@ -67,6 +75,10 @@ We maintain event logs for audit purposes:
 
 ## Third-Party Services
 
+### DigitalOcean
+
+All managed server instances are hosted on DigitalOcean infrastructure. Application data, agent telemetry, logs, and platform services run on DigitalOcean servers. DigitalOcean's privacy policy is available at [digitalocean.com/legal/privacy-policy](https://www.digitalocean.com/legal/privacy-policy/).
+
 ### Cloudflare
 
 Cloudflare provides DNS, traffic routing, and access control. Cloudflare may collect IP addresses and network data under their privacy policy at [cloudflare.com/privacypolicy](https://www.cloudflare.com/privacypolicy/).
@@ -75,9 +87,9 @@ Cloudflare provides DNS, traffic routing, and access control. Cloudflare may col
 
 Google, GitHub, and Microsoft handle authentication. Only profile information authorized by you during OAuth consent is shared with Dployr.
 
-### Stripe
+### Polar.sh
 
-Stripe processes subscription payments. **Dployr does not receive or store payment card numbers.** Stripe's privacy policy governs payment data at [stripe.com/privacy](https://stripe.com/privacy).
+Polar.sh processes subscription payments. **Dployr does not receive or store payment card numbers.** Polar.sh's privacy policy governs payment data at [polar.sh/legal/privacy](https://polar.sh/legal/privacy).
 
 ## Data Retention
 
@@ -92,7 +104,7 @@ We retain data for the following periods:
 
 ## International Data Transfers
 
-Data may be processed in countries outside the European Economic Area. Transfers are protected by standard contractual clauses and adequacy decisions where applicable. Cloudflare and Stripe maintain their own transfer mechanisms compliant with EU requirements.
+Data may be processed in countries outside the European Economic Area. DigitalOcean, Cloudflare, and Polar.sh each maintain their own standard contractual clauses and transfer mechanisms compliant with EU requirements.
 
 ## Your Rights (EU Users)
 
@@ -137,9 +149,9 @@ Dployr is not intended for children under 13. We do not knowingly collect person
 We implement appropriate security measures to protect your data:
 
 - Data is encrypted in transit using TLS
+- Service secrets and credentials are encrypted at rest and never stored in plaintext
 - Authentication uses industry-standard OAuth protocols
 - Access to production systems is restricted to authorized personnel
-- We maintain security practices appropriate to the nature of the data processed
 
 ## Breach Notification
 
@@ -153,7 +165,7 @@ We may update this policy from time to time. Material changes will be communicat
 
 For privacy inquiries and data subject requests, please contact us at:
 
-**Email:** [privacy@dployr.io]
+**Email:** [hello@dployr.io]
 
 ---
 

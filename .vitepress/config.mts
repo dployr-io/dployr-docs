@@ -6,6 +6,10 @@ export default defineConfig({
   description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
   lang: "en-US",
   head: [
+    // Geist — wordmark font
+    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
+    ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
+    ["link", { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Geist:wght@700&display=swap" }],
     // Google Analytics
     ["script", { async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-STQJCSLE5K" }],
     ["script", {}, `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-STQJCSLE5K');`],
@@ -82,7 +86,7 @@ export default defineConfig({
         contactPoint: {
           "@type": "ContactPoint",
           contactType: "Customer Support",
-          email: "support@dployr.io",
+          email: "hello@dployr.io",
         },
       }),
     ],
@@ -132,14 +136,6 @@ export default defineConfig({
         items: [
           { text: "Blog", link: "/blog/" },
           { text: "Changelog", link: "/changelog" },
-        ],
-      },
-      {
-        text: "Legal",
-        items: [
-          { text: "Privacy Policy", link: "/legal/privacy-policy" },
-          { text: "Terms of Service", link: "/legal/terms-of-service" },
-          { text: "Data Processing Addendum", link: "/legal/data-processing-addendum" },
         ],
       },
     ],

@@ -1,260 +1,194 @@
 <template>
-  <div class="blog-post-layout">
-    <article class="blog-post">
-      <header class="post-header">
-        <h1 class="post-title">{{ frontmatter.title }}</h1>
-        <div class="post-meta">
-          <span class="meta-item">
-            <span class="icon">📅</span>
-            <time :datetime="frontmatter.date">{{ formatDate(frontmatter.date) }}</time>
-          </span>
-          <span class="meta-item">
-            <span class="icon">✍️</span>
-            <span>{{ frontmatter.author || 'The Dployr Team' }}</span>
-          </span>
-        </div>
-        <div v-if="frontmatter.tags && frontmatter.tags.length > 0" class="post-tags">
-          <span v-for="tag in frontmatter.tags" :key="tag" class="tag">{{ tag }}</span>
-        </div>
-      </header>
-      
-      <div class="post-content">
-        <Content />
-      </div>
-      
-      <footer class="post-footer">
-        <div class="share-section">
-          <p class="share-title">Share this post</p>
-          <div class="share-buttons">
-            <a :href="twitterShareUrl" target="_blank" rel="noopener" class="share-btn twitter">
-              Twitter
-            </a>
-            <a :href="linkedinShareUrl" target="_blank" rel="noopener" class="share-btn linkedin">
-              LinkedIn
-            </a>
+  <PageShell>
+    <main class="bp-main" id="main-content">
+      <div class="lp-container bp-container">
+
+        <nav aria-label="Breadcrumb" class="bp-breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><a href="/blog/">Blog</a></li>
+            <li aria-hidden="true">/</li>
+            <li>{{ frontmatter.title }}</li>
+          </ol>
+        </nav>
+
+        <article
+          class="bp-article"
+          itemscope
+          itemtype="https://schema.org/BlogPosting"
+        >
+          <meta itemprop="author" :content="frontmatter.author || 'dployr'" />
+
+          <header class="bp-article__header">
+            <h1 itemprop="headline">{{ frontmatter.title }}</h1>
+            <div class="bp-article__meta">
+              <time
+                v-if="frontmatter.date"
+                :datetime="String(frontmatter.date)"
+                itemprop="datePublished"
+              >{{ formatDate(String(frontmatter.date)) }}</time>
+              <span v-if="frontmatter.author" class="bp-article__author" itemprop="author">{{ frontmatter.author }}</span>
+            </div>
+            <div v-if="frontmatter.tags?.length" class="bp-article__tags">
+              <span v-for="tag in frontmatter.tags" :key="tag" class="bp-tag">{{ tag }}</span>
+            </div>
+          </header>
+
+          <div class="bp-article__body" itemprop="articleBody">
+            <Content />
           </div>
-        </div>
-        <div class="back-to-blog">
-          <a href="/blog/">← Back to Blog</a>
-        </div>
-      </footer>
-    </article>
-  </div>
+        </article>
+
+      </div>
+    </main>
+  </PageShell>
 </template>
 
-<script setup>
-import { useData } from 'vitepress'
-import { computed } from 'vue'
+<script setup lang="ts">
+import { useData, Content } from 'vitepress'
+import PageShell from './PageShell.vue'
 
-const { frontmatter, page } = useData()
+const { frontmatter } = useData()
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   })
 }
-
-const currentUrl = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.location.href
-  }
-  return `https://docs.dployr.io${page.value.relativePath.replace(/\.md$/, '.html')}`
-})
-
-const twitterShareUrl = computed(() => {
-  const text = frontmatter.value.title || 'Check out this post'
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(currentUrl.value)}`
-})
-
-const linkedinShareUrl = computed(() => {
-  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl.value)}`
-})
 </script>
 
 <style scoped>
-.blog-post-layout {
-  max-width: 48rem;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
+.bp-main {
+  flex: 1;
+  padding: 3rem 0 6rem;
+}
+.bp-container {
+  max-width: 720px;
 }
 
-.blog-post {
-  background: var(--vp-c-bg);
-}
-
-.post-header {
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px solid var(--vp-c-divider);
-}
-
-.post-title {
-  margin: 0 0 1.5rem 0;
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--vp-c-text-1);
-}
-
-.post-meta {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-  color: var(--vp-c-text-2);
-  font-size: 1rem;
-}
-
-.meta-item {
+.bp-breadcrumb ol {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  font-size: 0.875rem;
+}
+.bp-breadcrumb a { color: var(--text-3); text-decoration: none; }
+.bp-breadcrumb a:hover { color: var(--text-2); }
+.bp-breadcrumb li:last-child { color: var(--text-2); }
+
+.bp-article__header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.bp-article__header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
 }
 
-.icon {
-  font-size: 1.1rem;
+.bp-article__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-3);
+  margin-bottom: 0.875rem;
 }
+.bp-article__meta time { color: var(--text-3); }
+.bp-article__author::before { content: '·'; margin-right: 1rem; }
 
-.post-tags {
+.bp-article__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 0.375rem;
 }
-
-.tag {
-  padding: 0.35rem 0.85rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
-  font-size: 0.875rem;
-  color: var(--vp-c-text-2);
+.bp-tag {
+  font-size: 0.75rem;
   font-weight: 500;
+  padding: 0.2em 0.65em;
+  border-radius: 0.25rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--text-3);
 }
 
-.post-content {
-  margin-bottom: 3rem;
-  line-height: 1.7;
-  font-size: 1.05rem;
+.bp-article__body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-2);
 }
-
-.post-content :deep(h2) {
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  font-size: 1.75rem;
+.bp-article__body :deep(h1) { display: none; }
+.bp-article__body :deep(h2) {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2.5rem 0 0.75rem;
+  letter-spacing: -0.015em;
+}
+.bp-article__body :deep(h3) {
+  font-size: 1.125rem;
   font-weight: 600;
-  border-bottom: 1px solid var(--vp-c-divider);
-  padding-bottom: 0.5rem;
+  color: var(--text);
+  margin: 2rem 0 0.5rem;
 }
-
-.post-content :deep(h3) {
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  font-size: 1.35rem;
-  font-weight: 600;
+.bp-article__body :deep(p) { margin: 0 0 1.1rem; }
+.bp-article__body :deep(p:last-child) { margin-bottom: 0; }
+.bp-article__body :deep(ul),
+.bp-article__body :deep(ol) { margin: 0.875rem 0 1.1rem; padding-left: 1.5rem; }
+.bp-article__body :deep(li) { margin: 0.3rem 0; color: var(--text); }
+.bp-article__body :deep(strong) { font-weight: 600; color: var(--text); }
+.bp-article__body :deep(a) {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-
-.post-content :deep(p) {
-  margin: 1rem 0;
+.bp-article__body :deep(code) {
+  font-size: 0.875em;
+  background: var(--bg-soft);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  color: var(--text);
 }
-
-.post-content :deep(ul),
-.post-content :deep(ol) {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.post-content :deep(li) {
-  margin: 0.5rem 0;
-}
-
-.post-content :deep(code) {
-  padding: 0.2rem 0.4rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-
-.post-content :deep(pre) {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: var(--vp-border-radius);
+.bp-article__body :deep(pre) {
+  background: var(--bg-mute);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
-}
-
-.post-content :deep(blockquote) {
   margin: 1.5rem 0;
-  padding-left: 1rem;
-  border-left: 4px solid var(--vp-c-brand-1);
-  color: var(--vp-c-text-2);
+}
+.bp-article__body :deep(pre code) {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+.bp-article__body :deep(blockquote) {
+  border-left: 3px solid var(--border);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--text-3);
   font-style: italic;
 }
-
-.post-footer {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 2px solid var(--vp-c-divider);
+.bp-article__body :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
 }
-
-.share-section {
-  margin-bottom: 2rem;
-}
-
-.share-title {
-  margin: 0 0 1rem 0;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-}
-
-.share-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.share-btn {
-  padding: 0.5rem 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: var(--vp-border-radius);
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.share-btn:hover {
-  background: var(--vp-c-brand-1);
-  border-color: var(--vp-c-brand-1);
-  color: white;
-}
-
-.back-to-blog a {
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-  font-weight: 500;
-  transition: gap 0.2s;
-}
-
-.back-to-blog a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .blog-post-layout {
-    padding: 1rem;
-  }
-  
-  .post-title {
-    font-size: 2rem;
-  }
-  
-  .post-meta {
-    gap: 1rem;
-  }
+.bp-article__body :deep(img) {
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  display: block;
+  margin: 1.5rem 0;
 }
 </style>
