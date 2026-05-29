@@ -1,5 +1,5 @@
 ---
-title: Blueprints: Deploy as Code
+title: "Blueprints: Deploy as Code"
 description: Define dployr deployments as code in YAML, JSON, or TOML. Version your deployment config, reuse it across services, and deploy with a single command.
 ---
 

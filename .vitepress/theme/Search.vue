@@ -10,9 +10,11 @@ let pagefind: any = null
 async function loadPagefind() {
   if (pagefind) return
   try {
-    pagefind = await new Function("return import('/_pagefind/pagefind.js')")()
+    pagefind = await new Function("return import('/pagefind/pagefind.js')")()
     await pagefind.init()
-  } catch {}
+  } catch (e) {
+    console.error('[search] failed to load pagefind:', e)
+  }
 }
 
 async function search() {
