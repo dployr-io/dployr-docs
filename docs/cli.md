@@ -1,198 +1,39 @@
 ---
-title: CLI Commands
-description: dployr CLI reference. Commands for auth, deploy, logs, exec, services, and secrets. Manage self-hosted servers from the terminal without SSH.
+title: CLI
+description: Deploy and manage dployr services from the terminal. Full CLI reference for auth, deploy, logs, services, env vars, proxy, and projects.
 ---
 
-# CLI Commands
+# CLI
 
-Complete reference for the dployr command-line interface.
+The dployr CLI lets you deploy and manage services from the terminal. It talks to the same Base control plane as the dashboard, so everything you can do in one, you can do in the other.
 
 ## Installation
 
-The CLI is included with the dployrd daemon installation.
+Install the CLI with a single command:
+
+```bash
+# Linux/macOS
+curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
+
+# Windows (PowerShell as Administrator)
+iwr "https://raw.githubusercontent.com/dployr-io/dployr/master/install.ps1" -OutFile install.ps1
+.\install.ps1
+```
 
 ## Authentication
 
 ```bash
-# Authenticate with the control plane
+# Log in
 dployr auth login
 
-# Check authentication status
+# Check you're logged in
 dployr auth status
 
-# Logout
+# Log out
 dployr auth logout
 ```
 
-## Deployment
-
-### Deploy an Application
-
-```bash
-dployr deploy \
-  --name <name> \
-  --source <remote|local|docker> \
-  --runtime <runtime> \
-  --version <version> \
-  --remote <git-url> \
-  --branch <branch> \
-  --build-cmd "<command>" \
-  --run-cmd "<command>" \
-  --working-dir "<directory>" \
-  --port <port>
-```
-
-### List Deployments
-
-```bash
-# List all deployments
-dployr list
-
-# List deployments for a specific project
-dployr list --project <project-name>
-```
-
-### Get Deployment Details
-
-```bash
-dployr get <deployment-name>
-```
-
-### Delete Deployment
-
-```bash
-dployr delete <deployment-name>
-```
-
-## Service Management
-
-### Start Service
-
-```bash
-dployr service start <service-name>
-```
-
-### Stop Service
-
-```bash
-dployr service stop <service-name>
-```
-
-### Restart Service
-
-```bash
-dployr service restart <service-name>
-```
-
-### Service Status
-
-```bash
-dployr service status <service-name>
-```
-
-### Service Logs
-
-```bash
-# View logs
-dployr logs <service-name>
-
-# Follow logs
-dployr logs <service-name> --follow
-
-# Tail last N lines
-dployr logs <service-name> --tail 100
-```
-
-## Proxy Configuration
-
-### Add Route
-
-```bash
-dployr proxy add \
-  --domain <domain> \
-  --service <service-name> \
-  --port <port>
-```
-
-### List Routes
-
-```bash
-dployr proxy list
-```
-
-### Remove Route
-
-```bash
-dployr proxy remove --domain <domain>
-```
-
-## Instance Management
-
-### List Instances
-
-```bash
-dployr instances
-```
-
-### Instance Details
-
-```bash
-dployr instance <instance-id>
-```
-
-## Project Management
-
-### Create Project
-
-```bash
-dployr project create <project-name>
-```
-
-### List Projects
-
-```bash
-dployr project list
-```
-
-### Delete Project
-
-```bash
-dployr project delete <project-name>
-```
-
-## Environment Variables
-
-### Set Variable
-
-```bash
-dployr env set <service-name> KEY=value
-```
-
-### List Variables
-
-```bash
-dployr env list <service-name>
-```
-
-### Unset Variable
-
-```bash
-dployr env unset <service-name> KEY
-```
-
-## Global Options
-
-```bash
---config <path>     # Path to config file
---verbose           # Verbose output
---json              # Output in JSON format
---help              # Show help
---version           # Show version
-```
-
-## Examples
-
-### Deploy Node.js Application
+## Deploying
 
 ```bash
 dployr deploy \
@@ -200,53 +41,142 @@ dployr deploy \
   --source remote \
   --runtime nodejs \
   --version 20 \
-  --remote https://github.com/user/repo \
+  --remote https://github.com/your-org/your-repo \
   --branch main \
   --build-cmd "npm install" \
   --run-cmd "npm start" \
   --port 3000
 ```
 
-### Deploy Python Application
+Common `--source` values: `remote` (git repo), `docker` (Docker image).
 
+### Examples
+
+**Python app:**
 ```bash
 dployr deploy \
-  --name my-app \
+  --name my-api \
   --source remote \
   --runtime python \
   --version 3.11 \
-  --remote https://github.com/user/repo \
+  --remote https://github.com/your-org/your-repo \
   --branch main \
   --build-cmd "pip install -r requirements.txt" \
   --run-cmd "python app.py" \
   --port 8000
 ```
 
-### Deploy Static Site
+**Docker container:**
+```bash
+dployr deploy \
+  --name my-app \
+  --source docker \
+  --image your-org/your-image:latest \
+  --port 3000
+```
 
+**Static site:**
 ```bash
 dployr deploy \
   --name my-site \
   --source remote \
   --runtime static \
-  --remote https://github.com/user/repo \
+  --remote https://github.com/your-org/your-repo \
   --branch main \
   --build-cmd "npm run build" \
   --working-dir "dist"
 ```
 
-### Deploy Docker Container
+## Managing deployments
 
 ```bash
-dployr deploy \
-  --name my-container \
-  --source docker \
-  --image nginx:latest \
-  --port 80
+# List all services
+dployr list
+
+# List services in a specific project
+dployr list --project my-project
+
+# Get details for a service
+dployr get my-api
+
+# Delete a service
+dployr delete my-api
 ```
 
-## Next Steps
+## Service control
 
-- [Learn about core concepts](./concepts)
-- [Write a blueprint](./blueprints)
-- [View API reference](./api)
+```bash
+dployr service start my-api
+dployr service stop my-api
+dployr service restart my-api
+dployr service status my-api
+```
+
+## Logs
+
+```bash
+# View recent logs
+dployr logs my-api
+
+# Follow live
+dployr logs my-api --follow
+
+# Last 100 lines
+dployr logs my-api --tail 100
+```
+
+## Environment variables
+
+```bash
+# Set a variable
+dployr env set my-api KEY=value
+
+# List variables
+dployr env list my-api
+
+# Remove a variable
+dployr env unset my-api KEY
+```
+
+## Custom domains
+
+```bash
+# Add a domain
+dployr domain add yourdomain.com --service my-api 
+
+# List domains
+dployr domain list
+
+# Remove a domain
+dployr domain remove yourdomain.com
+```
+
+## Projects
+
+Projects let you group related services together.
+
+```bash
+dployr project create my-project
+dployr project list
+dployr project delete my-project
+```
+
+## Instances
+
+```bash
+# List instances in your cluster
+dployr instances
+
+# Details for a specific instance
+dployr instance <instance-id>
+```
+
+## Global flags
+
+```bash
+--config <path>   # Use a specific config file
+--verbose         # Verbose output
+--json            # Output as JSON
+--help            # Help for any command
+--version         # CLI version
+```

@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { resolve } from "path";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -14,13 +15,21 @@ export default defineConfig({
       docs: 'Docs',
       blog: 'Blog',
       legal: 'Legal',
+      introduction: 'Introduction',
       quickstart: 'Quickstart',
-      installation: 'Installation',
-      concepts: 'Concepts',
+      concepts: 'How it works',
+      dashboard: 'Dashboard',
+      cli: 'CLI',
+      'github-actions': 'GitHub Actions',
       blueprints: 'Blueprints',
-      cli: 'CLI Commands',
-      'dployr-web': 'Dployr Web',
-      api: 'API',
+      services: 'Services',
+      'env-vars': 'Environment Variables & Secrets',
+      'custom-domains': 'Custom Domains',
+      'health-checks': 'Health Checks & Watchdog',
+      instances: 'Instances',
+      byos: 'Bring Your Own Server',
+      teams: 'Teams & RBAC',
+      billing: 'Billing',
       troubleshooting: 'Troubleshooting',
       'privacy-policy': 'Privacy Policy',
       'terms-of-service': 'Terms of Service',
@@ -40,7 +49,9 @@ export default defineConfig({
         })),
     ]
 
+    const isBlogPost = parts[0] === 'blog' && parts.length > 1 && parts[1] !== 'index'
     const scripts: [string, Record<string, string>, string][] = []
+
     if (breadcrumbItems.length > 1) {
       scripts.push([
         'script',
@@ -49,10 +60,49 @@ export default defineConfig({
       ])
     }
 
-    return [
+    if (isBlogPost) {
+      const title = pageData.frontmatter?.title as string | undefined
+      const description = pageData.frontmatter?.description as string | undefined
+      const date = pageData.frontmatter?.date as string | undefined
+      scripts.push([
+        'script',
+        { type: 'application/ld+json' },
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: title,
+          description,
+          datePublished: date,
+          author: { '@type': 'Organization', name: 'Dployr', url: 'https://dployr.io' },
+          publisher: { '@type': 'Organization', name: 'Dployr', logo: { '@type': 'ImageObject', url: 'https://dployr.io/logo.svg' } },
+          url: canonicalUrl,
+        }),
+      ])
+    }
+
+    const head: [string, Record<string, string>][] = [
       ['link', { rel: 'canonical', href: canonicalUrl }],
-      ...scripts,
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+      ['meta', { property: 'og:type', content: isBlogPost ? 'article' : 'website' }],
     ]
+
+    const description = pageData.frontmatter?.description as string | undefined
+    if (description) {
+      head.push(['meta', { name: 'description', content: description }])
+      head.push(['meta', { property: 'og:description', content: description }])
+    }
+
+    return [...head, ...scripts]
+  },
+  vite: {
+    resolve: {
+      alias: {
+        "./VPNavBarSearch.vue": resolve(__dirname, "theme/Search.vue"),
+      },
+    },
+  },
+  sitemap: {
+    hostname: 'https://dployr.io',
   },
   title: "dployr",
   description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
@@ -115,14 +165,14 @@ export default defineConfig({
         "@type": "WebSite",
         name: "dployr",
         description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure",
-        url: "https://docs.dployr.io",
+        url: "https://dployr.io",
         logo: "https://dployr.io/logo.svg",
         sameAs: ["https://github.com/dployr-io/dployr", "https://x.com/@dployr", "https://discord.gg/tY8ZbjvrSZ"],
         potentialAction: {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: "https://docs.dployr.io/search?q={search_term_string}",
+            urlTemplate: "https://dployr.io/search?q={search_term_string}",
           },
         },
       }),
@@ -197,7 +247,7 @@ export default defineConfig({
 
     nav: [
       { text: "Home", link: "/" },
-      { text: "Docs", link: "/docs/quickstart" },
+      { text: "Docs", link: "/docs/introduction" },
       { text: "Blog", link: "/blog/" },
       { text: "Changelog", link: "/changelog" },
       { text: "Status", link: "https://status.dployr.io/" },
@@ -209,31 +259,47 @@ export default defineConfig({
       {
         text: "Getting Started",
         items: [
+          { text: "Introduction", link: "/docs/introduction" },
           { text: "Quickstart", link: "/docs/quickstart" },
-          { text: "Installation", link: "/docs/installation" },
-          { text: "Concepts", link: "/docs/concepts" },
+          { text: "How it works", link: "/docs/concepts" },
+        ],
+      },
+      {
+        text: "Deploying",
+        items: [
+          { text: "Dashboard", link: "/docs/dashboard" },
+          { text: "CLI", link: "/docs/cli" },
+          { text: "GitHub Actions", link: "/docs/github-actions" },
           { text: "Blueprints", link: "/docs/blueprints" },
         ],
       },
       {
-        text: "Usage",
+        text: "Managing Services",
         items: [
-          { text: "CLI Commands", link: "/docs/cli" },
-          { text: "Dployr Web", link: "/docs/dployr-web" },
+          { text: "Services", link: "/docs/services" },
+          { text: "Environment Variables & Secrets", link: "/docs/env-vars" },
+          { text: "Custom Domains", link: "/docs/custom-domains" },
+          { text: "Health Checks & Watchdog", link: "/docs/health-checks" },
+        ],
+      },
+      {
+        text: "Infrastructure",
+        items: [
+          { text: "Instances", link: "/docs/instances" },
+          { text: "Bring Your Own Server", link: "/docs/byos" },
+        ],
+      },
+      {
+        text: "Team & Account",
+        items: [
+          { text: "Teams & RBAC", link: "/docs/teams" },
+          { text: "Billing", link: "/docs/billing" },
         ],
       },
       {
         text: "Reference",
         items: [
-          { text: "API", link: "/docs/api" },
           { text: "Troubleshooting", link: "/docs/troubleshooting" },
-        ],
-      },
-      {
-        text: "Resources",
-        items: [
-          { text: "Blog", link: "/blog/" },
-          { text: "Changelog", link: "/changelog" },
         ],
       },
     ],
@@ -250,8 +316,9 @@ export default defineConfig({
         'Copyright © 2025 Dployr | <a href="/legal/privacy-policy">Privacy</a> • <a href="/legal/terms-of-service">Terms</a> • <a href="/legal/data-processing-addendum">DPA</a> • <a href="https://status.dployr.io/">Status</a>',
     },
 
-    search: {
-      provider: "local",
+    notFound: {
+      quote: "Almost lost you there. Nothing lives here, but plenty does just around the corner.",
+      linkText: "Back to docs",
     },
   },
 });

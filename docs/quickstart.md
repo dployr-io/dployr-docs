@@ -1,73 +1,46 @@
 ---
 title: Quickstart
-description: Deploy your first Node.js, Python, or Go app to your own server with dployr in under 5 minutes. Install the daemon, push from the CLI, no SSH required.
+description: Create a dployr account and deploy your first app in under 5 minutes. No SSH, no server setup, no configuration required.
 ---
 
 # Quickstart
 
-Get dployr up and running in 5 minutes.
+Your server is ready the moment you sign up. This guide takes you from zero to a running service in a few minutes.
 
-## Installation
+## 1. Create your account
 
-### Linux/macOS
+Go to [app.dployr.io](https://app.dployr.io) and sign up. When you first log in, you'll be asked to set a name for yourself and your workspace. That's it. Your cluster is created and your server is provisioned in the background.
 
-```bash
-# First time install with bootstrap token
-curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh \
-  | bash -s -- --token "<bootstrap_token>"
+## 2. Deploy your first service
 
-# Or install latest version
-curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
+From the dashboard, click **Deploy Service**. A form opens with two tabs: **Quick Deploy** for a form-based setup, and **Blueprint Editor** if you prefer to write config directly. Both do the same thing, so use whichever feels natural.
 
-# Start the daemon
-dployrd
-```
+Fill in the fields:
 
-### Windows
+| Field | What to put |
+|---|---|
+| **Source** | Remote repository (GitHub URL) or Docker image |
+| **Branch** | The branch to deploy from |
+| **Runtime** | The language your app uses (Node.js, Python, Go, PHP, etc.) |
+| **Version** | Runtime version, e.g. `20` for Node 20 |
+| **Build command** | How to build your app, e.g. `npm install` |
+| **Run command** | How to start it, e.g. `npm start` |
+| **Port** | The port your app listens on |
+| **Name** | A name for this service |
 
-Run PowerShell as Administrator:
+If your app needs environment variables, click **Configure Environment Variables** before deploying. If you have secrets (API keys, tokens), use **Configure Secrets**. They're stored separately and never exposed.
 
-```powershell
-iwr "https://raw.githubusercontent.com/dployr-io/dployr/master/install.ps1" -OutFile install.ps1
-.\install.ps1  # add -Token $env:DPLOYR_INSTALL_TOKEN for first time install
+When you're ready, click **Deploy**.
 
-dployrd.exe
-```
+## 3. Watch it go live
 
-## Verify Installation
+dployr pulls your code, runs your build command, and starts the service. You'll see it appear in the services list with a status of **Running**. Every service gets a `yourservice.dployr.run` subdomain with HTTPS automatically, with no certificate setup needed.
 
-Check the version:
+Click the service to open its detail page. The **Logs** tab shows live output as your app runs. If something went wrong during the build, it'll be there.
 
-```bash
-dployrd --version
-```
+## What's next
 
-View logs:
-- **Linux/macOS**: `/var/log/dployrd/app.log`
-- **Windows**: `ProgramData/dployr`
-
-The daemon should start and log a websocket mTLS connection attempt to Base.
-
-## Deploy Your First Application
-
-Deploy a Node.js application:
-
-```bash
-dployr deploy \
-  --name hello-world \
-  --source remote \
-  --runtime nodejs \
-  --version 20 \
-  --remote https://github.com/dployr-io/dployr-examples \
-  --branch master \
-  --build-cmd "npm install" \
-  --run-cmd "npm start" \
-  --working-dir "nodejs" \
-  --port 3000
-```
-
-## Next Steps
-
-- [Learn about core concepts](./concepts)
-- [Use Dployr Web](./dployr-web)
-- [Explore CLI commands](./cli)
+- [Add a custom domain](/docs/custom-domains): point your own domain at the service
+- [Set up GitHub Actions](/docs/github-actions): deploy automatically on every push
+- [Learn about the CLI](/docs/cli): deploy and manage services from the terminal
+- [Understand the model](/docs/concepts): how clusters, instances, and services fit together

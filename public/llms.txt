@@ -1,46 +1,71 @@
 # dployr
 
-dployr is a deployment platform with a hosted control plane and a lightweight daemon that runs on your own servers. You install dployrd on any VPS or Linux machine, and dployr.io handles the rest: deploy apps, manage services, and monitor servers from the CLI, GitHub Actions, or the web dashboard. No SSH required.
+Deployment platform. Hosted control plane + lightweight daemon (dployrd) on user-owned servers. Deploy via CLI, GitHub Actions, or web dashboard. No SSH, no inbound ports.
 
-## What it does
+## Architecture
 
-- Deploy Node.js, Python, Go, PHP, Java, Ruby, and Docker apps to your own server
-- Manage multiple servers from one control plane
-- Real-time logs, browser console, rollbacks, environment variables, and secrets
-- Blueprints: reusable JSON/YAML/TOML deployment definitions
-- Custom domains with automatic SSL (auto-renewed)
-- GitHub Actions integration via DPLOYR_TOKEN secret
+- Base: globally distributed control plane (hosted at dployr.io or self-hosted via dployr-base)
+- dployrd: daemon on user's VM, maintains outbound mTLS WebSocket to Base
+- All traffic routed Base -> dployrd, firewall stays closed
 
-## How it works
+## Deployment
 
-dployrd runs on your server and maintains a persistent mTLS WebSocket connection to Base (the control plane). When you trigger a deployment, Base routes the instruction to the right server. dployrd pulls the code, runs your build steps, and starts the service. No inbound ports, no SSH tunnels.
+- Sources: public/private GitHub repositories
+- Triggers: CLI, web dashboard, GitHub Actions (DPLOYR_TOKEN)
+- Config: form builder (one-off) or blueprints (JSON/YAML/TOML, reusable, version-controllable)
+- Zero-downtime: old version live until new one healthy
+- Rollback: one click
+- Next.js: auto-detected, no Dockerfile needed
+
+## Runtimes
+
+Officially supported: Node.js, Python, Go, PHP, Ruby, .NET, Java, Static.
+Anything else: Docker runtime, bring your own image.
+
+## Observability
+
+- Real-time log streaming over WebSocket
+- Browser console: interactive shell via dployrd tunnel, no SSH
+- Process viewer: running processes and system stats
+- File explorer: browse VM files from browser
+- Resource graph: visual map of services and connections
+- Events log: full audit trail, integrates with RBAC
+- Watchdog: detects unresponsive/hanging/deadlocked services (not just crashes), notifies via Slack, Discord, email, or webhook
+
+## Reliability
+
+- Health checks per service: path, interval, failure threshold
+- Auto-restart on failure
+- Notifications on health threshold breach
+
+## Networking
+
+- Custom domains with automatic DNS verification and SSL provisioning (Caddy, auto-renewed)
+- Reverse proxy built in
+
+## Security
+
+- mTLS on all agent-to-base traffic
+- RBAC with full audit trail
+- Secrets stored separately from env vars, never streamed to clients
 
 ## Pricing
 
-- Hobby: free forever, 512MB RAM, 1 vCPU, 10GB disk, 1 workload
-- Indie: $12/month (annual), 1GB RAM, 1 vCPU, 25GB disk, up to 5 workloads
-- Pro: $20/month (annual), 2GB RAM, 1 vCPU, 50GB disk, up to 25 workloads, dedicated instance
+- Hobby: free, 512MB RAM, 1 vCPU, 10GB disk, 1 workload, 2 custom domains
+- Indie: $12/mo (annual), 1GB RAM, 1 vCPU, 25GB disk, 5 workloads
+- Pro: $20/mo (annual), 2GB RAM, 1 vCPU, 50GB disk, 25 workloads, dedicated instance
+- Pricing model: per server, not per service or usage
 
 ## Key concepts
 
-- **Workload**: one running service (API, worker, cron job, etc.)
-- **Blueprint**: a declarative deployment config (runtime, source, build steps, env vars)
-- **dployrd**: the daemon that runs on your server
-- **Base**: the dployr control plane at dployr.io
-
-## Common Questions
-
-**Do I need Docker?** No. Pick a runtime directly. Docker is supported as one option, not a requirement.
-**Will traffic spikes raise my bill?** No. You pay for the server, not for what it handles.
-**What if a deploy fails?** Your current version stays live until the new one is healthy. Roll back in one click if needed.
-**Custom domains and HTTPS?** Yes. Point your domain and SSL is set up and auto-renewed.
-**How is this different from Render or Railway?** Render charges per service, Railway charges per usage. dployr charges per server. Run as many workloads as your plan allows at a flat rate.
-
+- Workload: one running service (API, worker, cron, etc.)
+- Blueprint: declarative deployment config (runtime, source, build/run commands, env vars, secrets)
+- dployrd: daemon on user's server
+- Base: control plane, hosted or self-hosted
 
 ## Links
 
-- Full reference (code examples, API, CLI): https://docs.dployr.io/llms-full.txt
-- Docs: https://docs.dployr.io
+- Docs: https://dployr.io/docs/quickstart.html
 - Dashboard: https://app.dployr.io
 - GitHub: https://github.com/dployr-io/dployr
 - Discord: https://discord.gg/tY8ZbjvrSZ

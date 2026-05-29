@@ -1,139 +1,140 @@
 ---
 title: Blueprints
-description: "Define dployr deployments in JSON, YAML, or TOML. Blueprint fields: runtime, source, build commands, env vars, secrets, and health checks. Reusable across VMs."
+description: Define dployr deployments as code in YAML, JSON, or TOML. Version your deployment config, reuse it across services, and deploy with a single command.
 ---
 
 # Blueprints
 
-Blueprints let you define deployments in a reusable, reviewable way. You can apply the same blueprint across multiple VMs to keep the runtime and the steps consistent.
+A blueprint is a file that describes a deployment. Instead of filling out the deploy form every time, you write your config once, check it into your repo, and pass it to the CLI or dashboard when you deploy.
 
-Blueprints can be written as JSON, YAML, or TOML.
+Blueprints work in YAML, JSON, or TOML. Use whichever your team already reaches for.
 
-## Example (JSON)
+## YAML example
+
+```yaml
+name: my-api
+description: Node.js API
+source: remote
+runtime:
+  type: nodejs
+  version: "20"
+build_cmd: npm install
+run_cmd: npm start
+port: 3000
+remote:
+  url: https://github.com/your-org/your-repo
+  branch: main
+env_vars:
+  NODE_ENV: production
+  LOG_LEVEL: info
+secrets:
+  - DATABASE_URL
+  - STRIPE_SECRET_KEY
+```
+
+## JSON example
 
 ```json
 {
-  "name": "old-county-times",
-  "description": "Simple newspaper application",
+  "name": "my-api",
   "source": "remote",
   "runtime": {
     "type": "nodejs",
     "version": "20"
   },
-  "run_cmd": "npm start",
   "build_cmd": "npm install",
-  "port": 3001,
-  "working_dir": "nodejs",
-  "static_dir": "",
-  "image": "",
-  "env_vars": {
-    "PORT": 3001
-  },
-  "secrets": {},
+  "run_cmd": "npm start",
+  "port": 3000,
   "remote": {
-    "url": "https://github.com/dployr-io/dployr-examples",
-    "branch": "master",
-    "commit_hash": ""
-  }
+    "url": "https://github.com/your-org/your-repo",
+    "branch": "main"
+  },
+  "env_vars": {
+    "NODE_ENV": "production"
+  },
+  "secrets": {}
 }
 ```
 
-## Example (YAML)
-
-```yaml
-name: old-county-times
-description: Simple newspaper application
-source: remote
-runtime:
-  type: nodejs
-  version: "20"
-run_cmd: npm start
-build_cmd: npm install
-port: 3001
-working_dir: nodejs
-static_dir: ""
-image: ""
-env_vars:
-  PORT: 3001
-secrets: {}
-remote:
-  url: https://github.com/dployr-io/dployr-examples
-  branch: master
-  commit_hash: ""
-```
-
-## Example (TOML)
+## TOML example
 
 ```toml
-name = "old-county-times"
-description = "Simple newspaper application"
+name = "my-api"
 source = "remote"
-port = 3001
-working_dir = "nodejs"
-static_dir = ""
-image = ""
-run_cmd = "npm start"
 build_cmd = "npm install"
+run_cmd = "npm start"
+port = 3000
 
 [runtime]
 type = "nodejs"
 version = "20"
 
-[env_vars]
-PORT = 3001
-
-[secrets]
-
 [remote]
-url = "https://github.com/dployr-io/dployr-examples"
-branch = "master"
-commit_hash = ""
+url = "https://github.com/your-org/your-repo"
+branch = "main"
+
+[env_vars]
+NODE_ENV = "production"
 ```
 
-## Fields explained
+## Deploying from a blueprint
+
+```bash
+dployr deploy --blueprint blueprint.yaml
+```
+
+The dashboard's Blueprint Editor does the same thing. Paste your YAML, JSON, or TOML there and the Quick Deploy form updates automatically.
+
+## Field reference
 
 ### Required
 
-- **`name`**
-  A stable identifier for the deployment.
-- **`source`**
-  Where the application comes from. Common values are `remote`, `docker`. This controls which source-specific block is used.
-- **`runtime`**
-  Which runtime to use on the VM.
-  - **`type`**: for example `nodejs`
-  - **`version`**: the runtime version to install/use (for example `20`)
-- **`run_cmd`**
-  Command to start the service process on the VM.
-- **`port`**
-  Service port dployr should expect the app to listen on.
+**`name`**: a stable identifier for the service. Used to match an existing service on redeploy.
+
+**`source`**: where the app comes from. Use `remote` for a git repo, `docker` for a Docker image.
+
+**`runtime`**: the language runtime.
+- `type`: e.g. `nodejs`, `python`, `go`, `php`, `ruby`, `dotnet`, `java`, `static`, `docker`
+- `version`: e.g. `20` for Node 20, `3.11` for Python 3.11
+
+**`run_cmd`**: the command to start your service.
+
+**`port`**: the port your app listens on.
 
 ### Source-specific
 
-- **`remote`**
-  Used when `source` is `remote`.
-  - **`url`**: repository URL
-  - **`branch`**: branch to deploy from
-  - **`commit_hash`**: optional pin to a specific commit
+**`remote`**: used when `source` is `remote`.
+- `url`: the repository URL
+- `branch`: branch to deploy from
+- `commit_hash`: optional, pin to a specific commit
+
+**`image`**: used when `source` is `docker`. The Docker image reference, e.g. `your-org/your-image:latest`.
 
 ### Optional
 
-- **`description`**
-  Human-readable description.
-- **`build_cmd`**
-  Command to run on the VM to build/prepare the app after fetching the source.
-- **`working_dir`**
-  Directory (relative to the source root) to run `build_cmd` and `run_cmd` from.
-- **`env_vars`**
-  Plain environment variables passed to the process.
-- **`secrets`**
-  Secret values, just like **`env_vars`** but never streamed to clients.
-- **`static_dir`**
-  Directory for static content (leave empty when not applicable).
-- **`image`**
-  Docker image reference when using Docker-based deployments (leave empty when not applicable).
+**`description`**: a short description of the service. Shown in the dashboard.
 
-## Next Steps
+**`build_cmd`**: runs after the source is fetched, before starting the service. e.g. `npm install`, `pip install -r requirements.txt`.
 
-- [Learn about core concepts](./concepts)
-- [Use Dployr Web](./dployr-web)
-- [Use the CLI](./cli)
+**`working_dir`**: the directory (relative to the source root) where `build_cmd` and `run_cmd` run.
+
+**`static_dir`**: for static sites, the directory to serve. Used with `runtime.type: static`.
+
+**`env_vars`**: plain environment variables passed to the process.
+
+**`secrets`**: sensitive values. In YAML/TOML, list the key names and dployr pulls the values from your cluster's secret store. In JSON, use an object with key-value pairs (values are stored encrypted).
+
+**`health_check`**: the HTTP path dployr polls to verify your service is up. e.g. `/health`. dployr marks a service degraded only on a **5xx or no response**. A 4xx is fine, it is treated as response to a bad client request, which signifies a running service.
+
+## Using blueprints in GitHub Actions
+
+Check your blueprint file into the repo and reference it in your workflow:
+
+```yaml
+- name: Deploy
+  env:
+    DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
+  run: dployr deploy --blueprint blueprint.yaml
+```
+
+See [GitHub Actions](/docs/github-actions) for the full workflow setup.

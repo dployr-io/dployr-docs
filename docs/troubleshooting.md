@@ -1,325 +1,103 @@
 ---
 title: Troubleshooting
-description: "Common dployr fixes: bootstrap token errors, daemon not starting, deployment failures, WebSocket connection issues, and port conflicts on Linux and macOS."
+description: Common dployr issues and how to fix them. Covers deployment failures, service crashes, WebSocket errors, custom domain DNS, and HTTPS setup.
 ---
 
 # Troubleshooting
 
-Common issues and solutions for dployr.
+## Deployment failed
 
-## Installation Issues
-
-### No bootstrap token
-
-**Problem**: Daemon fails to start with "no bootstrap token" error.
-
-**Suggestion**: Remove the existing installation and rerun the installer:
+The first place to look is the logs. Open the service in the dashboard and go to the **Logs** tab, or run:
 
 ```bash
-# Linux/macOS
-curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh \
-  | bash -s -- --token "<bootstrap_token>"
-
-# Windows
-.\install.ps1 -Token $env:DPLOYR_INSTALL_TOKEN
+dployr logs my-api --tail 100
 ```
 
-### Permission denied
+Build output shows up here. If the build command exited non-zero, you'll see why.
 
-**Problem**: Installation fails with permission errors.
+Common causes:
+- The build command is wrong or references a missing file
+- Dependencies failed to install (check for network errors or private package issues)
+- The wrong working directory: set `working_dir` in your blueprint if your app isn't at the repo root
+- The source repo or branch doesn't exist, or the token doesn't have access
 
-**Suggestion**: Run the installer with administrator/root privileges:
+## Service starts then immediately crashes
+
+Check logs right after the crash:
 
 ```bash
-# Linux/macOS
-sudo curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
-
-# Windows (Run PowerShell as Administrator)
-.\install.ps1
+dployr logs my-api --follow
 ```
 
-## Connection Issues
+The crash output will be there. Common causes: a missing environment variable, a port that's already in use, or an application-level startup error.
 
-### WebSocket authentication errors (401/403)
+If the service crashes in a loop, check health check settings too. An aggressive threshold can trigger restarts faster than the app can come up.
 
-**Problem**: Daemon logs show 401 or 403 errors when connecting to base.
+## Service is running but not responding (502 errors)
 
-**Suggestion**: The daemon will automatically clear the access token and reacquire it. If the issue persists:
+The service process is alive but not listening where dployr expects. Verify:
 
-1. Check that your bootstrap token is valid
-2. Verify the base URL is correct
-3. Check network connectivity to the base URL
+1. The `--port` you set (or the `port` field in your blueprint) matches the port your app actually binds to
+2. Your app is binding to `0.0.0.0` rather than `127.0.0.1`. Some frameworks default to localhost-only
+3. The app has fully started. Check logs for startup completion messages
+
+## Custom domain not working
+
+After adding a domain, DNS changes can take anywhere from a few minutes to a few hours. To check whether your DNS has propagated:
 
 ```bash
-# Test connectivity
-curl -v https://base.dployr.io/health
+dig yourdomain.com
+nslookup yourdomain.com
 ```
 
-### mTLS certificate errors
+The A record should resolve to your instance's IP (find it on the **Instances** page in the dashboard).
 
-**Problem**: Connection fails with certificate validation errors.
+HTTPS certificates are issued automatically once DNS is pointing correctly. If the cert isn't being issued, make sure port 80 is not blocked at the network level, since that's what the certificate challenge uses.
 
-**Suggestion**: Ensure the certificate paths are correct:
+## WebSocket connection errors (401/403)
 
-```yaml
-# /etc/dployr/config.yaml
-mtls:
-  cert_path: /etc/dployr/certs/client.crt
-  key_path: /etc/dployr/certs/client.key
-  ca_path: /etc/dployr/certs/ca.crt
+If you're running your own server (BYOS) and `dployrd` is showing 401 or 403 errors in its logs, the access token needs to be reacquired. `dployrd` does this automatically, so give it a minute. If it persists, check that the bootstrap token used during installation was valid and hasn't expired.
+
+To check `dployrd` logs on a BYOS server:
+
+```bash
+cat /var/log/dployrd/app.log
 ```
 
-Verify certificates are valid:
+## mTLS certificate errors (BYOS)
+
+`dployrd` generates its own client certificate on first run. If you're seeing certificate validation failures, the most common cause is a misconfigured cert path. Check the `dployrd` config at `/etc/dployr/config.yaml` and verify the cert and key paths are correct:
 
 ```bash
 openssl x509 -in /etc/dployr/certs/client.crt -text -noout
 ```
 
-## Deployment Issues
+## Port conflict on a BYOS server
 
-### Build command fails
-
-**Problem**: Deployment fails during the build step.
-
-**Suggestion**: Check the build logs:
+If a service fails to start because its port is already in use:
 
 ```bash
-dployr logs <deployment-name>
-```
-
-Common causes:
-- Missing dependencies
-- Incorrect build command
-- Insufficient disk space
-- Wrong working directory
-
-### Runtime version not found
-
-**Problem**: Deployment fails with "runtime version not found" error.
-
-**Suggestion**: Ensure [vfox](https://vfox.dev/) is installed and the runtime version is available:
-
-```bash
-# Check vfox installation
-vfox --version
-
-# List available versions
-vfox available nodejs
-
-# Install specific version
-vfox install nodejs@20
-```
-
-### Port already in use
-
-**Problem**: Service fails to start with "port already in use" error.
-
-**Suggestion**: Check which process is using the port:
-
-```bash
-# Linux/macOS
 lsof -i :3000
-
-# Windows
-netstat -ano | findstr :3000
 ```
 
-Kill the conflicting process or use a different port.
+Either stop the conflicting process or change the port your app listens on and redeploy.
 
-## Service Issues
+## Database locked (BYOS)
 
-### Service won't start
-
-**Problem**: Service fails to start or crashes immediately.
-
-**Suggestion**: Check service logs:
+This usually means two `dployrd` processes are running at the same time. Find and stop the extra one:
 
 ```bash
-dployr logs <service-name> --tail 100
-```
-
-Common causes:
-- Missing environment variables
-- Incorrect run command
-- Application errors
-- Port conflicts
-
-### Service keeps restarting
-
-**Problem**: Service starts but keeps restarting.
-
-**Suggestion**: Check health check configuration and application logs:
-
-```bash
-# View logs
-dployr logs <service-name> --follow
-
-# Check service status
-dployr service status <service-name>
-```
-
-Adjust health check settings if needed:
-
-```yaml
-health_check:
-  path: /health
-  interval: 30s
-  timeout: 10s
-  retries: 5
-```
-
-## Proxy Issues
-
-### Domain not resolving
-
-**Problem**: Custom domain doesn't resolve to your service.
-
-**Suggestion**: Verify DNS records:
-
-```bash
-# Check DNS
-dig example.com
-nslookup example.com
-```
-
-Ensure DNS A record resolves to your server's IP address.
-Ensure you have configured the TXT record to verify domain ownership.
-
-### SSL certificate errors
-
-**Problem**: HTTPS doesn't work or shows certificate errors.
-
-**Suggestion**: Check Caddy logs:
-
-```bash
-# Linux/macOS
-sudo journalctl -u caddy -f
-
-# Check Caddy configuration
-caddy validate --config /etc/caddy/Caddyfile
-```
-
-Ensure:
-- Port 80 and 443 are open
-- Domain DNS is correctly configured
-- Email is set for Let's Encrypt
-
-### 502 Bad Gateway
-
-**Problem**: Proxy returns 502 error.
-
-**Suggestion**: Verify the service is running:
-
-```bash
-dployr service status <service-name>
-```
-
-Check if the service is listening on the correct port:
-
-```bash
-# Linux/macOS
-netstat -tlnp | grep <port>
-
-# Windows
-netstat -ano | findstr <port>
-```
-
-### Slow deployments
-
-**Problem**: Deployments take too long.
-
-**Suggestion**: 
-- Use build caching
-- Optimize build commands
-- Check network speed for git clones
-- Increase resources
-
-## Database Issues
-
-### Database locked
-
-**Problem**: Operations fail with "database locked" error.
-
-**Suggestion**: Ensure only one daemon instance is running:
-
-```bash
-# Linux/macOS
 ps aux | grep dployrd
-
-# Windows
-Get-Process dployrd
 ```
 
-If multiple instances are running, stop them and restart:
+Then restart:
 
 ```bash
-# Linux
 sudo systemctl restart dployrd
-
-# macOS
-sudo launchctl restart io.dployr.dployrd
-
-# Windows
-Restart-Service dployrd
 ```
 
-### Corrupted database
+## Still stuck?
 
-**Problem**: Database errors or corruption.
-
-**Suggestion**: Restore from backup:
-
-```bash
-# Stop daemon
-sudo systemctl stop dployrd
-
-# Restore backup
-cp /backup/dployr-backup.db /var/lib/dployr/dployr.db
-
-# Start daemon
-sudo systemctl start dployrd
-```
-
-## Logging
-
-### Where are logs?
-
-**Daemon logs**:
-- **Linux/macOS**: `/var/log/dployrd/app.log`
-- **Windows**: `C:\ProgramData\dployr\logs\app.log`
-
-**Service logs**:
-```bash
-dployr logs <service-name>
-```
-
-**System logs**:
-```bash
-# Linux
-sudo journalctl -u dployrd -f
-
-# macOS
-log show --predicate 'process == "dployrd"' --last 1h
-
-# Windows
-Get-EventLog -LogName Application -Source dployrd -Newest 50
-```
-
-## Getting Help
-
-If you're still experiencing issues:
-
-1. Check the [GitHub Issues](https://github.com/dployr-io/dployr/issues)
-2. Join the [Discord community](https://discord.gg/tY8ZbjvrSZ)
-3. Review the [documentation](./quickstart)
-4. View the logs in the web interface or using the CLI command:
-
-```bash
-dployr logs <service-name>
-```
-
-## Next Steps
-
-- [Installation](./installation)
-- [Learn about concepts](./concepts)
-- [Explore CLI commands](./cli)
+- Check [GitHub Issues](https://github.com/dployr-io/dployr/issues): someone may have hit the same thing
+- Join the [Discord community](https://discord.gg/tY8ZbjvrSZ) for help from the team and other users
+- The dashboard logs view and `dployr logs` are almost always the fastest path to the answer

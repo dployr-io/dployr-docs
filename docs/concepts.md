@@ -1,125 +1,61 @@
 ---
-title: Concepts
-description: "How dployr works: Base control plane, dployrd agent, mTLS WebSocket sync, RBAC, runtimes, blueprints, and services running on your own self-hosted VMs."
+title: How it works
+description: How dployr works under the hood. Clusters, instances, services, the Base control plane, dployrd, and mTLS WebSocket architecture explained.
 ---
 
-# Concepts
+# How it works
 
-## Introduction
+You don't need to read this to use dployr. But if you're the kind of person who wants to understand what's happening before they trust a tool with their production apps, this is the page for that.
 
-If you have a couple of VMs to look after (a cheap VPS, a home lab, a Raspberry Pi), you probably know the drill: remote copy files over, SSH in, restart a process, tail logs, then do it again on the next VM.
+## The model
 
-The other thing you usually want is predictability: the same deploy steps every time, with the same runtime version, without relying on “whatever happens to be installed” on a box.
+Everything in dployr is organized into three layers.
 
-Docker can solve some of that, but it can also be overkill for simple projects. Not every project needs a container - sometimes you just want to run a simple Node.js, PHP, Java, or Python app directly on the VM. For those cases, Dployr gives you a programmable deployment workflow (blueprints) for VMs. Docker amongst other runtimes e.g Node.js, PHP, Java, Python etc. is supported, but it is treated as one runtime option, not a requirement.
+**Cluster** is your workspace. It owns everything: your services, your server, your team members, your settings. When you sign up, one is created for you. You can have multiple clusters, which is useful if you're managing separate projects or environments.
 
-The model is:
-- **Base** is the globally distributed control plane.
-- Each **VM** runs [`dployrd`](https://github.com/dployr-io/dployr) (a lightweight daemon) that establishes an outbound connection to **Base**.
-- [Web](https://app.dployr.io/) and the **CLI** talk to **Base**, which relays the requests to the appropriate **VM**.
+**Instance** is the server. It's the machine running your apps. On the Hobby and Indie plans, dployr provisions and manages it for you. On Pro, you can also [connect your own VPS](/docs/byos) from any provider you already use. One instance can run multiple services.
 
-When you make a deployment, open a console, stream logs, or perform any other action, the request goes to the **Base**, then down to the right VM through the same long-lived WebSocket connection.
+**Service** is a running app (also called a workload). Your API, your background worker, your static site: each is a service. Services are deployed to an instance and managed independently, with their own logs, environment variables, health checks, domains, and settings.
 
-## Architecture
+## The control plane
 
-![Architecture diagram](../public/architecture.png)
-*Dployr maintains a persistent mTLS WebSocket connection between the agent and the base.*
+**Base** is dployr's control plane. It's what the dashboard and CLI talk to. It handles authentication, routing requests to the right instance, storing state, and scheduling work. Base is proxied through Cloudflare, so requests benefit from Cloudflare's network regardless of where your server is.
 
-## Core components
 
-### Base
+## `dployrd`
 
-**Base** is the globally distributed control plane. Web and the CLI talk to **Base**, and **Base** routes those requests to the right VM through `dployrd`.
+**`dployrd`** is a lightweight daemon that runs on your instance. It's the only piece of software you'd install yourself if you're on the [Bring Your Own Server](/docs/byos) path. On managed instances, dployr handles this for you.
 
-- It exposes the [API](https://api-docs.dployr.io/) used by Web and the CLI.
-- It handles authentication and authorization (RBAC) and records actions.
-- It schedules work and keeps state for projects, VMs, deployments, and services.
+`dployrd` does a few things:
+- Maintains a persistent, outbound WebSocket connection to Base (mTLS encrypted)
+- Receives deploy instructions from Base and executes them locally
+- Streams logs and status back to Base in real time
 
-You can use the hosted base (run by dployr), or self-host the base yourself using [dployr-base](https://github.com/dployr-io/dployr-base). Either way, each VM only needs an outbound connection to **Base**.
+## How a deployment flows
 
-### Agent (`dployrd`)
+When you push a deployment from the dashboard, CLI, or GitHub Actions:
 
-[`dployrd`](https://github.com/dployr-io/dployr) is a lightweight daemon that runs on your VM.
+1. The request hits Base
+2. Base routes it to the right instance through the WebSocket connection
+3. `dployrd` on the instance pulls your code, runs your build command, and starts the service
+4. Logs and status stream back through the same connection
 
-- It maintains a long-lived, outbound WebSocket connection to **Base** (mTLS).
-- It receives requests from **Base** (deploy, restart, run commands) and executes them locally.
-- It streams logs and status back to **Base**.
+Your server never needs to accept inbound connections from the internet. `dployrd` dials out, so your firewall stays closed.
 
-### Web
+## The browser console and file explorer
 
-The Web UI is available at [app.dployr.io](https://app.dployr.io/) (source: [dployr](https://github.com/dployr-io/dployr)). It talks to **Base**.
+The same WebSocket connection that handles deployments is what makes the browser console and file explorer work. When you open a terminal session in the dashboard, it's tunneled from your browser through Base to `dployrd` on your instance. No SSH, no open ports.
 
-### CLI
+## Security
 
-The CLI follows the same pattern as Web - it talks to **Base**. 
+**Transport.** All traffic between `dployrd` and Base is encrypted with mTLS. Both sides present certificates and both sides verify them. `dployrd` generates its own client certificate on first run and Base verifies it on every connection. Your server never accepts inbound connections, so there are no open ports to expose.
 
-## Synchronization (how base and VMs talk)
+**Secrets.** Environment variable secrets are encrypted at rest. Once set, the values are never returned through the API or shown anywhere in the dashboard. You can overwrite or delete a secret, but you can't read it back. This means even if someone gains access to your dashboard account, your raw secret values stay protected.
 
-Dployr is designed so your VMs do not need to accept inbound traffic from the internet.
+**Access control.** Every team member operates under a role (Owner, Admin, Member, or Guest) that limits what they can do. See [Teams & RBAC](/docs/teams) for the full breakdown.
 
-- Each `dployrd` agent generates a client certificate.
-- The base uses that certificate to authenticate the agent (mTLS).
-- The agent keeps a persistent connection and reconnects automatically.
-- Work is pushed over that connection in real time.
-
-That same connection is also what makes the “debug from one place” features possible:
-
-- **Console**: interactive shell sessions are tunneled from Web to the VM through the base and `dployrd`.
-- **Logs**: logs are streamed over WebSocket rather than scraped or polled.
-
-## Authentication and tokens
-
-### Bootstrap token
-
-Used once when registering a new agent.
-
-### Access token
-
-Short-lived token used for API calls. The agent refreshes it automatically every 5 minutes.
-
-## Logging
-
-[`dployrd`](https://github.com/dployr-io/dployr) writes structured JSON logs to `/var/log/dployrd/app.log` for debugging.
-
-## Deployments
-
-Deployments describe what to run on a VM and how to run it.
-
-You can create deployments in two ways:
-
-- A guided form (good for getting started)
-- A blueprint (good for repeatable, reviewable, version-controlled setups). See [Blueprints](/docs/blueprints).
-
-## Services
-
-Services are long-running processes managed by dployr.
-
-- Restart on failure
-- Environment variables
-- Port management
-- Log collection
-
-## Proxy
-
-Dployr uses [Caddy](https://caddyserver.com/) as a reverse proxy in front of services.
+**Audit trail.** Every action taken in your cluster is recorded in the events log: deployments, restarts, environment variable changes, team invites, logins. In a team environment you always have a clear record of who did what and when.
 
 ## Runtimes
 
-Dployr manages language runtimes using [vfox](https://vfox.dev/), enabling consistent installation and switching across VMs. Supported runtimes include Node.js, Python, Go, PHP, Ruby, .NET, Java, Docker, and Static.
-
-## Security model
-
-### mTLS
-
-All agent-to-base traffic is encrypted and mutually authenticated.
-
-### RBAC
-
-Permissions are scoped by role, and actions are recorded. This is what makes audit-friendly workflows possible in teams.
-
-## Next Steps
-
-- [Dployr Web](/docs/dployr-web)
-- [Write a blueprint](/docs/blueprints)
-- [Explore CLI commands](./cli)
-- [View API reference](./api)
+dployr officially supports Node.js, Python, Go, PHP, Ruby, .NET, Java, and Static. For anything outside that list (Rust, Haskell, Redis, a custom binary, whatever), use the Docker runtime and bring your own image. If it runs in a container, dployr can deploy it.

@@ -97,7 +97,7 @@ Dployr implements the following security measures:
 
 Dployr uses the following sub-processors:
 
-- **DigitalOcean LLC** (United States): Cloud compute infrastructure hosting all managed server instances, agent telemetry, logs, and platform services
+- **DigitalOcean LLC** (United States): Cloud compute infrastructure hosting all managed server instances, `dployrd` telemetry, logs, and platform services
 - **Cloudflare Inc.** (United States): DNS, traffic routing, DDoS protection, and access control
 
 Customer authorizes the use of these sub-processors. Dployr will notify customers of changes to sub-processors with 30 days notice. Customers may object to new sub-processors within 14 days of notification. If an objection cannot be resolved, the customer may terminate the affected services without penalty.

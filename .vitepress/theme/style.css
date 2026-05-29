@@ -5,6 +5,10 @@
 /* Import Instrument Sans font */
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
 
+.dark-only { display: none; }
+.dark .dark-only { display: block; }
+.dark .light-only { display: none; }
+
 /**
  * Font Family
  * -------------------------------------------------------------------------- */
@@ -199,6 +203,27 @@
 
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/**
+ * Component: Nav wordmark
+ * -------------------------------------------------------------------------- */
+
+.VPNavBarTitle .title span {
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/**
+ * Component: 404
+ * -------------------------------------------------------------------------- */
+
+.VPContent .NotFound .code {
+  font-size: clamp(6rem, 20vw, 12rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 /**

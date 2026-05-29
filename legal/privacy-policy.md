@@ -42,9 +42,9 @@ We collect data that you explicitly provide when configuring your infrastructure
 - Service names
 - Optional metadata
 
-### Agent Telemetry
+### `dployrd` Telemetry
 
-The dployrd daemon running on your instances sends telemetry data:
+dployrd running on your instances sends telemetry data:
 
 - Process snapshots
 - Service status
@@ -77,7 +77,7 @@ We maintain event logs for audit purposes:
 
 ### DigitalOcean
 
-All managed server instances are hosted on DigitalOcean infrastructure. Application data, agent telemetry, logs, and platform services run on DigitalOcean servers. DigitalOcean's privacy policy is available at [digitalocean.com/legal/privacy-policy](https://www.digitalocean.com/legal/privacy-policy/).
+All managed server instances are hosted on DigitalOcean infrastructure. Application data, `dployrd` telemetry, logs, and platform services run on DigitalOcean servers. DigitalOcean's privacy policy is available at [digitalocean.com/legal/privacy-policy](https://www.digitalocean.com/legal/privacy-policy/).
 
 ### Cloudflare
 
