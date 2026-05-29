@@ -65,7 +65,7 @@ Anything else: Docker runtime, bring your own image.
 
 ## Links
 
-- Docs: https://dployr.io/docs/quickstart.html
+- Docs: https://dployr.io/docs/quickstart
 - Dashboard: https://app.dployr.io
 - GitHub: https://github.com/dployr-io/dployr
 - Discord: https://discord.gg/tY8ZbjvrSZ

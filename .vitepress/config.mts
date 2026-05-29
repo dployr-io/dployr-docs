@@ -94,6 +94,7 @@ export default defineConfig({
 
     return [...head, ...scripts]
   },
+  cleanUrls: true,
   vite: {
     resolve: {
       alias: {
