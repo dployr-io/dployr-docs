@@ -1,9 +1,9 @@
 ---
-title: Dashboard
+title: Deploy and Manage Apps from the Dashboard
 description: Deploy and manage services from the dployr web dashboard at app.dployr.io. Covers the deploy form, blueprint editor, logs, console, file explorer, and events.
 ---
 
-# Dashboard
+# The dployr dashboard
 
 The dashboard is at [app.dployr.io](https://app.dployr.io). Everything you need to deploy, monitor, and manage your cluster lives here.
 

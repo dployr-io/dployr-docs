@@ -1,9 +1,9 @@
 ---
-title: Billing
-description: dployr pricing plans, what's included on each, and how to upgrade. Hobby is free, Indie is $12/mo annually, Pro is $20/mo annually.
+title: Pricing and Billing
+description: dployr pricing plans and what is included on each. Hobby is free forever, Indie is $12/month billed annually, Pro is $20/month billed annually.
 ---
 
-# Billing
+# Pricing and billing
 
 ## Plans
 

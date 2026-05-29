@@ -1,9 +1,9 @@
 ---
-title: Quickstart
+title: Deploy Your First App in 5 Minutes
 description: Create a dployr account and deploy your first app in under 5 minutes. No SSH, no server setup, no configuration required.
 ---
 
-# Quickstart
+# Deploy your first app in 5 minutes
 
 Your server is ready the moment you sign up. This guide takes you from zero to a running service in a few minutes.
 

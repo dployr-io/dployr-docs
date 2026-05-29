@@ -1,9 +1,9 @@
 ---
-title: Custom Domains
-description: Point your own domain at a dployr service. Add a domain via the proxy, configure your DNS records, and get HTTPS automatically.
+title: Custom Domains and HTTPS
+description: Point your own domain at a dployr service. Add a domain, configure your DNS records, and get HTTPS automatically with no certificate setup.
 ---
 
-# Custom Domains
+# Custom domains and HTTPS
 
 Every service gets a `yourservice.dployr.run` subdomain with HTTPS out of the box. When you're ready to use your own domain, you can point it at any service in your cluster.
 

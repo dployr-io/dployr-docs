@@ -1,9 +1,9 @@
 ---
-title: CLI
-description: Deploy and manage dployr services from the terminal. Full CLI reference for auth, deploy, logs, services, env vars, proxy, and projects.
+title: dployr CLI Reference
+description: Deploy and manage dployr services from the terminal. Full CLI reference for auth, deploy, logs, services, env vars, domains, and projects.
 ---
 
-# CLI
+# dployr CLI
 
 The dployr CLI lets you deploy and manage services from the terminal. It talks to the same Base control plane as the dashboard, so everything you can do in one, you can do in the other.
 

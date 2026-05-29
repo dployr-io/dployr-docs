@@ -1,9 +1,9 @@
 ---
-title: Introduction
-description: What dployr is, how it works, and how the docs are organized. Start here before anything else.
+title: What is dployr
+description: dployr is a deployment platform that provisions your server on signup. Deploy Node.js, Python, Go, PHP, Ruby, and more from the CLI, GitHub Actions, or dashboard. No SSH, no config.
 ---
 
-# Introduction
+# What is dployr
 
 dployr is a deployment platform that gives you a real server the moment you sign up. You deploy your apps to it using the CLI, the dashboard, or GitHub Actions. No SSH, no configuration, no waiting.
 
@@ -32,6 +32,6 @@ That's the model. Everything in these docs maps back to it.
 - **Managing Services**: logs, env vars, custom domains, health checks
 - **Infrastructure**: instances, and connecting your own server
 - **Team & Account**: roles, invites, billing
-- **Reference**: API, troubleshooting
+- **Reference**: troubleshooting
 
 If you're new, start with the [Quickstart](/docs/quickstart). If you want to understand how things work before touching anything, [How it works](/docs/concepts) is the right place.

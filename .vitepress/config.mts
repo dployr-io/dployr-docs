@@ -73,23 +73,37 @@ export default defineConfig({
           headline: title,
           description,
           datePublished: date,
-          author: { '@type': 'Organization', name: 'Dployr', url: 'https://dployr.io' },
-          publisher: { '@type': 'Organization', name: 'Dployr', logo: { '@type': 'ImageObject', url: 'https://dployr.io/logo.svg' } },
+          author: { '@type': 'Organization', name: 'dployr', url: 'https://dployr.io' },
+          publisher: { '@type': 'Organization', name: 'dployr', logo: { '@type': 'ImageObject', url: 'https://dployr.io/logo.svg' } },
           url: canonicalUrl,
         }),
       ])
     }
 
-    const head: [string, Record<string, string>][] = [
-      ['link', { rel: 'canonical', href: canonicalUrl }],
-      ['meta', { property: 'og:url', content: canonicalUrl }],
-      ['meta', { property: 'og:type', content: isBlogPost ? 'article' : 'website' }],
-    ]
+    const pageTitle = pageData.frontmatter?.title as string | undefined
+    const siteName = 'dployr'
+    const fallbackTitle = 'dployr | Ship apps, not infrastructure'
+    const fullTitle = pageTitle && pageTitle !== siteName
+      ? `${pageTitle} | ${siteName}`
+      : fallbackTitle
 
     const description = pageData.frontmatter?.description as string | undefined
+    const siteDescription = 'Your server is ready the moment you sign up. Deploy Node.js, Python, Go, PHP, Ruby, .NET, Java, and Docker from the CLI, GitHub Actions, or dashboard.'
+    const fullDescription = description || siteDescription
+
+    const head: [string, Record<string, string>][] = [
+      ['link', { rel: 'canonical', href: canonicalUrl }],
+      ['meta', { property: 'og:type', content: isBlogPost ? 'article' : 'website' }],
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+      ['meta', { property: 'og:title', content: fullTitle }],
+      ['meta', { property: 'og:description', content: fullDescription }],
+      ['meta', { name: 'twitter:url', content: canonicalUrl }],
+      ['meta', { name: 'twitter:title', content: fullTitle }],
+      ['meta', { name: 'twitter:description', content: fullDescription }],
+    ]
+
     if (description) {
       head.push(['meta', { name: 'description', content: description }])
-      head.push(['meta', { property: 'og:description', content: description }])
     }
 
     return [...head, ...scripts]
@@ -106,7 +120,7 @@ export default defineConfig({
     hostname: 'https://dployr.io',
   },
   title: "dployr",
-  description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
+  description: "Your server is ready the moment you sign up. Deploy Node.js, Python, Go, PHP, Ruby, .NET, Java, and Docker from the CLI, GitHub Actions, or dashboard.",
   lang: "en-US",
   head: [
     // Geist — wordmark font
@@ -126,33 +140,22 @@ export default defineConfig({
     ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
     ["meta", { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }],
 
-    // Open Graph / Facebook
-    ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:url", content: "https://dployr.io" }],
-    ["meta", { property: "og:title", content: "dployr - Self-Hosted Deployment Platform" }],
-    [
-      "meta",
-      { property: "og:description", content: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease." },
-    ],
+    // Open Graph — type, title, description, url are set per-page in transformHead
     ["meta", { property: "og:image", content: "https://dployr.io/og-dark.png" }],
     ["meta", { property: "og:image:width", content: "1200" }],
     ["meta", { property: "og:image:height", content: "630" }],
-    ["meta", { property: "og:image:alt", content: "dployr — Ship apps, not infrastructure." }],
-    ["meta", { property: "og:site_name", content: "dployr Documentation" }],
+    ["meta", { property: "og:image:alt", content: "dployr | Ship apps, not infrastructure" }],
+    ["meta", { property: "og:site_name", content: "dployr" }],
     ["meta", { property: "og:locale", content: "en_US" }],
 
-    // Twitter
+    // Twitter — title, description, url are set per-page in transformHead
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
-    ["meta", { name: "twitter:url", content: "https://dployr.io" }],
-    ["meta", { name: "twitter:title", content: "dployr - Self-Hosted Deployment Platform" }],
-    ["meta", { name: "twitter:description", content: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure." }],
     ["meta", { name: "twitter:image", content: "https://dployr.io/og-dark.png" }],
     ["meta", { name: "twitter:creator", content: "@dployr" }],
     ["meta", { name: "twitter:site", content: "@dployr" }],
 
     // Additional SEO
-    ["meta", { name: "keywords", content: "deployment, self-hosted, control plane, infrastructure, DevOps, platform, open source" }],
-    ["meta", { name: "author", content: "Dployr" }],
+    ["meta", { name: "author", content: "dployr" }],
     ["meta", { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" }],
     ["meta", { name: "googlebot", content: "index, follow" }],
     ["meta", { name: "bingbot", content: "index, follow" }],
@@ -165,17 +168,10 @@ export default defineConfig({
         "@context": "https://schema.org",
         "@type": "WebSite",
         name: "dployr",
-        description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure",
+        description: "Your server is ready the moment you sign up. Deploy Node.js, Python, Go, PHP, Ruby, .NET, Java, and Docker from the CLI, GitHub Actions, or dashboard.",
         url: "https://dployr.io",
         logo: "https://dployr.io/logo.svg",
         sameAs: ["https://github.com/dployr-io/dployr", "https://x.com/@dployr", "https://discord.gg/tY8ZbjvrSZ"],
-        potentialAction: {
-          "@type": "SearchAction",
-          target: {
-            "@type": "EntryPoint",
-            urlTemplate: "https://dployr.io/search?q={search_term_string}",
-          },
-        },
       }),
     ],
 
@@ -186,10 +182,10 @@ export default defineConfig({
       JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: "Dployr",
+        name: "dployr",
         url: "https://dployr.io",
         logo: "https://dployr.io/logo.svg",
-        description: "Self-hosted deployment platform",
+        description: "Deployment platform for developers. Ship apps, not infrastructure.",
         sameAs: ["https://github.com/dployr-io/dployr", "https://x.com/@dployr", "https://discord.gg/tY8ZbjvrSZ"],
         contactPoint: {
           "@type": "ContactPoint",
@@ -208,7 +204,7 @@ export default defineConfig({
         "@type": "SoftwareApplication",
         name: "dployr",
         applicationCategory: "DeveloperApplication",
-        operatingSystem: "Linux, macOS, Windows",
+        operatingSystem: "Linux, macOS",
         url: "https://dployr.io",
         description: "Your server is ready the moment you sign up. Deploy any app with the CLI, GitHub Actions, or the dashboard. No SSH, no setup, nothing to configure.",
         offers: [

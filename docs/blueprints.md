@@ -1,9 +1,9 @@
 ---
-title: Blueprints
+title: Blueprints: Deploy as Code
 description: Define dployr deployments as code in YAML, JSON, or TOML. Version your deployment config, reuse it across services, and deploy with a single command.
 ---
 
-# Blueprints
+# Blueprints: deploy as code
 
 A blueprint is a file that describes a deployment. Instead of filling out the deploy form every time, you write your config once, check it into your repo, and pass it to the CLI or dashboard when you deploy.
 

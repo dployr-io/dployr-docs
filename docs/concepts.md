@@ -1,9 +1,9 @@
 ---
-title: How it works
+title: How dployr Works
 description: How dployr works under the hood. Clusters, instances, services, the Base control plane, dployrd, and mTLS WebSocket architecture explained.
 ---
 
-# How it works
+# How dployr works
 
 You don't need to read this to use dployr. But if you're the kind of person who wants to understand what's happening before they trust a tool with their production apps, this is the page for that.
 

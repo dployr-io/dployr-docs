@@ -1,9 +1,9 @@
 ---
-title: Environment Variables & Secrets
+title: Environment Variables and Secrets
 description: Set environment variables and secrets for your dployr services. Manage config per service, inject at runtime, and keep sensitive values encrypted.
 ---
 
-# Environment Variables & Secrets
+# Environment variables and secrets
 
 Two ways to pass config to your services: environment variables for plain config, secrets for sensitive values like API keys and database passwords.
 

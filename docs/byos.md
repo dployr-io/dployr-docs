@@ -1,9 +1,9 @@
 ---
 title: Bring Your Own Server
-description: Connect your own server to dployr on a Pro plan. Install `dployrd`, generate a bootstrap token, and manage it alongside your other instances.
+description: Connect your own Linux server to dployr on a Pro plan. Install dployrd, generate a bootstrap token, and manage it alongside your other instances.
 ---
 
-# Bring Your Own Server
+# Bring your own server
 
 By default, dployr provisions and manages a server for you. If you're on the Pro plan, you can also connect a server you already own. Your own server shows up in the dashboard and CLI like any other instance, with the same deploy flow, console access, and everything else.
 

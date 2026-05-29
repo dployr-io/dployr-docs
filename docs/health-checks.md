@@ -1,9 +1,9 @@
 ---
-title: Health Checks & Watchdog
+title: Health Checks and Watchdog Monitoring
 description: Configure HTTP health checks for your dployr services and get notified on Slack, Discord, email, or webhook when something goes wrong.
 ---
 
-# Health Checks & Watchdog
+# Health checks and Watchdog
 
 Point dployr at a health check endpoint and Watchdog takes it from there. It polls your service, marks it degraded if it stops responding, and notifies you on whatever channels you have set up.
 

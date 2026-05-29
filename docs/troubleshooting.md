@@ -1,9 +1,9 @@
 ---
-title: Troubleshooting
+title: Troubleshooting dployr
 description: Common dployr issues and how to fix them. Covers deployment failures, service crashes, WebSocket errors, custom domain DNS, and HTTPS setup.
 ---
 
-# Troubleshooting
+# Troubleshooting dployr
 
 ## Deployment failed
 
@@ -61,7 +61,7 @@ If you're running your own server (BYOS) and `dployrd` is showing 401 or 403 err
 To check `dployrd` logs on a BYOS server:
 
 ```bash
-cat /var/log/dployrd/app.log
+tail -f /var/log/dployrd/app.log
 ```
 
 ## mTLS certificate errors (BYOS)

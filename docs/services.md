@@ -1,9 +1,9 @@
 ---
-title: Services
+title: Managing Services
 description: How to manage running services in dployr. Logs, metrics, restart controls, settings, and understanding service state.
 ---
 
-# Services
+# Managing services
 
 A service is a running app inside your cluster (also called a workload). Your API, your background worker, your static site: each one is its own service with isolated logs, environment variables, health checks, and settings.
 

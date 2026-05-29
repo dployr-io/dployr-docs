@@ -1,9 +1,9 @@
 ---
-title: GitHub Actions
+title: Deploy with GitHub Actions
 description: Deploy to dployr automatically on every git push using GitHub Actions and the dployr CLI. Set up DPLOYR_TOKEN and add the workflow to your repository.
 ---
 
-# GitHub Actions
+# Deploy with GitHub Actions
 
 You can deploy to dployr automatically on every push by running the dployr CLI in a GitHub Actions workflow. No separate action needed. Just authenticate with a token and run `dployr deploy`.
 

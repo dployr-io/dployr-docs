@@ -1,9 +1,9 @@
 ---
-title: Teams & RBAC
+title: Teams and Role-Based Access Control
 description: Invite teammates to your dployr cluster and control what they can do with role-based access control. Roles include Owner, Admin, Member, and Guest.
 ---
 
-# Teams & RBAC
+# Teams and RBAC
 
 Your cluster has a team. Everyone on the team can access the dashboard and perform actions based on their role. This page covers inviting people, assigning roles, and what each role can do.
 
