@@ -19,9 +19,6 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
-# Crawl delay (in seconds)
-Crawl-delay: 1
-
 # AI crawlers — allow indexing, point to llms.txt for structured context
 User-agent: GPTBot
 Allow: /
@@ -48,8 +45,5 @@ User-agent: cohere-ai
 Allow: /
 
 # Sitemap location
-Sitemap: https://docs.dployr.io/sitemap.xml
+Sitemap: https://dployr.io/sitemap.xml
 
-# LLM context
-LLMs-txt: https://docs.dployr.io/llms.txt
-LLMs-txt-full: https://docs.dployr.io/llms-full.txt
