@@ -65,6 +65,8 @@ export default defineConfig({
     // Google Analytics
     ["script", { async: "", src: "https://www.googletagmanager.com/gtag/js?id=G-STQJCSLE5K" }],
     ["script", {}, `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-STQJCSLE5K');`],
+    // Microsoft Clarity
+    ["script", {}, `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","wylfzdbf0d");`],
     ["link", { rel: "icon", href: "/favicon.ico" }],
     ["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }],
     ["link", { rel: "alternate", type: "application/rss+xml", title: "dployr Blog RSS", href: "/blog/rss.xml" }],
