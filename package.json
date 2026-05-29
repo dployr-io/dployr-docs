@@ -12,7 +12,7 @@
   },
   "scripts": {
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "docs:build": "vitepress build && pagefind --site .vitepress/dist",
     "docs:preview": "vitepress preview",
     "dev": "vitepress dev docs",
     "build": "vitepress build && pagefind --site .vitepress/dist",
