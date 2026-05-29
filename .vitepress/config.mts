@@ -2,6 +2,58 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  transformHead({ pageData }) {
+    const base = 'https://dployr.io'
+    const canonicalUrl = `${base}/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '')
+      .replace(/\/$/, '') || base + '/'
+
+    const parts = pageData.relativePath.replace(/\.md$/, '').split('/')
+    const segmentLabels: Record<string, string> = {
+      docs: 'Docs',
+      blog: 'Blog',
+      legal: 'Legal',
+      quickstart: 'Quickstart',
+      installation: 'Installation',
+      concepts: 'Concepts',
+      blueprints: 'Blueprints',
+      cli: 'CLI Commands',
+      'dployr-web': 'Dployr Web',
+      api: 'API',
+      troubleshooting: 'Troubleshooting',
+      'privacy-policy': 'Privacy Policy',
+      'terms-of-service': 'Terms of Service',
+      'data-processing-addendum': 'Data Processing Addendum',
+      welcome: 'Shipping dployr',
+    }
+
+    const breadcrumbItems = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: base + '/' },
+      ...parts
+        .filter(p => p && p !== 'index')
+        .map((p, i, arr) => ({
+          '@type': 'ListItem',
+          position: i + 2,
+          name: segmentLabels[p] || p,
+          item: `${base}/${arr.slice(0, i + 1).join('/')}`,
+        })),
+    ]
+
+    const scripts: [string, Record<string, string>, string][] = []
+    if (breadcrumbItems.length > 1) {
+      scripts.push([
+        'script',
+        { type: 'application/ld+json' },
+        JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: breadcrumbItems }),
+      ])
+    }
+
+    return [
+      ['link', { rel: 'canonical', href: canonicalUrl }],
+      ...scripts,
+    ]
+  },
   title: "dployr",
   description: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease.",
   lang: "en-US",
@@ -29,7 +81,10 @@ export default defineConfig({
       "meta",
       { property: "og:description", content: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure. Deploy and manage applications with ease." },
     ],
-    ["meta", { property: "og:image", content: "https://dployr.io/logo.svg" }],
+    ["meta", { property: "og:image", content: "https://dployr.io/og-dark.png" }],
+    ["meta", { property: "og:image:width", content: "1200" }],
+    ["meta", { property: "og:image:height", content: "630" }],
+    ["meta", { property: "og:image:alt", content: "dployr — Ship apps, not infrastructure." }],
     ["meta", { property: "og:site_name", content: "dployr Documentation" }],
     ["meta", { property: "og:locale", content: "en_US" }],
 
@@ -38,7 +93,7 @@ export default defineConfig({
     ["meta", { name: "twitter:url", content: "https://dployr.io" }],
     ["meta", { name: "twitter:title", content: "dployr - Self-Hosted Deployment Platform" }],
     ["meta", { name: "twitter:description", content: "Self-hosted platform with globally distributed control plane and lightweight agents for your infrastructure." }],
-    ["meta", { name: "twitter:image", content: "https://dployr.io/logo.svg" }],
+    ["meta", { name: "twitter:image", content: "https://dployr.io/og-dark.png" }],
     ["meta", { name: "twitter:creator", content: "@dployr" }],
     ["meta", { name: "twitter:site", content: "@dployr" }],
 
@@ -88,6 +143,47 @@ export default defineConfig({
           contactType: "Customer Support",
           email: "hello@dployr.io",
         },
+      }),
+    ],
+
+    // SoftwareApplication Schema
+    [
+      "script",
+      { type: "application/ld+json" },
+      JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: "dployr",
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "Linux, macOS, Windows",
+        url: "https://dployr.io",
+        description: "Your server is ready the moment you sign up. Deploy any app with the CLI, GitHub Actions, or the dashboard. No SSH, no setup, nothing to configure.",
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Hobby",
+            price: "0",
+            priceCurrency: "USD",
+            description: "Free forever. 512MB RAM, 1 vCPU, 10GB disk, 1 workload.",
+          },
+          {
+            "@type": "Offer",
+            name: "Indie",
+            price: "12",
+            priceCurrency: "USD",
+            description: "1GB RAM, 1 vCPU, 25GB disk, up to 5 workloads. Billed annually.",
+          },
+          {
+            "@type": "Offer",
+            name: "Pro",
+            price: "20",
+            priceCurrency: "USD",
+            description: "2GB RAM, 1 vCPU, 50GB disk, up to 25 workloads. Dedicated instance. Billed annually.",
+          },
+        ],
+        license: "https://www.apache.org/licenses/LICENSE-2.0",
+        isAccessibleForFree: true,
+        sameAs: ["https://github.com/dployr-io/dployr"],
       }),
     ],
   ],

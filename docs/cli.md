@@ -1,3 +1,8 @@
+---
+title: CLI Commands
+description: dployr CLI reference. Commands for auth, deploy, logs, exec, services, and secrets. Manage self-hosted servers from the terminal without SSH.
+---
+
 # CLI Commands
 
 Complete reference for the dployr command-line interface.

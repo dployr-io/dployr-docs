@@ -1,3 +1,8 @@
+---
+title: Quickstart
+description: Deploy your first Node.js, Python, or Go app to your own server with dployr in under 5 minutes. Install the daemon, push from the CLI, no SSH required.
+---
+
 # Quickstart
 
 Get dployr up and running in 5 minutes.

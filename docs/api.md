@@ -1,3 +1,8 @@
+---
+title: API Reference
+description: dployr REST API reference. Auth, deployments, services, logs, and secrets. Bearer token setup and request examples for self-hosted infrastructure automation.
+---
+
 # API Reference
 
 The dployr API provides programmatic access to all platform functionality.

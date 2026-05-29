@@ -1,3 +1,8 @@
+---
+title: Blueprints
+description: "Define dployr deployments in JSON, YAML, or TOML. Blueprint fields: runtime, source, build commands, env vars, secrets, and health checks. Reusable across VMs."
+---
+
 # Blueprints
 
 Blueprints let you define deployments in a reusable, reviewable way. You can apply the same blueprint across multiple VMs to keep the runtime and the steps consistent.

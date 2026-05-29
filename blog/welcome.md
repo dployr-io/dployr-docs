@@ -3,6 +3,7 @@ layout: blog-post
 title: Shipping dployr
 date: 2025-12-31
 author: Emmanuel Madehin
+description: Why dployr exists. A deployment platform that gives you the convenience of managed hosting while keeping the server yours. CLI, dashboard, GitHub Actions, rollbacks.
 excerpt: "A deployment platform for people who want the convenience of managed hosting without giving up their own servers."
 tags: ["announcement"]
 ---

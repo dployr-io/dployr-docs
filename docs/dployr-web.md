@@ -1,3 +1,8 @@
+---
+title: Dployr Web
+description: Manage self-hosted servers from the browser. Real-time logs, browser console, service controls, and blueprint deploys at app.dployr.io. No SSH needed.
+---
+
 # Dployr Web
 
 The Web UI is available at [app.dployr.io](https://app.dployr.io/) (source: [dployr](https://github.com/dployr-io/dployr)). It talks to **Base**, which routes actions to the right VM through `dployrd`.

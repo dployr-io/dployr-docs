@@ -1,3 +1,8 @@
+---
+title: Troubleshooting
+description: "Common dployr fixes: bootstrap token errors, daemon not starting, deployment failures, WebSocket connection issues, and port conflicts on Linux and macOS."
+---
+
 # Troubleshooting
 
 Common issues and solutions for dployr.

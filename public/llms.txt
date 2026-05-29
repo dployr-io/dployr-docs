@@ -1,0 +1,48 @@
+# dployr
+
+dployr is a deployment platform with a hosted control plane and a lightweight daemon that runs on your own servers. You install dployrd on any VPS or Linux machine, and dployr.io handles the rest: deploy apps, manage services, and monitor servers from the CLI, GitHub Actions, or the web dashboard. No SSH required.
+
+## What it does
+
+- Deploy Node.js, Python, Go, PHP, Java, Ruby, and Docker apps to your own server
+- Manage multiple servers from one control plane
+- Real-time logs, browser console, rollbacks, environment variables, and secrets
+- Blueprints: reusable JSON/YAML/TOML deployment definitions
+- Custom domains with automatic SSL (auto-renewed)
+- GitHub Actions integration via DPLOYR_TOKEN secret
+
+## How it works
+
+dployrd runs on your server and maintains a persistent mTLS WebSocket connection to Base (the control plane). When you trigger a deployment, Base routes the instruction to the right server. dployrd pulls the code, runs your build steps, and starts the service. No inbound ports, no SSH tunnels.
+
+## Pricing
+
+- Hobby: free forever, 512MB RAM, 1 vCPU, 10GB disk, 1 workload
+- Indie: $12/month (annual), 1GB RAM, 1 vCPU, 25GB disk, up to 5 workloads
+- Pro: $20/month (annual), 2GB RAM, 1 vCPU, 50GB disk, up to 25 workloads, dedicated instance
+
+## Key concepts
+
+- **Workload**: one running service (API, worker, cron job, etc.)
+- **Blueprint**: a declarative deployment config (runtime, source, build steps, env vars)
+- **dployrd**: the daemon that runs on your server
+- **Base**: the dployr control plane at dployr.io
+
+## Common Questions
+
+**Do I need Docker?** No. Pick a runtime directly. Docker is supported as one option, not a requirement.
+**Will traffic spikes raise my bill?** No. You pay for the server, not for what it handles.
+**What if a deploy fails?** Your current version stays live until the new one is healthy. Roll back in one click if needed.
+**Custom domains and HTTPS?** Yes. Point your domain and SSL is set up and auto-renewed.
+**How is this different from Render or Railway?** Render charges per service, Railway charges per usage. dployr charges per server. Run as many workloads as your plan allows at a flat rate.
+
+
+## Links
+
+- Full reference (code examples, API, CLI): https://docs.dployr.io/llms-full.txt
+- Docs: https://docs.dployr.io
+- Dashboard: https://app.dployr.io
+- GitHub: https://github.com/dployr-io/dployr
+- Discord: https://discord.gg/tY8ZbjvrSZ
+- Status: https://status.dployr.io
+- Email: hello@dployr.io

@@ -135,8 +135,8 @@ const features = [
     body: 'Add teammates and set the right access level for each. No shared passwords, no SSH keys to hand out.',
   },
   {
-    title: 'Bring your own servers',
-    body: 'Connect servers from Hetzner, DigitalOcean, Vultr, AWS or anywhere else. They show up right alongside your managed server.',
+    title: 'Bring your own server',
+    body: 'Already running on Hetzner, DigitalOcean, Vultr, or AWS? Connect it and it shows up right alongside your managed server.',
   },
 ]
 
@@ -186,10 +186,34 @@ const faqs = [
     a: 'Yes. Point your domain and SSL gets set up and auto-renewed. Nothing to configure.',
   },
 ]
+
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+})
+
+const howToSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Deploy an app with dployr',
+  description: 'Install dployrd on your server and deploy your first app in minutes.',
+  step: [
+    { '@type': 'HowToStep', position: 1, name: 'Install the daemon', text: 'Run the one-line installer. dployrd connects to the control plane using a bootstrap token. No inbound ports needed.' },
+    { '@type': 'HowToStep', position: 2, name: 'Deploy your app', text: 'Push from the CLI, trigger a GitHub Actions workflow, or deploy via the dashboard. No SSH required.' },
+    { '@type': 'HowToStep', position: 3, name: 'Manage from anywhere', text: 'View logs, restart services, open a browser console, and roll back from app.dployr.io or the CLI.' },
+  ],
+})
 </script>
 
 <template>
   <PageShell>
+    <component :is="'script'" type="application/ld+json" v-html="faqSchema" />
+    <component :is="'script'" type="application/ld+json" v-html="howToSchema" />
 
     <section class="lp-hero" ref="heroRef">
       <div class="lp-container">
@@ -197,7 +221,7 @@ const faqs = [
         <p class="lp-hero__sub">
           Create an account and your server is ready. No SSH, no setup, nothing to
           configure. Push from the CLI, GitHub Actions, or the dashboard.
-          dployr handles the rest.
+          Works with Hetzner, DigitalOcean, Vultr, or any VPS you already have.
         </p>
         <div class="lp-hero__actions">
           <a href="https://app.dployr.io" class="lp-btn lp-btn--brand lp-btn--lg" target="_blank" rel="noopener">Get Started, it's free →</a>
@@ -205,20 +229,6 @@ const faqs = [
         </div>
         <p class="lp-hero__fine">Hobby is free forever · No card needed · Paid plans from $12/mo</p>
 
-        <!--
-          ╔══════════════════════════════════════════════════════════════════╗
-          ║  HERO VISUAL MUST BE REPLACED BEFORE LAUNCH                     ║
-          ║  Use a real screenshot or a short looping MP4/WebM (no audio).  ║
-          ║  Recommended: 1440 × 900 PNG at 2×, or H.264 video ≤ 3 MB.     ║
-          ╚══════════════════════════════════════════════════════════════════╝
-
-          <img src="/screenshots/dashboard.png" alt="dployr dashboard" loading="eager"
-               width="1440" height="900" class="lp-hero__img" />
-
-          <video autoplay loop muted playsinline class="lp-hero__img">
-            <source src="/demo.mp4" type="video/mp4" />
-          </video>
-        -->
         <div class="lp-hero__visual">
           <video :key="mode" autoplay loop muted playsinline class="lp-hero__img"
             :poster="mode === 'dark' ? '/01-dark.webp' : '/01.webp'">
@@ -231,8 +241,8 @@ const faqs = [
     <section class="lp-problem">
       <div class="lp-container lp-container--narrow">
         <p>
-          Your app shouldn't need a DevOps engineer. It shouldn't need a cloud
-          bill that scales against you either. Just push your code and let it run.
+          Render bills per service. Railway bills per usage. On dployr you pay for the server
+          and run everything on it. More apps, more traffic, same price.
         </p>
       </div>
     </section>
@@ -356,7 +366,7 @@ const faqs = [
             <header class="lp-plan__header">
               <h3 class="lp-plan__name">Hobby</h3>
               <div class="lp-plan__price"><span class="lp-plan__amount">Free</span></div>
-              <p class="lp-plan__tagline">Perfect for getting started and deploying small apps on dployr.</p>
+              <p class="lp-plan__tagline">For side projects and apps you're just getting off the ground.</p>
             </header>
             <ul class="lp-plan__features">
               <li v-for="item in hobbyFeatures" :key="item">
@@ -374,7 +384,7 @@ const faqs = [
                 <span class="lp-plan__amount">${{ price.indie[billingCycle] }}</span>
                 <span class="lp-plan__period">/mo</span>
               </div>
-              <p class="lp-plan__tagline">For developers running real apps on their own.</p>
+              <p class="lp-plan__tagline">For developers shipping real apps that need to stay up.</p>
             </header>
             <p class="lp-plan__inherits">Everything in Hobby, plus:</p>
             <ul class="lp-plan__features">
@@ -393,7 +403,7 @@ const faqs = [
                 <span class="lp-plan__amount">${{ price.pro[billingCycle] }}</span>
                 <span class="lp-plan__period">/mo</span>
               </div>
-              <p class="lp-plan__tagline">For professional developers and teams shipping production apps.</p>
+              <p class="lp-plan__tagline">For production apps and small teams that can't afford downtime.</p>
             </header>
             <p class="lp-plan__inherits">Everything in Indie, plus:</p>
             <ul class="lp-plan__features">

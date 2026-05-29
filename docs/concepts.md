@@ -1,3 +1,8 @@
+---
+title: Concepts
+description: "How dployr works: Base control plane, dployrd agent, mTLS WebSocket sync, RBAC, runtimes, blueprints, and services running on your own self-hosted VMs."
+---
+
 # Concepts
 
 ## Introduction

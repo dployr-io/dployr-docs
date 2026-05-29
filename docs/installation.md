@@ -1,3 +1,8 @@
+---
+title: Installation
+description: Install the dployr daemon on Linux, macOS, or Windows using curl, PowerShell, Homebrew, or Scoop. Covers bootstrap tokens, systemd, launchd, and NSSM setup.
+---
+
 # Installation
 
 ## Quick Install

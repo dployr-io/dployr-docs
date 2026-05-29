@@ -2,7 +2,10 @@
   "type": "module",
   "devDependencies": {
     "@rollup/rollup-win32-x64-msvc": "^4.53.3",
+    "geist": "^1.7.1",
     "medium-zoom": "^1.1.0",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5",
     "vite": "^7.0.2",
     "vitepress": "2.0.0-alpha.15"
   },
