@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import PageShell from './PageShell.vue'
+import { useColorMode } from './useColorMode'
+
+const { mode } = useColorMode()
 
 const heroRef = ref<HTMLElement | null>(null)
 let rafId: number | null = null
@@ -216,11 +219,11 @@ const faqs = [
             <source src="/demo.mp4" type="video/mp4" />
           </video>
         -->
-        <div class="lp-placeholder lp-placeholder--16-9 lp-hero__visual">
-          <div class="lp-placeholder__inner">
-            <span class="lp-placeholder__label">Dashboard screenshot · looping demo video</span>
-            <span class="lp-placeholder__hint">1440 × 900 · 2× PNG or H.264 ≤ 3 MB</span>
-          </div>
+        <div class="lp-hero__visual">
+          <video :key="mode" autoplay loop muted playsinline class="lp-hero__img"
+            :poster="mode === 'dark' ? '/01-dark.webp' : '/01.webp'">
+            <source :src="mode === 'dark' ? '/hero-dark.webm' : '/hero.webm'" type="video/webm" />
+          </video>
         </div>
       </div>
     </section>
@@ -245,12 +248,7 @@ const faqs = [
             <div class="lp-step__body">
               <h3>Your server is ready</h3>
               <p>Create an account and your server gets set up automatically. No cloud console, no SSH, nothing to touch.</p>
-              <div class="lp-placeholder lp-placeholder--16-9">
-                <div class="lp-placeholder__inner">
-                  <span class="lp-placeholder__label">Provisioned instance screenshot</span>
-                  <span class="lp-placeholder__hint">800 × 500 · status: healthy · region + specs visible</span>
-                </div>
-              </div>
+              <img :src="mode === 'dark' ? '/01-dark.webp' : '/01.webp'" alt="dployr instance dashboard showing server status, CPU, memory and uptime" class="lp-step__img" loading="lazy" />
             </div>
           </div>
 
@@ -284,12 +282,9 @@ const faqs = [
                 </div>
 
                 <div v-else class="lp-tab-shot">
-                  <div class="lp-placeholder lp-placeholder--16-9 lp-placeholder--tab">
-                    <div class="lp-placeholder__inner">
-                      <span class="lp-placeholder__label">Dashboard deploy flow screenshot</span>
-                      <span class="lp-placeholder__hint">800 × 480 · deploy button / modal visible</span>
-                    </div>
-                  </div>
+                  <video :key="mode" autoplay loop muted playsinline class="lp-step__video lp-step__video--tab">
+                    <source :src="mode === 'dark' ? '/02-dark.webm' : '/02.webm'" type="video/webm" />
+                  </video>
                 </div>
               </div>
             </div>
@@ -300,12 +295,9 @@ const faqs = [
             <div class="lp-step__body">
               <h3>You're live</h3>
               <p>Your app is live with HTTPS and a real domain. Logs, metrics, and rollbacks are all in one place.</p>
-              <div class="lp-placeholder lp-placeholder--16-9">
-                <div class="lp-placeholder__inner">
-                  <span class="lp-placeholder__label">Running service screenshot</span>
-                  <span class="lp-placeholder__hint">800 × 500 · green badge · live URL · uptime</span>
-                </div>
-              </div>
+              <video :key="mode" autoplay loop muted playsinline class="lp-step__video">
+                <source :src="mode === 'dark' ? '/03-dark.webm' : '/03.webm'" type="video/webm" />
+              </video>
             </div>
           </div>
 
@@ -614,6 +606,9 @@ const faqs = [
   box-shadow: 0 0 0 1px oklch(0 0 0 / 0.07), 0 24px 60px oklch(0 0 0 / 0.12);
 }
 .lp-hero__img { display: block; width: 100%; height: auto; border-radius: calc(var(--radius) * 2); }
+.lp-step__img  { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+.lp-step__video { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+.lp-step__video--tab { border-radius: 0 0 var(--radius) var(--radius); border-top: none; }
 
 .lp-problem { padding: 0 0 4rem; }
 .lp-problem p {
