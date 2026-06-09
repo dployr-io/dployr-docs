@@ -1,46 +1,125 @@
 ---
-title: dployr CLI Reference
-description: Deploy and manage dployr services from the terminal. Full CLI reference for auth, deploy, logs, services, env vars, domains, and projects.
+title: dployr CLI
+description: Install the dployr CLI and manage services, deployments, logs, instances, and clusters from your terminal.
 ---
 
 # dployr CLI
 
-The dployr CLI lets you deploy and manage services from the terminal. It talks to the same Base control plane as the dashboard, so everything you can do in one, you can do in the other.
+The CLI talks to the same control plane as the dashboard. Anything you can do there, you can do here.
 
 ## Installation
 
-Install the CLI with a single command:
-
+**macOS**
 ```bash
-# Linux/macOS
-curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
+brew install dployr-io/dployr/dployr
+```
 
-# Windows (PowerShell as Administrator)
-iwr "https://raw.githubusercontent.com/dployr-io/dployr/master/install.ps1" -OutFile install.ps1
-.\install.ps1
+**Windows**
+```powershell
+scoop bucket add dployr https://github.com/dployr-io/scoop-dployr
+scoop install dployr
+```
+
+**Linux / macOS (script)**
+```bash
+curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
+```
+
+**Windows (script)**
+```powershell
+iwr https://raw.githubusercontent.com/dployr-io/dployr/master/install.ps1 | iex
 ```
 
 ## Authentication
 
 ```bash
-# Log in
-dployr auth login
+dployr auth login --email you@example.com
+```
 
-# Check you're logged in
+dployr sends a one-time code to that address. Paste it in and you're logged in. Your session is saved to `~/.dployr/config.json`.
+
+```bash
+# Check who you're logged in as
 dployr auth status
 
 # Log out
 dployr auth logout
 ```
 
-## Deploying
+### Using an API token
+
+For CI/CD and scripts, use a token instead of an interactive login. Create one in the dashboard under **Settings > API Tokens**, then set it as an environment variable:
 
 ```bash
-dployr deploy \
+export DPLOYR_TOKEN=dpat_x7k2mq9p.aB3nP...
+```
+
+## Context
+
+All commands scope to an active cluster. Set it once and it sticks.
+
+```bash
+# Show the active cluster
+dployr context show
+
+# List all clusters you have access to
+dployr context list
+
+# Switch clusters
+dployr context use my-cluster
+```
+
+You can also pass `--cluster <name>` on any command to target a different cluster without changing the saved context.
+
+## Services
+
+```bash
+# List services
+dployr services list
+
+# Get details for a service
+dployr services get my-api
+
+# Start a stopped service
+dployr services start my-api
+
+# Stop a running service
+dployr services stop my-api
+
+# Delete a service
+dployr services delete my-api
+
+# Skip the confirmation prompt
+dployr services delete my-api --force
+```
+
+`services list` also accepts `ls`. `services delete` accepts `rm` and `remove`.
+
+## Deployments
+
+A deployment is a build and run configuration. Creating one builds your code and starts the service.
+
+```bash
+# List recent deployments
+dployr deployments list
+
+# Get deployment details
+dployr deployments get my-api
+
+# Delete a deployment
+dployr deployments delete my-api
+```
+
+### Creating a deployment
+
+From a git repository:
+
+```bash
+dployr deployments create \
   --name my-api \
   --source remote \
   --runtime nodejs \
-  --version 20 \
+  --runtime-version 20 \
   --remote https://github.com/your-org/your-repo \
   --branch main \
   --build-cmd "npm install" \
@@ -48,135 +127,178 @@ dployr deploy \
   --port 3000
 ```
 
-Common `--source` values: `remote` (git repo), `docker` (Docker image).
+From a Docker image:
 
-### Examples
-
-**Python app:**
 ```bash
-dployr deploy \
+dployr deployments create \
   --name my-api \
-  --source remote \
-  --runtime python \
-  --version 3.11 \
-  --remote https://github.com/your-org/your-repo \
-  --branch main \
-  --build-cmd "pip install -r requirements.txt" \
-  --run-cmd "python app.py" \
-  --port 8000
-```
-
-**Docker container:**
-```bash
-dployr deploy \
-  --name my-app \
-  --source docker \
-  --image your-org/your-image:latest \
+  --source image \
+  --runtime nodejs \
+  --image registry.example.com/your-org/your-image:latest \
   --port 3000
 ```
 
-**Static site:**
+Pass environment variables with `--env`. It's repeatable:
+
 ```bash
-dployr deploy \
-  --name my-site \
+dployr deployments create \
+  --name my-api \
   --source remote \
-  --runtime static \
+  --runtime python \
+  --runtime-version 3.11 \
   --remote https://github.com/your-org/your-repo \
   --branch main \
-  --build-cmd "npm run build" \
-  --working-dir "dist"
+  --run-cmd "python app.py" \
+  --port 8000 \
+  --env DATABASE_URL=postgres://... \
+  --env REDIS_URL=redis://...
 ```
 
-## Managing deployments
+After creating a deployment, follow the build output with:
 
 ```bash
-# List all services
-dployr list
-
-# List services in a specific project
-dployr list --project my-project
-
-# Get details for a service
-dployr get my-api
-
-# Delete a service
-dployr delete my-api
+dployr logs my-api --build
 ```
 
-## Service control
+Full flag list for `deployments create`:
 
-```bash
-dployr service start my-api
-dployr service stop my-api
-dployr service restart my-api
-dployr service status my-api
-```
+| Flag | Description |
+|---|---|
+| `--name` | Deployment name (required) |
+| `--source` | `remote` for a git repo, `image` for a Docker image (required) |
+| `--runtime` | `golang`, `nodejs`, `python`, `php`, `ruby`, `dotnet`, `java` (required) |
+| `--runtime-version` | Runtime version, e.g. `20`, `3.11`, `1.22` |
+| `--type` | Service type: `web`, `worker`, `static`, `job` |
+| `--remote` | Git remote URL (required when `--source=remote`) |
+| `--branch` | Branch to deploy from |
+| `--commit` | Deploy a specific commit hash |
+| `--image` | Docker image (required when `--source=image`) |
+| `--build-cmd` | Build command |
+| `--run-cmd` | Start command |
+| `--port` | Port your app listens on |
+| `--working-dir` | Working directory inside the container |
+| `--static-dir` | Directory to serve as static files |
+| `--health-check` | HTTP path for health checks, e.g. `/health` |
+| `--domain` | Custom domain to attach |
+| `--env KEY=VALUE` | Environment variable, repeatable |
+| `--secret KEY=VALUE` | Secret, repeatable, encrypted |
+| `--force-rebuild` | Force a fresh build even if a cached image exists |
+| `--description` | Description |
 
 ## Logs
 
 ```bash
-# View recent logs
+# Recent logs
 dployr logs my-api
 
-# Follow live
+# Stream live
 dployr logs my-api --follow
 
-# Last 100 lines
-dployr logs my-api --tail 100
+# Build phase only
+dployr logs my-api --build
+
+# Last 50 lines
+dployr logs my-api --lines 50
+
+# Logs from the past two hours
+dployr logs my-api --since 2h
+
+# Logs since a specific time
+dployr logs my-api --since 2025-06-01T12:00:00Z
 ```
 
-## Environment variables
-
-```bash
-# Set a variable
-dployr env set my-api KEY=value
-
-# List variables
-dployr env list my-api
-
-# Remove a variable
-dployr env unset my-api KEY
-```
-
-## Custom domains
-
-```bash
-# Add a domain
-dployr domain add yourdomain.com --service my-api 
-
-# List domains
-dployr domain list
-
-# Remove a domain
-dployr domain remove yourdomain.com
-```
-
-## Projects
-
-Projects let you group related services together.
-
-```bash
-dployr project create my-project
-dployr project list
-dployr project delete my-project
-```
+Logs come from two phases: **build** (the build node cloning your repo and building the image) and **runtime** (your container's stdout and stderr on the instance). Both are shown together by default.
 
 ## Instances
 
 ```bash
-# List instances in your cluster
-dployr instances
+# List instances
+dployr instances list
 
-# Details for a specific instance
-dployr instance <instance-id>
+# Filter by role
+dployr instances list --role instance
+dployr instances list --role build
+
+# Get instance details
+dployr instances get <tag>
+
+# Check if an instance is reachable
+dployr instances ping <tag>
+
+# Delete an instance
+dployr instances delete <tag>
+```
+
+### System operations
+
+Low-level operations for when you need to reach into an instance directly. These require admin access.
+
+```bash
+# Trigger dployr installation on the instance
+dployr instances system install <tag>
+
+# Reboot the machine
+dployr instances system reboot <tag>
+
+# Restart the dployrd daemon without rebooting
+dployr instances system restart <tag>
+```
+
+## Clusters
+
+```bash
+# List your clusters
+dployr clusters list
+
+# Get cluster details
+dployr clusters get my-cluster
+```
+
+### Team members
+
+```bash
+# List members
+dployr clusters users list
+
+# Invite someone (default role: developer)
+dployr clusters users add alice@example.com
+
+# Invite with a specific role
+dployr clusters users add alice@example.com --role admin
+
+# Remove a member by their user ID
+dployr clusters users remove <user-id>
+```
+
+Roles: `owner`, `admin`, `developer`, `viewer`.
+
+### Invites
+
+```bash
+# See pending invites
+dployr clusters invites list
+
+# Accept an invite
+dployr clusters invites accept my-cluster
+
+# Decline an invite
+dployr clusters invites decline my-cluster
+```
+
+## Output format
+
+Commands print a table by default. Pass `-o json` to get JSON output instead:
+
+```bash
+dployr services list -o json
+dployr deployments get my-api -o json
 ```
 
 ## Global flags
 
-```bash
---config <path>   # Use a specific config file
---verbose         # Verbose output
---json            # Output as JSON
---help            # Help for any command
---version         # CLI version
-```
+| Flag | Description |
+|---|---|
+| `-o, --output` | Output format: `table` (default) or `json` |
+| `-c, --cluster` | Target cluster for this command |
+| `--api-url` | Override the API base URL (or set `DPLOYR_API_URL`) |
+| `--help` | Help for any command |
