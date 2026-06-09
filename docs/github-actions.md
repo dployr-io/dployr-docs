@@ -1,28 +1,64 @@
 ---
 title: Deploy with GitHub Actions
-description: Deploy to dployr automatically on every git push using GitHub Actions and the dployr CLI. Set up DPLOYR_TOKEN and add the workflow to your repository.
+description: Deploy to dployr automatically on every git push using GitHub Actions.
 ---
 
 # Deploy with GitHub Actions
 
-You can deploy to dployr automatically on every push by running the dployr CLI in a GitHub Actions workflow. No separate action needed. Just authenticate with a token and run `dployr deployments create`.
+Deploy to dployr automatically on every push using the official GitHub Action or the dployr CLI directly.
 
 ## Get your deploy token
 
-Create an API token scoped to deployments. You can do this from the dashboard or the CLI.
+Create a personal access token from the CLI:
 
-**Dashboard**: go to **Settings > API Tokens**, create a token with the `deployments:write` scope, and copy it.
-
-**CLI**:
 ```bash
-dployr tokens create --name "github-actions" --scope deployments:write
+dployr auth tokens create --name "github-actions" --scope oidc:bind
 ```
 
-In your GitHub repository, go to **Settings > Secrets and variables > Actions** and create a new secret called `DPLOYR_TOKEN`. Paste your token as the value.
+Or from the dashboard: **Settings > API Tokens > New Token**.
 
-## Basic workflow
+In your GitHub repository go to **Settings > Secrets and variables > Actions** and add a secret named `DPLOYR_TOKEN`.
 
-Add this to `.github/workflows/deploy.yml` in your repository:
+The token owner must have **Developer role or higher** on the target cluster.
+
+## Using the GitHub Action
+
+The simplest way to deploy. No CLI setup required.
+
+```yaml
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dployr-io/dployr-actions/deploy@v1
+        with:
+          token: ${{ secrets.DPLOYR_TOKEN }}
+          name: my-api
+          source: remote
+          runtime: nodejs
+          runtime-version: '20'
+          remote: https://github.com/${{ github.repository }}
+          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
+          build-cmd: npm install
+          run-cmd: npm start
+          port: '3000'
+```
+
+See the [dployr-actions repository](https://github.com/dployr-io/dployr-actions) for all available inputs.
+
+## Using the CLI directly
+
+If you need more control, install the CLI and run commands directly.
 
 ```yaml
 name: Deploy
@@ -39,7 +75,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dployr CLI
-        run: curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
+        run: curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash -s -- --cli-only
 
       - name: Deploy
         env:
@@ -58,7 +94,7 @@ jobs:
             --port 3000
 ```
 
-The `--commit` flag pins the deployment to the exact commit that triggered the workflow. It shows up in the dashboard and makes rollbacks easier to reason about.
+The `--commit` flag pins the deployment to the exact commit that triggered the workflow, making rollbacks easier to reason about.
 
 ## Deploy only when tests pass
 
@@ -87,100 +123,64 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dployr CLI
-        run: curl -sSL https://raw.githubusercontent.com/dployr-io/dployr/master/install.sh | bash
-
-      - name: Deploy
-        env:
-          DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
-        run: |
-          dployr deployments create \
-            --name my-api \
-            --source remote \
-            --runtime nodejs \
-            --runtime-version 20 \
-            --remote https://github.com/${{ github.repository }} \
-            --branch ${{ github.ref_name }} \
-            --commit ${{ github.sha }} \
-            --build-cmd "npm install" \
-            --run-cmd "npm start" \
-            --port 3000
+      - uses: dployr-io/dployr-actions/deploy@v1
+        with:
+          token: ${{ secrets.DPLOYR_TOKEN }}
+          name: my-api
+          source: remote
+          runtime: nodejs
+          runtime-version: '20'
+          remote: https://github.com/${{ github.repository }}
+          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
+          build-cmd: npm install
+          run-cmd: npm start
+          port: '3000'
 ```
 
-## Deploy to multiple services
+## Deploy multiple services
 
 ```yaml
-- name: Deploy API
-  env:
-    DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
-  run: |
-    dployr deployments create \
-      --name api \
-      --source remote \
-      --runtime nodejs \
-      --runtime-version 20 \
-      --remote https://github.com/${{ github.repository }} \
-      --branch ${{ github.ref_name }} \
-      --commit ${{ github.sha }} \
-      --run-cmd "node api/server.js" \
-      --port 3000
+- uses: dployr-io/dployr-actions/deploy@v1
+  with:
+    token: ${{ secrets.DPLOYR_TOKEN }}
+    name: api
+    source: remote
+    runtime: nodejs
+    remote: https://github.com/${{ github.repository }}
+    branch: ${{ github.ref_name }}
+    commit: ${{ github.sha }}
+    run-cmd: node api/server.js
+    port: '3000'
 
-- name: Deploy Worker
-  env:
-    DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
-  run: |
-    dployr deployments create \
-      --name worker \
-      --source remote \
-      --runtime nodejs \
-      --runtime-version 20 \
-      --remote https://github.com/${{ github.repository }} \
-      --branch ${{ github.ref_name }} \
-      --commit ${{ github.sha }} \
-      --type worker \
-      --run-cmd "node worker/index.js"
+- uses: dployr-io/dployr-actions/deploy@v1
+  with:
+    token: ${{ secrets.DPLOYR_TOKEN }}
+    name: worker
+    source: remote
+    runtime: nodejs
+    type: worker
+    remote: https://github.com/${{ github.repository }}
+    branch: ${{ github.ref_name }}
+    commit: ${{ github.sha }}
+    run-cmd: node worker/index.js
 ```
 
 ## Force a fresh build
 
-By default dployr reuses a cached image when the source, runtime, and build config have not changed. Pass `--force-rebuild` to skip the cache and build from scratch:
+By default dployr reuses a cached image when the source, runtime, and build config have not changed. Pass `force-rebuild: 'true'` to skip the cache:
 
 ```yaml
-- name: Deploy
-  env:
-    DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
-  run: |
-    dployr deployments create \
-      --name my-api \
-      --source remote \
-      --runtime nodejs \
-      --runtime-version 20 \
-      --remote https://github.com/${{ github.repository }} \
-      --branch ${{ github.ref_name }} \
-      --commit ${{ github.sha }} \
-      --run-cmd "npm start" \
-      --port 3000 \
-      --force-rebuild
-```
-
-## Follow build logs
-
-`deployments create` queues the build and returns immediately. To stream build output from within a workflow step, follow it with `dployr logs`:
-
-```yaml
-- name: Deploy and follow build
-  env:
-    DPLOYR_TOKEN: ${{ secrets.DPLOYR_TOKEN }}
-  run: |
-    dployr deployments create \
-      --name my-api \
-      --source remote \
-      --runtime nodejs \
-      --runtime-version 20 \
-      --remote https://github.com/${{ github.repository }} \
-      --branch ${{ github.ref_name }} \
-      --commit ${{ github.sha }} \
-      --run-cmd "npm start" \
-      --port 3000
-    dployr logs my-api --build --follow
+- uses: dployr-io/dployr-actions/deploy@v1
+  with:
+    token: ${{ secrets.DPLOYR_TOKEN }}
+    name: my-api
+    source: remote
+    runtime: nodejs
+    remote: https://github.com/${{ github.repository }}
+    branch: ${{ github.ref_name }}
+    commit: ${{ github.sha }}
+    run-cmd: npm start
+    port: '3000'
+    force-rebuild: 'true'
 ```
