@@ -29,6 +29,7 @@ export default defineConfig({
       instances: 'Instances',
       byos: 'Bring Your Own Server',
       teams: 'Teams & RBAC',
+      security: 'Security',
       billing: 'Billing',
       troubleshooting: 'Troubleshooting',
       'privacy-policy': 'Privacy Policy',
@@ -292,6 +293,7 @@ export default defineConfig({
         text: "Team & Account",
         items: [
           { text: "Teams & RBAC", link: "/docs/teams" },
+          { text: "Security", link: "/docs/security" },
           { text: "Billing", link: "/docs/billing" },
         ],
       },

@@ -48,11 +48,21 @@ dployr auth logout
 
 ### Using an API token
 
-For CI/CD and scripts, use a token instead of an interactive login. Create one in the dashboard under **Settings > API Tokens**, then set it as an environment variable:
+For CI/CD and scripts, use a token instead of an interactive login. Create one under **Settings > Security > New token**, or from the CLI:
+
+```bash
+dployr auth tokens create --name "github-actions" --scope oidc:bind
+```
+
+If you have TOTP enabled, the CLI will ask for your authenticator code before creating or revoking a token.
+
+Set the token as an environment variable:
 
 ```bash
 export DPLOYR_TOKEN=dpat_x7k2mq9p.aB3nP...
 ```
+
+See [Security](/docs/security) for scopes and token management.
 
 ## Context
 
