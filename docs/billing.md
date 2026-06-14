@@ -11,19 +11,19 @@ description: dployr pricing plans and what is included on each. Hobby is free fo
 
 **64MB RAM · 0.1 vCPU · 10GB disk**
 
-For side projects and apps you're just getting started with. Includes one workload that sleeps when idle, all runtimes, the CLI and dashboard, blueprints, GitHub Actions, log streaming, RBAC and audit log, and 30 days of log retention.
+For side projects and apps you're just getting started with. Includes one workload that sleeps when idle, all runtimes, the CLI and dashboard, blueprints, GitHub Actions, log streaming, RBAC and audit log, 30 days of log retention, and up to 2 custom domains per service.
 
 ### Indie ($12/month billed annually, or $15/month)
 
 **512MB RAM · 0.25 vCPU · 25GB disk — shared always-on instance**
 
-For developers shipping real apps that need to stay up. Everything in Hobby, plus up to 5 workloads on a shared always-on instance, 5 seats, Slack / Discord / webhook notifications, migration support, and 12 months of log retention.
+For developers shipping real apps that need to stay up. Everything in Hobby, plus up to 5 workloads on a shared always-on instance, 5 seats, Slack / Discord / webhook notifications, migration support, 12 months of log retention, and up to 10 custom domains per service.
 
 ### Pro ($20/month billed annually, or $25/month)
 
 **2GB RAM · 1 vCPU · 50GB disk — dedicated instance**
 
-For production apps and small teams that can't afford downtime. Everything in Indie, plus up to 25 workloads on a dedicated instance, 25 seats, 36 months of log retention, priority support, console access, file explorer, and Watchdog.
+For production apps and small teams that can't afford downtime. Everything in Indie, plus up to 25 workloads on a dedicated instance, 25 seats, 36 months of log retention, up to 25 custom domains per service, priority support, console access, file explorer, and Watchdog.
 
 ## Resource isolation
 

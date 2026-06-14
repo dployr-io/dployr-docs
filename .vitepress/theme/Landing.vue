@@ -88,6 +88,7 @@ const featureRows: FeatureRow[] = [
   { label: 'Seats',                   values: { hobby: '1', indie: '5', pro: '25' } },
   { label: 'Instance',                values: { hobby: 'Sleeps when idle', indie: 'Shared always-on', pro: 'Dedicated' } },
   { label: 'Log retention',           values: { hobby: '30 days', indie: '12 months', pro: '36 months' } },
+  { label: 'Custom domains',          values: { hobby: '2 per service', indie: '10 per service', pro: '25 per service' } },
   { label: 'All runtimes',            values: { hobby: true, indie: true, pro: true } },
   { label: 'CLI + dashboard',         values: { hobby: true, indie: true, pro: true } },
   { label: 'Blueprints',              values: { hobby: true, indie: true, pro: true } },
