@@ -13,7 +13,7 @@ Only Linux instances are supported at this time.
 
 ## What runs on an instance
 
-Your services run on your instance. One instance can run as many services as its resources can support. The **Instances** page in the dashboard shows every instance in your cluster along with the services deployed to it and current resource usage.
+Your services run on your instance. The number of workloads you can run depends on your plan (1 on Hobby, 5 on Indie, 25 on Pro). The **Instances** page in the dashboard shows every instance in your cluster along with the services deployed to it and current resource usage.
 
 ## Instance detail
 

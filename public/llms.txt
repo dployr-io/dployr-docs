@@ -51,8 +51,8 @@ Anything else: Docker runtime, bring your own image.
 
 ## Pricing
 
-- Hobby: free, 512MB RAM, 1 vCPU, 10GB disk, 1 workload, 2 custom domains
-- Indie: $12/mo (annual), 1GB RAM, 1 vCPU, 25GB disk, 5 workloads
+- Hobby: free, 64MB RAM, 0.1 vCPU, 10GB disk, 1 workload, 2 custom domains (shared node, sleeps when idle)
+- Indie: $12/mo (annual), 512MB RAM, 0.25 vCPU, 25GB disk, 5 workloads (shared always-on node)
 - Pro: $20/mo (annual), 2GB RAM, 1 vCPU, 50GB disk, 25 workloads, dedicated instance
 - Pricing model: per server, not per service or usage
 

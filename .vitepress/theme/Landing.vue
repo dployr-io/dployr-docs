@@ -29,7 +29,7 @@ const price = {
 }
 
 const hobbyFeatures = [
-  '512MB RAM · 1 vCPU · 10GB disk',
+  '64MB RAM · 0.1 vCPU · 10GB disk',
   '1 workload (sleeps when idle)',
   'All runtimes',
   'CLI + dashboard',
@@ -41,7 +41,7 @@ const hobbyFeatures = [
 ]
 
 const indieFeatures = [
-  '1GB RAM · 1 vCPU · 25GB disk',
+  '512MB RAM · 0.25 vCPU · 25GB disk',
   'Shared always-on instance',
   'Up to 5 workloads',
   '5 seats',
@@ -83,7 +83,7 @@ function toggleComparePlan(plan: string) {
 interface FeatureRow { label: string; values: Record<string, string | boolean> }
 
 const featureRows: FeatureRow[] = [
-  { label: 'Specifications',          values: { hobby: '512MB / 1 vCPU / 10GB', indie: '1GB / 1 vCPU / 25GB', pro: '2GB / 1 vCPU / 50GB' } },
+  { label: 'Specifications',          values: { hobby: '64MB / 0.1 vCPU / 10GB', indie: '512MB / 0.25 vCPU / 25GB', pro: '2GB / 1 vCPU / 50GB' } },
   { label: 'Workloads',               values: { hobby: '1', indie: '5', pro: '25' } },
   { label: 'Seats',                   values: { hobby: '1', indie: '5', pro: '25' } },
   { label: 'Instance',                values: { hobby: 'Sleeps when idle', indie: 'Shared always-on', pro: 'Dedicated' } },
